@@ -1,0 +1,7 @@
+name: PvPKits
+main: com.lavacraftserver.PvPKits.PvPKits
+version: 1.2
+commands:
+  pvp:
+    usage: /<command> <kit>
+    description: Gives a kit
