@@ -3,6 +3,7 @@ settings:
   #no-auto-update: 1 #Uncomment to disable auto-update
 kits:
   archer:
+  active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
     items:
       helmet: leather
       chestplate: leather
@@ -45,6 +46,7 @@ kits:
       '34': '282'
       '35': '282'
   heavy:
+    active-in: all #Change if you want this only in certain worlds
     items:
       helmet: iron
       chestplate: iron
@@ -87,6 +89,7 @@ kits:
       '34': '282'
       '35': '282'
   pyro:
+    active-in: all #Change if you want this only in certain worlds
     items:
       helmet: leather
       chestplate: leather

@@ -56,6 +56,12 @@ public class PvPKits extends JavaPlugin {
 						 if (args.length == 1) {
 							 Set<String> keys = getConfig().getConfigurationSection("kits").getKeys(false);
 							 if (keys.contains(args[0])) {
+								 if (getConfig().contains("kits." + args[0] + ".active-in")) {
+									 if (!(getConfig().getString("kits." + args[0] + ".active-in").contains("'" + p.getWorld().getName() + "'") || getConfig().getString("kits." + args[0] + ".active-in").equals("all"))) {
+										 sender.sendMessage(ChatColor.RED + "You can't use that kit in this world!");
+										 return true;
+									 }
+								 }
 								 p.getInventory().clear();
 								 p.getInventory().setArmorContents(null);
 								 int slot;
