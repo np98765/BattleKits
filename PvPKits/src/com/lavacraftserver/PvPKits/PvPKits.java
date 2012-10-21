@@ -23,6 +23,11 @@ public class PvPKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
+		if (!getConfig().contains("settings.no-auto-update"))
+		{
+			Updater updater = new Updater(this, "pvpkits", this.getFile(), Updater.UpdateType.DEFAULT, false);
+		}
+		
 		saveConfig();
 	}
 	

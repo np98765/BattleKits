@@ -1,5 +1,6 @@
 settings:
   once-per-life: true
+  #no-auto-update: 1 #Uncomment to disable auto-update
 kits:
   archer:
     items:
