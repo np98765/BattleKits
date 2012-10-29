@@ -1,6 +1,6 @@
 settings:
   once-per-life: true
-  #no-auto-update: 1 # Uncomment to disable auto-update
+  #auto-update: false # Uncomment to disable auto-update
 kits:
   archer:
   active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
