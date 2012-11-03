@@ -13,7 +13,7 @@ kits:
       chestplateColor: '#FFFF00'
       leggingColor: '#FF00FF'
       bootColor: '#0000FF'
-      '0': 261 49:2
+      '0': 261 49:2 '&cEpic Bow!'
       '1': '282'
       '2': '282'
       '3': '282'

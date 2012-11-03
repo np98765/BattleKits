@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.NBTTagList;
+import net.minecraft.server.NBTTagString;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,6 +39,17 @@ public class BattleKits extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		getLogger().info("BattleKits has been disabled."); 
+	}
+	
+	public ItemStack renameItem(ItemStack is, String name)
+	{
+		CraftItemStack cis = ((CraftItemStack)is);
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTTagCompound display = new NBTTagCompound();
+        tag.setCompound("display", display);
+        display.setString("Name", name);
+        cis.getHandle().tag = tag;
+        return cis;
 	}
 	
 	public ItemStack setColor(ItemStack item, int color) {
@@ -76,14 +89,7 @@ public class BattleKits extends JavaPlugin {
 				 String className = args[0];
 				 if (p.hasPermission("BattleKits.kit." + className) || p.isOp()) {
 					 if (((getConfig().getBoolean("settings.once-per-life") == true) && !(death.contains(p))) || (getConfig().getBoolean("settings.once-per-life") == false)) {
-						 if (args.length > 1) {
-							 sender.sendMessage(ChatColor.RED + "Too many arguments!");
-							 return true;
-						 }
-						 if (args.length < 1) {
-							 sender.sendMessage(ChatColor.RED + "Please specify a kit!");
-							 return true;
-						 } 
+						 
 						 if (args.length == 1) {
 							 Set<String> keys = getConfig().getConfigurationSection("kits").getKeys(false);
 							 if (keys.contains(args[0])) {
@@ -122,6 +128,22 @@ public class BattleKits extends JavaPlugin {
 											 Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 											 int levelInt = Integer.parseInt(enchant[1]);
 											 i.addUnsafeEnchantment(enchantmentInt, levelInt);
+										 }
+										 
+										 if (s.length == 3 ) {
+											 if (!s[1].equals("null"))
+											 {
+												 String[] enchant = s[1].split(":");
+												 Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
+												 int levelInt = Integer.parseInt(enchant[1]);
+												 i.addUnsafeEnchantment(enchantmentInt, levelInt);
+											 }
+											 
+											 
+											 //get item name
+											 String name = ChatColor.translateAlternateColorCodes('&', s[2]);
+											 i = this.renameItem(i, name);
+											 
 										 }
 										 
 										 //Sets the armor contents
