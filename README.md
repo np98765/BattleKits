@@ -1,4 +1,4 @@
-PvPKits
+BattleKits
 =======
 
-dev.bukkit.org/server-mods/pvpkits
+dev.bukkit.org/server-mods/battlekits
