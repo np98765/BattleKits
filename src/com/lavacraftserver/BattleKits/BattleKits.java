@@ -24,7 +24,7 @@ public class BattleKits extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 		if (!getConfig().contains("settings.no-auto-update")) {
-			Updater updater = new Updater(this, "BattleKits", this.getFile(), Updater.UpdateType.DEFAULT, false);
+			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, false);
 		}
 		
 		saveConfig();
