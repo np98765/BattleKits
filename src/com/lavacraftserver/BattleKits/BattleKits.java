@@ -41,9 +41,15 @@ public class BattleKits extends JavaPlugin {
 		getLogger().info("BattleKits has been disabled."); 
 	}
 	
-	public ItemStack renameItem(ItemStack is, String name)
-	{
-		CraftItemStack cis = ((CraftItemStack)is);
+	private static ItemStack toCraftBukkit(ItemStack stack) {
+		if (!(stack instanceof CraftItemStack))
+		return new CraftItemStack(stack);
+		else
+		return stack;
+		}
+	
+	public ItemStack renameItem(CraftItemStack cis, String name) {
+		
         NBTTagCompound tag = new NBTTagCompound();
         NBTTagCompound display = new NBTTagCompound();
         tag.setCompound("display", display);
@@ -77,7 +83,7 @@ public class BattleKits extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {	
 		if (commandLabel.equalsIgnoreCase("pvp")) {
-			if (args.length != 0) {
+			if (args.length != 1) {
 				sender.sendMessage(ChatColor.RED + "Bad number of arguments");
 				return false;
 			}
@@ -122,6 +128,20 @@ public class BattleKits extends JavaPlugin {
 											 i.setAmount(1);
 										 }
 										 
+										 if (getConfig().contains("kits." + className + ".items" + ".names." + slot) ) {
+
+											 //get item name
+											 String name = ChatColor.translateAlternateColorCodes('&', getConfig().getString("kits." + className + ".items" + ".names." + slot));
+											 CraftItemStack c = new CraftItemStack(i);
+											 NBTTagCompound tag = new NBTTagCompound();
+									            NBTTagCompound display = new NBTTagCompound();
+									            tag.setCompound("display", display);
+									            display.setString("Name", name);
+									            c.getHandle().tag = tag;
+									            i = c;
+											 
+										 }
+										 
 										 //Sets the enchantment and level
 										 if (s.length == 2 ) {
 											 String[] enchant = s[1].split(":");
@@ -130,21 +150,7 @@ public class BattleKits extends JavaPlugin {
 											 i.addUnsafeEnchantment(enchantmentInt, levelInt);
 										 }
 										 
-										 if (s.length == 3 ) {
-											 if (!s[1].equals("null"))
-											 {
-												 String[] enchant = s[1].split(":");
-												 Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
-												 int levelInt = Integer.parseInt(enchant[1]);
-												 i.addUnsafeEnchantment(enchantmentInt, levelInt);
-											 }
-											 
-											 
-											 //get item name
-											 String name = ChatColor.translateAlternateColorCodes('&', s[2]);
-											 i = this.renameItem(i, name);
-											 
-										 }
+										
 										 
 										 //Sets the armor contents
 										 String getHelmet = getConfig().getString("kits." + className + ".items" + ".helmet");

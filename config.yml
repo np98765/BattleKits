@@ -13,7 +13,7 @@ kits:
       chestplateColor: '#FFFF00'
       leggingColor: '#FF00FF'
       bootColor: '#0000FF'
-      '0': 261 49:2 '&cEpic Bow!'
+      '0': 261 49:2
       '1': '282'
       '2': '282'
       '3': '282'
@@ -49,6 +49,8 @@ kits:
       '33': '282'
       '34': '282'
       '35': '282'
+      names:
+        '0': '&cPower Bow'
   heavy:
     active-in: all #Change if you want this only in certain worlds
     items:
