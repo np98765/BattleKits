@@ -64,6 +64,10 @@ public class BattleKits extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {	
 		if (commandLabel.equalsIgnoreCase("pvp")) {
+			if (args.length != 0) {
+				sender.sendMessage(ChatColor.RED + "Bad number of arguments");
+				return false;
+			}
 			if (!(sender instanceof Player)) {
 				sender.sendMessage("[BattleKits] This command can only be executed by a player!");
 				return true;
