@@ -1,12 +1,14 @@
 package com.lavacraftserver.BattleKits;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -30,7 +32,7 @@ public class BattleKits extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 		if (!getConfig().contains("settings.no-auto-update")) {
-			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, false); //New slug
+			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); //New slug
 		}
 		
 		saveConfig();
@@ -298,6 +300,15 @@ public class BattleKits extends JavaPlugin {
 								 if (getConfig().getBoolean("settings.once-per-life") == true) {
 									 death.add(p);
 								 }
+								 
+								 if (getConfig().contains(("kits." + className + ".commands"))) {
+									 List<String> commands = this.getConfig().getStringList("kits." + className + ".commands");
+									 for (String s : commands) {
+										 s = s.replace("<player>", p.getName());
+										 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+									 }
+								 }
+								 
 							 } else {
 								 p.sendMessage(ChatColor.RED + "Please choose a valid kit!");
 							 }
