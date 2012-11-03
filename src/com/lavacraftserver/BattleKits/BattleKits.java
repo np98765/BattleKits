@@ -2,10 +2,14 @@ package com.lavacraftserver.BattleKits;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import net.minecraft.server.NBTTagCompound;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
@@ -33,6 +37,29 @@ public class BattleKits extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		getLogger().info("BattleKits has been disabled."); 
+	}
+	
+	public ItemStack setColor(ItemStack item, int color) {
+		CraftItemStack craftStack = null;
+		net.minecraft.server.ItemStack itemStack = null;
+		if (item instanceof CraftItemStack) {
+			craftStack = (CraftItemStack) item;
+			itemStack = craftStack.getHandle();
+		} else if (item instanceof ItemStack) {
+			craftStack = new CraftItemStack(item);
+			itemStack = craftStack.getHandle();
+		}
+		NBTTagCompound tag = itemStack.tag;
+		if (tag == null) {
+			tag = new NBTTagCompound(); // TEST
+			tag.setCompound("display", new NBTTagCompound());
+			itemStack.tag = tag;
+		}
+
+		tag = itemStack.tag.getCompound("display");
+		tag.setInt("color", color);
+		itemStack.tag.setCompound("display", tag);
+		return craftStack;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {	
@@ -98,6 +125,11 @@ public class BattleKits extends JavaPlugin {
 										 String getChestplate = getConfig().getString("kits." + className + ".items" + ".chestplate");
 										 String getLeggings = getConfig().getString("kits." + className + ".items" + ".leggings");
 										 String getBoots = getConfig().getString("kits." + className + ".items" + ".boots");
+										 int helmColor = 0;
+										 int chestColor = 0;
+										 int legColor = 0;
+										 int bootColor = 0;
+										 
 										 ItemStack lhelmet = new ItemStack(Material.LEATHER_HELMET);
 										 ItemStack lchestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
 										 ItemStack lleggings = new ItemStack(Material.LEATHER_LEGGINGS);
@@ -122,6 +154,30 @@ public class BattleKits extends JavaPlugin {
 										 ItemStack cchestplate = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
 										 ItemStack cleggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
 										 ItemStack cboots = new ItemStack(Material.CHAINMAIL_BOOTS);
+										 
+										 if (getConfig().contains("kits." + className + ".items" + ".helmetColor"))
+										 {
+											  helmColor = Integer.parseInt(getConfig().getString("kits." + className + ".items.helmetColor").replace("#", ""), 16); 
+											  lhelmet = this.setColor(lhelmet, helmColor);
+											  
+										 }
+										 if (getConfig().contains("kits." + className + ".items" + ".chestplateColor"))
+										 {
+											  chestColor = Integer.parseInt(getConfig().getString("kits." + className + ".items.chestplateColor").replace("#", ""), 16);  
+											  lchestplate = this.setColor(lchestplate, chestColor);
+										 }
+										 if (getConfig().contains("kits." + className + ".items" + ".leggingColor"))
+										 {
+											  legColor = Integer.parseInt(getConfig().getString("kits." + className + ".items.leggingColor").replace("#", ""), 16); 
+											  lleggings = this.setColor(lleggings, legColor);
+										 }
+										 if (getConfig().contains("kits." + className + ".items" + ".bootColor"))
+										 {
+											  bootColor = Integer.parseInt(getConfig().getString("kits." + className + ".items.bootColor").replace("#", ""), 16);   
+											  lboots= this.setColor(lboots, bootColor);
+										 }
+										 
+										 
 									  
 										 if (getHelmet != null) {
 											 if (getHelmet.equals("leather")) {

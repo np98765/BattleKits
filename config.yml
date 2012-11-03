@@ -3,12 +3,16 @@ settings:
   #no-auto-update: 1 #Uncomment to disable auto-update
 kits:
   archer:
-  active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
+    active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
     items:
       helmet: leather
       chestplate: leather
       leggings: leather
       boots: leather
+      helmetColor: '#FF0000'
+      chestplateColor: '#FFFF00'
+      leggingColor: '#FF00FF'
+      bootColor: '#0000FF'
       '0': 261 49:2
       '1': '282'
       '2': '282'
