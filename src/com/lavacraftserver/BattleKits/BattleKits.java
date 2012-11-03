@@ -22,13 +22,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BattleKits extends JavaPlugin {
 
-	public static HashSet<Player> death = new HashSet<Player>();
+	public HashSet<String> death = new HashSet<String>();
 	
 	@Override
 	public void onEnable() {
 		getLogger().info("BattleKits has been enabled!");
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
+		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 		if (!getConfig().contains("settings.no-auto-update")) {
@@ -40,24 +41,10 @@ public class BattleKits extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		getLogger().info("Saved config! Use /pvp reload if you wish to modify it"); 
+		this.saveConfig();
 		getLogger().info("BattleKits has been disabled."); 
-	}
-	
-	private static ItemStack toCraftBukkit(ItemStack stack) {
-		if (!(stack instanceof CraftItemStack))
-		return new CraftItemStack(stack);
-		else
-		return stack;
-		}
-	
-	public ItemStack renameItem(CraftItemStack cis, String name) {
 		
-        NBTTagCompound tag = new NBTTagCompound();
-        NBTTagCompound display = new NBTTagCompound();
-        tag.setCompound("display", display);
-        display.setString("Name", name);
-        cis.getHandle().tag = tag;
-        return cis;
 	}
 	
 	public ItemStack setColor(ItemStack item, int color) {
@@ -72,7 +59,7 @@ public class BattleKits extends JavaPlugin {
 		}
 		NBTTagCompound tag = itemStack.tag;
 		if (tag == null) {
-			tag = new NBTTagCompound(); // TEST
+			tag = new NBTTagCompound();
 			tag.setCompound("display", new NBTTagCompound());
 			itemStack.tag = tag;
 		}
@@ -86,8 +73,25 @@ public class BattleKits extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {	
 		if (commandLabel.equalsIgnoreCase("pvp")) {
 			if (args.length != 1) {
-				sender.sendMessage(ChatColor.RED + "Bad number of arguments");
-				return false;
+				String kit_ref = "";
+				for (String s: getConfig().getConfigurationSection("kits").getKeys(false))
+				{
+					kit_ref = kit_ref + s + ",";
+				}
+				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
+				sender.sendMessage(ChatColor.BLUE + "Available kits: " + ChatColor.RESET + kit_ref);
+				return true;
+			}
+			if (args[0].equals("reload")) {
+				this.reloadConfig();
+				sender.sendMessage(ChatColor.GREEN + "Config reloaded!");
+				return true;
+			}
+			
+			if (args[0].equals("restoreconfig")) {
+				this.saveDefaultConfig();
+				sender.sendMessage(ChatColor.GREEN + "Config restored to defaults!");
+				return true;
 			}
 			if (!(sender instanceof Player)) {
 				sender.sendMessage("[BattleKits] This command can only be executed by a player!");
@@ -96,7 +100,7 @@ public class BattleKits extends JavaPlugin {
 				 Player p = (Player)sender;
 				 String className = args[0];
 				 if (p.hasPermission("BattleKits.kit." + className) || p.isOp()) {
-					 if (((getConfig().getBoolean("settings.once-per-life") == true) && !(death.contains(p))) || (getConfig().getBoolean("settings.once-per-life") == false)) {
+					 if ((getConfig().getBoolean("settings.once-per-life") && !getConfig().contains("dead." + p.getName())) || (getConfig().getBoolean("settings.once-per-life") == false)) {
 						 
 						 if (args.length == 1) {
 							 Set<String> keys = getConfig().getConfigurationSection("kits").getKeys(false);
@@ -110,6 +114,8 @@ public class BattleKits extends JavaPlugin {
 								 p.getInventory().clear();
 								 p.getInventory().setArmorContents(null);
 								 int slot;
+								 
+								 this.getConfig().set("kitHistory." + p.getName(), args[0]);
 								 for (slot = 0; slot<=35; slot++) {
 									 ItemStack i = new ItemStack(0);
 									 String getSlot = getConfig().getString("kits." + className + ".items." + slot);
@@ -298,7 +304,7 @@ public class BattleKits extends JavaPlugin {
 								 }
 								 
 								 if (getConfig().getBoolean("settings.once-per-life") == true) {
-									 death.add(p);
+									 getConfig().set("dead." + p.getName(), true);
 								 }
 								 
 								 if (getConfig().contains(("kits." + className + ".commands"))) {

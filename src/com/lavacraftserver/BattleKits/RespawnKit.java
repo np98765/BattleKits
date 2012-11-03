@@ -18,9 +18,10 @@ public class RespawnKit implements Listener {
 	@EventHandler
 	public void onRespawn (PlayerRespawnEvent event) {
 		Player p = event.getPlayer();
-		 Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
-		 String kit = "a";
-		if (p.hasPermission("BattleKits.auto." + kit)) {
+		 //Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
+		 String kit = plugin.getConfig().getString("kitHistory." + p.getName());
+		 
+		if (kit != null && p.hasPermission("BattleKits.auto." + kit)) {
 			p.performCommand("pvp " + kit);
 		}
 	}

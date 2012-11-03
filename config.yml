@@ -1,6 +1,18 @@
 settings:
   once-per-life: true
   no-auto-update: 1 #Uncomment to disable auto-update
+  hide-death-messages: false
+  disable-dropping-items: false #With Q/drag out of inv
+  disable-player-drops-on-death: false
+  disable-crafting: false
+  disable-player-xp-drop: false
+  disable-mob-xp-drop: false
+  disable-block-xp: false #XP on block break (e.g. coal)
+  disable-inventory-interaction: false
+  disable-pickup-items: false
+  disable-block-break: false
+  disable-block-place: false
+  show-kit-info-on-respawn: true
 kits:
   archer:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
