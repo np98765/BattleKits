@@ -30,6 +30,7 @@ public class BattleKits extends JavaPlugin {
 	
 	public boolean buy(double amount, String name)
 	{
+		//TEST COMMIT
 		Player p = Bukkit.getPlayer(name);
 		 net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(name, amount);
 		 if (r.transactionSuccess())
