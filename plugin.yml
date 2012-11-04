@@ -3,9 +3,10 @@ main: com.lavacraftserver.BattleKits.BattleKits
 version: 1.3.2
 softdepend: [Vault]
 commands:
-  pvp:
+  battlekits:
     usage: /<command> <kit>
     description: Gives a kit
+    alias: bk
   soup:
     usage: /soup
     description: Refills soup bowl in your hand
