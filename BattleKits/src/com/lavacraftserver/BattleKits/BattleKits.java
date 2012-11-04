@@ -15,7 +15,6 @@ public class BattleKits extends JavaPlugin {
 	public static net.milkbowl.vault.economy.Economy economy = null;
 
 	public HashSet<String> death = new HashSet<String>();
-	;
 	
 
 	public boolean setupEconomy() {
