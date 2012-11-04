@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
@@ -18,11 +19,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BattleKits extends JavaPlugin {
 
 	public HashSet<String> death = new HashSet<String>();
+	public static Economy economy = null;
 	
 	@Override
 	public void onEnable() {
@@ -35,6 +38,11 @@ public class BattleKits extends JavaPlugin {
 		if (getConfig().getBoolean("settings.auto-update")) {
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); //New slug
 		}
+		if (setupEconomy()) {
+			getLogger().info("Found vault successfully!");
+		} else {
+			getLogger().info("Couldn't find vault. Economy disabled for now.");
+		}
 		
 		saveConfig();
 	}
@@ -46,6 +54,15 @@ public class BattleKits extends JavaPlugin {
 		getLogger().info("BattleKits has been disabled."); 
 		
 	}
+	
+	private boolean setupEconomy() {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
 	
 	public ItemStack setColor(ItemStack item, int color) {
 		CraftItemStack craftStack = null;
