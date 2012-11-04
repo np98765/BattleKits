@@ -35,14 +35,13 @@ public class CommandBattleKits implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("bk") || commandLabel.equalsIgnoreCase("battlekits")  || commandLabel.equalsIgnoreCase("kit")) {
 			if (args.length != 1) {
 				String kit_ref = "";
-				for (String s: plugin.getConfig().getConfigurationSection("kits").getKeys(false))
-				{
-					if (plugin.getConfig().contains("kits." + s + ".cost"))
-					{
+				for (String s: plugin.getConfig().getConfigurationSection("kits").getKeys(false)) {
+					if (plugin.getConfig().contains("kits." + s + ".cost")) {
 						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ") ";
 					}
 					kit_ref = kit_ref + s + ",";
 				}
+				
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
 				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " );
 				sender.sendMessage(kit_ref);
@@ -73,9 +72,9 @@ public class CommandBattleKits implements CommandExecutor {
 				return true;
 			 } else {
 				 Player p = (Player)sender;
-				 
 				 String className = args[0];
-				 if (p.hasPermission("BattleKits.kit." + className) || p.isOp()) {
+				 
+				 if (p.hasPermission("BattleKits.kit." + className)) {
 					 if ((plugin.getConfig().getBoolean("settings.once-per-life") && !plugin.getConfig().contains("dead." + p.getName())) || (plugin.getConfig().getBoolean("settings.once-per-life") == false)) {
 						 
 						 if (args.length == 1) {
@@ -151,9 +150,6 @@ public class CommandBattleKits implements CommandExecutor {
 												first = false;
 											}
 										}
-										 
-										
-										 
 										 p.getInventory().setItem(slot, i);
 									 }
 								 }

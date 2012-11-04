@@ -25,7 +25,6 @@ public class DeathEvent implements Listener {
 				plugin.getConfig().set("dead." + p.getName(), null);
 				if (plugin.getConfig().getBoolean("settings.show-kit-info-on-respawn")) {
 					p.sendMessage(ChatColor.GREEN + "You may now use a kit");
-					
 				}
 			}
 		}
