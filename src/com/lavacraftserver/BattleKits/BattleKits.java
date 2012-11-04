@@ -3,8 +3,6 @@ package com.lavacraftserver.BattleKits;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
@@ -25,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BattleKits extends JavaPlugin {
 
 	public HashSet<String> death = new HashSet<String>();
-	public static Economy economy = null;
+	public static net.milkbowl.vault.economy.Economy economy = null;
 	
 	@Override
 	public void onEnable() {
@@ -38,7 +36,7 @@ public class BattleKits extends JavaPlugin {
 		if (getConfig().getBoolean("settings.auto-update")) {
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); //New slug
 		}
-		if (setupEconomy()) {
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null && setupEconomy()) {
 			getLogger().info("Found vault successfully!");
 		} else {
 			getLogger().info("Couldn't find vault. Economy disabled for now.");
@@ -56,7 +54,8 @@ public class BattleKits extends JavaPlugin {
 	}
 	
 	private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+
+        RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
         }
@@ -129,6 +128,16 @@ public class BattleKits extends JavaPlugin {
 									 if (!(getConfig().getString("kits." + args[0] + ".active-in").contains("'" + p.getWorld().getName() + "'") || getConfig().getString("kits." + args[0] + ".active-in").equals("all"))) {
 										 sender.sendMessage(ChatColor.RED + "You can't use that kit in this world!");
 										 return true;
+									 }
+								 }
+								 if (economy != null && getConfig().contains("kits." + args[0] + ".cost")) {
+									 double cost = getConfig().getDouble("kits." + args[0] + ".cost");
+									 net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(sender.getName(), cost);
+									 if (!r.transactionSuccess()) {
+									 sender.sendMessage(ChatColor.RED + "You don't have enough money!");
+									 return true;
+									 } else {
+										 sender.sendMessage(ChatColor.GREEN + "You spent " + cost + ". You now have: " + r.balance + " remaining."); 
 									 }
 								 }
 								 p.getInventory().clear();

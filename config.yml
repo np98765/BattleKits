@@ -1,6 +1,6 @@
 settings:
   once-per-life: true
-  auto-update: true
+  auto-update: false
   hide-death-messages: false
   disable-dropping-items: false #With Q/drag out of inv
   disable-player-drops-on-death: false
