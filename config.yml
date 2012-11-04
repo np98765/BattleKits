@@ -30,6 +30,7 @@ kits:
       chestplateColor: '#FFFF00'
       leggingColor: '#FF00FF'
       bootColor: '#0000FF'
+      bootsEnchant: 2:1 3:5
       '0': 261 49:2
       '1': '282'
       '2': '282'
