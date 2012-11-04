@@ -44,7 +44,8 @@ public class CommandBattleKits implements CommandExecutor {
 					kit_ref = kit_ref + s + ",";
 				}
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
-				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " + ChatColor.RESET + kit_ref);
+				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " );
+				sender.sendMessage(kit_ref);
 				return true;
 			}
 			if (args[0].equals("reload")) {
