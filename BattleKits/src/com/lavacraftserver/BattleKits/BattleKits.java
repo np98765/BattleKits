@@ -60,7 +60,7 @@ public class BattleKits extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 		
-		getCommand("soup").setExecutor(CommandSoup(this), this);
+		getCommand("soup").setExecutor(new CommandSoup(this));
 		
 		
 		if (getConfig().getBoolean("settings.auto-update")) {
