@@ -1,0 +1,12 @@
+name: BattleKits
+main: com.lavacraftserver.BattleKits.BattleKits
+version: 1.3.2
+softdepend: [Vault]
+commands:
+  battlekits:
+    usage: /<command> <kit>
+    description: Gives a kit
+    alias: [bk,kit]
+  soup:
+    usage: /soup
+    description: Refills soup bowl in your hand
