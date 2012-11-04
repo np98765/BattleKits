@@ -52,6 +52,7 @@ public class BattleKits extends JavaPlugin {
 	public void onEnable() {
 		getLogger().info("BattleKits has been enabled!");
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
+		getServer().getPluginManager().registerEvents(new SignHandler(this), this);
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getConfig().options().copyDefaults(true);
