@@ -6,7 +6,7 @@ commands:
   battlekits:
     usage: /<command> <kit>
     description: Gives a kit
-    alias: [bk,kit]
+    aliases: [bk,kit]
   soup:
     usage: /soup
     description: Refills soup bowl in your hand
