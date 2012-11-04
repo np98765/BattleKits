@@ -23,7 +23,7 @@ public class CommandSoup implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		
 		//Assigned to np98765, so I've only made the command class
-		if (cmd.getName().equals("soup")) {
+		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
 			if (sender.hasPermission("BattleKits.soup")) {
 				Player p = (Player) sender;
 				ItemStack i = p.getItemInHand();
