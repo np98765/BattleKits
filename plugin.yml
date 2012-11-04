@@ -1,6 +1,6 @@
 name: BattleKits
 main: com.lavacraftserver.BattleKits.BattleKits
-version: 1.3
+version: 1.3.2
 softdepend: [Vault]
 commands:
   pvp:
