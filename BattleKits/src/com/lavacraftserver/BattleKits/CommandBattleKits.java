@@ -39,7 +39,7 @@ public class CommandBattleKits implements CommandExecutor {
 				{
 					if (plugin.getConfig().contains("kits." + s + ".cost"))
 					{
-						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ")";
+						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ") ";
 					}
 					kit_ref = kit_ref + s + ",";
 				}
