@@ -1,7 +1,5 @@
 package com.lavacraftserver.BattleKits;
 
-import java.util.HashSet;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
