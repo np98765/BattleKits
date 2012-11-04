@@ -1,7 +1,5 @@
 package com.lavacraftserver.BattleKits;
 
-
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -12,16 +10,16 @@ import org.bukkit.inventory.ItemStack;
 
 
 public class CommandSoup implements CommandExecutor {
-	
+
 	public BattleKits plugin;
-	
+
 	public CommandSoup(BattleKits p) {
 		this.plugin = p;
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		
+
 		//Assigned to np98765, so I've only made the command class
 		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
 			if (sender.hasPermission("BattleKits.soup")) {
@@ -37,7 +35,7 @@ public class CommandSoup implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "You don't have permission for this command.");
 
 			}
-			
+
 		}
 		return false;
 	}
