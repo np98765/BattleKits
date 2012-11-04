@@ -32,7 +32,7 @@ public class CommandBattleKits implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		
-		if (commandLabel.equalsIgnoreCase("bk") || commandLabel.equalsIgnoreCase("battlekits") ) {
+		if (commandLabel.equalsIgnoreCase("bk") || commandLabel.equalsIgnoreCase("battlekits")  || commandLabel.equalsIgnoreCase("kit")) {
 			if (args.length != 1) {
 				String kit_ref = "";
 				for (String s: plugin.getConfig().getConfigurationSection("kits").getKeys(false))
