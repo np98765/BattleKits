@@ -16,14 +16,17 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 
 public class CommandBattleKits implements CommandExecutor {
 	
 	public BattleKits plugin;
 	
+	
 	public CommandBattleKits(BattleKits p) {
 		this.plugin = p;
+		
 	}
 
 	@Override
@@ -72,15 +75,12 @@ public class CommandBattleKits implements CommandExecutor {
 										 return true;
 									 }
 								 }
-								 if (plugin.economy != null && plugin.getConfig().contains("kits." + args[0] + ".cost")) {
+								 if (BattleKits.economy != null && plugin.getConfig().contains("kits." + args[0] + ".cost")) {
 									 double cost = plugin.getConfig().getDouble("kits." + args[0] + ".cost");
-									 net.milkbowl.vault.economy.EconomyResponse r = plugin.economy.withdrawPlayer(sender.getName(), cost);
-									 if (!r.transactionSuccess()) {
-									 sender.sendMessage(ChatColor.RED + "You don't have enough money!");
-									 return true;
-									 } else {
-										 sender.sendMessage(ChatColor.GREEN + "You spent " + cost + ". You now have: " + r.balance + " remaining."); 
-									 }
+									if (!plugin.buy(cost, sender.getName()))
+									{
+										return true;
+									}
 								 }
 								 p.getInventory().clear();
 								 p.getInventory().setArmorContents(null);
@@ -340,6 +340,7 @@ public class CommandBattleKits implements CommandExecutor {
 										 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
 									 }
 								 }
+								 return true;
 								 
 							 } else {
 								 p.sendMessage(ChatColor.RED + "Please choose a valid kit!");
