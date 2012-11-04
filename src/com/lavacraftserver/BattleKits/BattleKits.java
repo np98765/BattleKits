@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class BattleKits extends JavaPlugin {
 
 	public HashSet<String> death = new HashSet<String>();
@@ -34,6 +35,7 @@ public class BattleKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
+		getCommand("soup").setExecutor(new SoupCommand(this));
 		if (getConfig().getBoolean("settings.auto-update")) {
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); //New slug
 		}

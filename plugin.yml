@@ -6,3 +6,6 @@ commands:
   pvp:
     usage: /<command> <kit>
     description: Gives a kit
+  soup:
+    usage: /soup
+    description: Refills soup bowl in your hand
