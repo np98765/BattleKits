@@ -32,7 +32,7 @@ public class BattleKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
-		if (!getConfig().contains("settings.no-auto-update")) {
+		if (getConfig().getBoolean("settings.auto-update")) {
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); //New slug
 		}
 		
@@ -89,7 +89,9 @@ public class BattleKits extends JavaPlugin {
 			}
 			
 			if (args[0].equals("restoreconfig")) {
+				
 				this.saveDefaultConfig();
+				this.saveConfig();
 				sender.sendMessage(ChatColor.GREEN + "Config restored to defaults!");
 				return true;
 			}
@@ -98,6 +100,7 @@ public class BattleKits extends JavaPlugin {
 				return true;
 			 } else {
 				 Player p = (Player)sender;
+				 
 				 String className = args[0];
 				 if (p.hasPermission("BattleKits.kit." + className) || p.isOp()) {
 					 if ((getConfig().getBoolean("settings.once-per-life") && !getConfig().contains("dead." + p.getName())) || (getConfig().getBoolean("settings.once-per-life") == false)) {
@@ -113,6 +116,10 @@ public class BattleKits extends JavaPlugin {
 								 }
 								 p.getInventory().clear();
 								 p.getInventory().setArmorContents(null);
+								 if (getConfig().contains("kits." + args[0] + ".on-give-message"))
+								 {
+									 p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("kits." + args[0] + ".on-give-message")));
+								 }
 								 int slot;
 								 
 								 this.getConfig().set("kitHistory." + p.getName(), args[0]);
@@ -303,7 +310,7 @@ public class BattleKits extends JavaPlugin {
 									 }
 								 }
 								 
-								 if (getConfig().getBoolean("settings.once-per-life") == true) {
+								 if (getConfig().getBoolean("settings.once-per-life")) {
 									 getConfig().set("dead." + p.getName(), true);
 								 }
 								 

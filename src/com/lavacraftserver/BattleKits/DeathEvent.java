@@ -22,9 +22,10 @@ public class DeathEvent implements Listener {
 		if (event.getEntity() instanceof Player) {
 			if (plugin.getConfig().getBoolean("settings.once-per-life") == true) {
 				Player p = (Player) event.getEntity();
-				if (plugin.getConfig().contains("dead." + p.getName()) && plugin.getConfig().getBoolean("show-kit-info-on-respawn")) {
+				plugin.getConfig().set("dead." + p.getName(), null);
+				if (plugin.getConfig().getBoolean("settings.show-kit-info-on-respawn")) {
 					p.sendMessage(ChatColor.GREEN + "You may now use a kit");
-					plugin.getConfig().set("dead." + p.getName(), null);
+					
 				}
 			}
 		}
