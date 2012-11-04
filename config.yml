@@ -14,6 +14,7 @@ settings:
   disable-block-place: false
   show-kit-info-on-respawn: true
   override-disable-respawn-kits: false
+  instant-soup-drink: false
 kits:
   archer:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds

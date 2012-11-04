@@ -55,9 +55,12 @@ public class BattleKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new SignHandler(this), this);
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
+		getServer().getPluginManager().registerEvents(new InstaSoup(this), this);
+		
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
-		getCommand("soup").setExecutor(new CommandSoup(this));
+		
+		getCommand("soup").setExecutor(CommandSoup(this), this);
 		
 		
 		if (getConfig().getBoolean("settings.auto-update")) {
