@@ -37,6 +37,10 @@ public class CommandBattleKits implements CommandExecutor {
 				String kit_ref = "";
 				for (String s: plugin.getConfig().getConfigurationSection("kits").getKeys(false))
 				{
+					if (plugin.getConfig().contains("kits." + s + ".cost"))
+					{
+						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ")";
+					}
 					kit_ref = kit_ref + s + ",";
 				}
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
@@ -44,12 +48,19 @@ public class CommandBattleKits implements CommandExecutor {
 				return true;
 			}
 			if (args[0].equals("reload")) {
+				if (!sender.hasPermission("BattleKits.reload")) {
+					sender.sendMessage(ChatColor.RED + "You don't have permission."); return true;
+				}
+				
 				this.plugin.reloadConfig();
 				sender.sendMessage(ChatColor.GREEN + "Config reloaded!");
 				return true;
 			}
 			
 			if (args[0].equals("restoreconfig")) {
+				if (!sender.hasPermission("BattleKits.restore")) {
+					sender.sendMessage(ChatColor.RED + "You don't have permission."); return true;
+				}
 				
 				this.plugin.saveDefaultConfig();
 				this.plugin.saveConfig();
