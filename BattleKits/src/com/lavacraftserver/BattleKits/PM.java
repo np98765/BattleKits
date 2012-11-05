@@ -5,6 +5,12 @@ import org.bukkit.entity.Player;
 
 public class PM {
 
+	BattleKits plugin;
+	
+	public PM(BattleKits instance) {
+		plugin = instance;
+	}
+
 	public void warn(Player player, String message) {
 		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "] " + ChatColor.RED + message);
 	}

@@ -16,7 +16,8 @@ public class BattleKits extends JavaPlugin {
 
 	public HashSet<String> death = new HashSet<String>();
 	
-
+	public PM PM = new PM(this);
+	
 	public boolean setupEconomy() {
 
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -28,24 +29,19 @@ public class BattleKits extends JavaPlugin {
         return (economy != null);
     }
 	
-	public boolean buy(double amount, String name)
-	{
-		//TEST COMMIT
+	public boolean buy(double amount, String name) {
+
 		Player p = Bukkit.getPlayer(name);
 		 net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(name, amount);
-		 if (r.transactionSuccess())
-		 {
-			 p.sendMessage(ChatColor.GREEN + "Purchase successful! You spent " + amount + " and now have " + r.balance);
+		 
+		 if (r.transactionSuccess()) {
+			 this.PM.notify(p, "Purchase successful! You spent " + amount + " and now have " + r.balance);
 			 return true;
 			 
+		 } else {
+			 this.PM.warn(p, "You don't have enough money! Kit costs " + amount + " and you have " + r.balance);
 		 }
-		 else
-		 {
-			 p.sendMessage(ChatColor.RED + "You don't have enough money! Kit costs " + amount + " and you have " + r.balance);
-
-		 }
-		return false;
-		
+		return false;	
 	}
 	
 	@Override
@@ -73,6 +69,7 @@ public class BattleKits extends JavaPlugin {
 		} else {
 			Bukkit.getLogger().info("Couldn't find vault. Economy disabled for now.");
 		}
+		
 		CommandBattleKits cbk = new CommandBattleKits(this);
 		getCommand("battlekits").setExecutor(cbk);
 		saveConfig();
