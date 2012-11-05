@@ -1,6 +1,5 @@
 package com.lavacraftserver.BattleKits;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,12 +16,15 @@ public class DeathEvent implements Listener {
 	
 	@EventHandler
 	public void onPlayerDeath (EntityDeathEvent event) {
+		
 		if (event.getEntity() instanceof Player) {
+			
 			if (plugin.getConfig().getBoolean("settings.once-per-life") == true) {
 				Player p = (Player) event.getEntity();
 				plugin.getConfig().set("dead." + p.getName(), null);
+				
 				if (plugin.getConfig().getBoolean("settings.show-kit-info-on-respawn")) {
-					p.sendMessage(ChatColor.GREEN + "You may now use a kit");
+					plugin.PM.notify(p, "You may now use a kit");
 				}
 			}
 		}

@@ -16,15 +16,18 @@ public class SignHandler implements Listener {
 	
 	@EventHandler
 	public void signEdit(SignChangeEvent e) {
+		
 		String[] lines = e.getLines();
 		Player p = e.getPlayer();
+		
 		if (lines.length > 1 && lines[0].equalsIgnoreCase("[BattleKits]")) {
 			if (plugin.getConfig().contains("kits." + lines[1])) {
 				e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
-				p.sendMessage(ChatColor.GREEN + "Kit sign created successfully.");
+				plugin.PM.notify(p, "Kit sign created successfully!");
+				
 			} else {
 				e.getBlock().breakNaturally();
-				p.sendMessage(ChatColor.RED + "Kit does not exist.");
+				plugin.PM.notify(p, "That kit does not exist!");
 			}
 			
 		}

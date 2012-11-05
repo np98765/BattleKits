@@ -20,12 +20,11 @@ public class CommandSoup implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
-			
+		
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
 			
 			if (sender.hasPermission("BattleKits.soup")) {
-					
 				if (i.getType() != Material.BOWL) {
 					
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");
