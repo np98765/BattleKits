@@ -72,7 +72,6 @@ public class BattleKits extends JavaPlugin {
 
 		
 		getCommand("battlekits").setExecutor(cbk);
-		saveConfig();
 		// this.buy(5, "lol768");
 	}
 
