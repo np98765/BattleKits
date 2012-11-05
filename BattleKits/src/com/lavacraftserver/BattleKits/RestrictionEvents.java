@@ -29,7 +29,7 @@ public class RestrictionEvents implements Listener {
 	// Most of these events are self explanatory
 	// TODO: change if statement to
 	// e.setCancelled(plugin.getConfig().getBoolean("settings.disable-dropping-items"))
-
+//Force new build
 	@EventHandler
 	public void itemDrop(PlayerDropItemEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-dropping-items"))
