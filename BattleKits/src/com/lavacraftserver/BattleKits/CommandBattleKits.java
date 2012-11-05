@@ -22,7 +22,6 @@ public class CommandBattleKits implements CommandExecutor {
 	
 	public BattleKits plugin;
 	
-	
 	public CommandBattleKits(BattleKits p) {
 		this.plugin = p;
 		
@@ -30,7 +29,6 @@ public class CommandBattleKits implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		
 		if (commandLabel.equalsIgnoreCase("bk") || commandLabel.equalsIgnoreCase("battlekits")  || commandLabel.equalsIgnoreCase("kit")) {
 			if (args.length != 1) {
 				String kit_ref = "";
@@ -69,9 +67,11 @@ public class CommandBattleKits implements CommandExecutor {
 				sender.sendMessage(ChatColor.GREEN + "Config restored to defaults!");
 				return true;
 			}
+			
 			if (!(sender instanceof Player)) {
 				sender.sendMessage("[BattleKits] This command can only be executed by a player!");
 				return true;
+				
 			 } else {
 				 Player p = (Player)sender;
 				 String className = args[0];
@@ -111,10 +111,12 @@ public class CommandBattleKits implements CommandExecutor {
 								 this.plugin.getConfig().set("kitHistory." + p.getName(), args[0]);
 								 
 								 for (slot = 0; slot<=35; slot++) {
+									 
 									 ItemStack i = new ItemStack(0);
 									 String getSlot = plugin.getConfig().getString("kits." + className + ".items." + slot);
 									 
 									 if (!(plugin.getConfig().getString("kits." + className + ".items." + slot).equals(null)) || !(plugin.getConfig().getString("kits." + className + ".items." + slot).equals("0"))) {
+										 
 										 String[] s = getSlot.split(" ");
 										 String[] item = s[0].split(":");
 
@@ -146,6 +148,7 @@ public class CommandBattleKits implements CommandExecutor {
 										 
 										// Sets the enchantments and level
 										Boolean first = true;
+										
 										if (s.length > 1) {
 											for (String a : s) {
 												if (!first) {
@@ -154,12 +157,15 @@ public class CommandBattleKits implements CommandExecutor {
 													Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 													int levelInt = Integer.parseInt(enchant[1]);
 													i.addUnsafeEnchantment(enchantmentInt,levelInt);
+													
 												}
 												
 												first = false;
 											}
 										}
+										
 										p.getInventory().setItem(slot, i);
+										
 									 }
 								 }
 								 
@@ -168,6 +174,7 @@ public class CommandBattleKits implements CommandExecutor {
 								 String getChestplate = plugin.getConfig().getString("kits." + className + ".items" + ".chestplate");
 								 String getLeggings = plugin.getConfig().getString("kits." + className + ".items" + ".leggings");
 								 String getBoots = plugin.getConfig().getString("kits." + className + ".items" + ".boots");
+								 
 								 int helmColor = 0;
 								 int chestColor = 0;
 								 int legColor = 0;
@@ -350,13 +357,16 @@ public class CommandBattleKits implements CommandExecutor {
 								 }
 								 
 								 if (plugin.getConfig().contains(("kits." + className + ".commands"))) {
+									 
 									 List<String> commands = this.plugin.getConfig().getStringList("kits." + className + ".commands");
+									 
 									 for (String s : commands) {
 										 s = s.replace("<player>", p.getName());
 										 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
 									 }
 								 
 								 }
+								 
 								 return true;
 								 
 							 } else {
