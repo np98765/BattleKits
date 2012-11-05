@@ -17,9 +17,8 @@ public class DeathEvent implements Listener {
 	@EventHandler
 	public void onPlayerDeath(EntityDeathEvent event) {
 		if (event.getEntity() instanceof Player) {
-
 			Player p = (Player) event.getEntity();
-
+			
 			if (plugin.getConfig().getBoolean("settings.once-per-life") == true) {
 				plugin.getConfig().set("dead." + p.getName(), null);
 			}

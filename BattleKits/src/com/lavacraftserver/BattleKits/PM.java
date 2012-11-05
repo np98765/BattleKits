@@ -18,5 +18,5 @@ public class PM {
 	public void notify(Player player, String message) {
 		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.YELLOW + message);
 	}
-	
+
 }

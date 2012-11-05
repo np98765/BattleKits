@@ -12,12 +12,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BattleKits extends JavaPlugin {
 	
 	public static net.milkbowl.vault.economy.Economy economy = null;
+	
 	public HashSet<String> death = new HashSet<String>();
+	
 	public PM PM = new PM(this);
+	
 	public boolean setupEconomy() {
-
 		RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-
 		if (economyProvider != null) {
 			economy = economyProvider.getProvider();
 		}
@@ -25,21 +26,20 @@ public class BattleKits extends JavaPlugin {
 	}
 
 	public boolean buy(double amount, String name) {
-
 		Player p = Bukkit.getPlayer(name);
-		net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(
-				name, amount);
-
+		net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(name, amount);
+		
 		if (r.transactionSuccess()) {
 			this.PM.notify(p, "Purchase successful! You spent " + amount + " and now have " + r.balance);
 			return true;
+			
 		} else {
-			this.PM.warn(p, "You don't have enough money! Kit costs " + amount + " and you have " + r.balance);
+			this.PM.warn(p, "You don't have enough money! The kit costs " + amount + " and you have " + r.balance);
 		}
-
 		return false;
 	}
 
+	
 	@Override
 	public void onEnable() {
 		this.getLogger().info("BattleKits has been enabled!");
@@ -59,11 +59,11 @@ public class BattleKits extends JavaPlugin {
 		}
 
 		if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-			this.getLogger().info("Found vault successfully!");
+			this.getLogger().info("Vault found.");
 			setupEconomy();
 			
 		} else {
-			this.getLogger().info("Couldn't find vault. Economy disabled for now.");
+			this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
 		}
 
 		CommandBattleKits cbk = new CommandBattleKits(this);
@@ -77,14 +77,12 @@ public class BattleKits extends JavaPlugin {
 		this.getLogger().info("Saved config! Use /pvp reload if you wish to modify it");
 		this.saveConfig();
 		this.getLogger().info("BattleKits has been disabled.");
-
 	}
 
 	public ItemStack setColor(ItemStack item, int color) {
-
 		CraftItemStack craftStack = null;
 		net.minecraft.server.ItemStack itemStack = null;
-
+		
 		if (item instanceof CraftItemStack) {
 			craftStack = (CraftItemStack) item;
 			itemStack = craftStack.getHandle();
@@ -92,20 +90,17 @@ public class BattleKits extends JavaPlugin {
 			craftStack = new CraftItemStack(item);
 			itemStack = craftStack.getHandle();
 		}
-
 		NBTTagCompound tag = itemStack.tag;
+		
 		if (tag == null) {
 			tag = new NBTTagCompound();
 			tag.setCompound("display", new NBTTagCompound());
 			itemStack.tag = tag;
-
 		}
-
 		tag = itemStack.tag.getCompound("display");
 		tag.setInt("color", color);
 		itemStack.tag.setCompound("display", tag);
 		return craftStack;
-		
 	}
 
 }

@@ -15,7 +15,6 @@ public class RespawnKit implements Listener {
 
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-
 		// Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
 		final Player p = event.getPlayer();
 		final String kit = plugin.getConfig().getString("kitHistory." + p.getName());

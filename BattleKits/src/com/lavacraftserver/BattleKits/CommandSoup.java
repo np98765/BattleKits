@@ -17,9 +17,7 @@ public class CommandSoup implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
 		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
-
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
 
@@ -27,18 +25,19 @@ public class CommandSoup implements CommandExecutor {
 				if (i.getType() != Material.BOWL) {
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");
 					return true;
+					
 				} else {
 					i.setType(Material.MUSHROOM_SOUP);
 					return true;
 				}
-
+				
 			} else {
 				plugin.PM.warn((Player) sender, "You don't have permission for this command.");
 				return true;
 			}
-
+		
 		}
 		return false;
 	}
-
+	
 }
