@@ -12,95 +12,86 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
-public class RestrictionEvents implements Listener
-{
-private BattleKits plugin;
+public class RestrictionEvents implements Listener {
+	private BattleKits plugin;
 
 	/**
-	* Constructor method used when creating instance of this class
-	* Used so we have access to the main plugin & config etc
-	* @param instance - Instance of BattleKits.java
-	*/
-	public RestrictionEvents(BattleKits plugin) 
-	{
+	 * Constructor method used when creating instance of this class Used so we
+	 * have access to the main plugin & config etc
+	 * 
+	 * @param instance
+	 *            - Instance of BattleKits.java
+	 */
+	public RestrictionEvents(BattleKits plugin) {
 		this.plugin = plugin;
 	}
-	
-	//Most of these events are self explanatory
-	//TODO: change if statement to e.setCancelled(plugin.getConfig().getBoolean("settings.disable-dropping-items"))
-	
+
+	// Most of these events are self explanatory
+	// TODO: change if statement to
+	// e.setCancelled(plugin.getConfig().getBoolean("settings.disable-dropping-items"))
+
 	@EventHandler
-	public void itemDrop(PlayerDropItemEvent e)
-	{
+	public void itemDrop(PlayerDropItemEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-dropping-items"))
 			e.setCancelled(true);
 	}
-	
+
 	@EventHandler
-	public void itemDrop(CraftItemEvent e)
-	{
+	public void itemDrop(CraftItemEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-crafting"))
 			e.setCancelled(true);
 	}
-	
+
 	@EventHandler
-	public void pickup(PlayerPickupItemEvent e)
-	{
+	public void pickup(PlayerPickupItemEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-pickup-items"))
 			e.setCancelled(true);
 	}
-	
+
 	@EventHandler
-	public void pickup(BlockPlaceEvent e)
-	{
+	public void pickup(BlockPlaceEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-block-place"))
 			e.setCancelled(true);
 	}
 
-	
 	@EventHandler
-	public void death(PlayerDeathEvent e)
-	{
+	public void death(PlayerDeathEvent e) {
 		if (plugin.getConfig().getBoolean("settings.disable-player-xp-drop"))
 			e.setDroppedExp(0);
-		
-		if (plugin.getConfig().getBoolean("settings.disable-player-drops-on-death"))
+
+		if (plugin.getConfig().getBoolean(
+				"settings.disable-player-drops-on-death"))
 			e.getDrops().clear();
-		
+
 		if (plugin.getConfig().getBoolean("settings.hide-death-messages"))
 			e.setDeathMessage(null);
 
 	}
-	
+
 	@EventHandler
-	public void mobDeath (EntityDeathEvent e)
-	{
-		if (!(e.getEntity() instanceof Player))
-		{
+	public void mobDeath(EntityDeathEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
 			if (plugin.getConfig().getBoolean("settings.disable-mob-xp-drop"))
 				e.setDroppedExp(0);
 		}
 	}
-	
-	@EventHandler
-	public void blockBreak (BlockBreakEvent e)
-	{
 
-			if (plugin.getConfig().getBoolean("settings.disable-block-xp"))
-				e.setExpToDrop(0);
-			
-			if (plugin.getConfig().getBoolean("settings.disable-block-break"))
-				e.setCancelled(true);
-		
-	}
-	
 	@EventHandler
-	public void invInteract(InventoryClickEvent e)
-	{
-		if (plugin.getConfig().getBoolean("settings.disable-inventory-interaction"))
+	public void blockBreak(BlockBreakEvent e) {
+
+		if (plugin.getConfig().getBoolean("settings.disable-block-xp"))
+			e.setExpToDrop(0);
+
+		if (plugin.getConfig().getBoolean("settings.disable-block-break"))
+			e.setCancelled(true);
+
+	}
+
+	@EventHandler
+	public void invInteract(InventoryClickEvent e) {
+		if (plugin.getConfig().getBoolean(
+				"settings.disable-inventory-interaction"))
 			e.setCancelled(true);
 	}
-	
-	
 
 }
