@@ -32,7 +32,7 @@ public class SignHandler implements Listener {
 		Player p = e.getPlayer();
 
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
-			Sign s = (Sign) e.getClickedBlock();
+			Sign s = (Sign) e.getClickedBlock().getState();
 			String[] lines = s.getLines();
 			if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
 				
@@ -43,7 +43,6 @@ public class SignHandler implements Listener {
 
 					} else {
 						plugin.cbk.supplyKit(p, lines[1], plugin.getConfig().getBoolean("ignore-permissions"), plugin.getConfig().getBoolean("ignore-costs"), plugin.getConfig().getBoolean("ignore-world-restriction"), plugin.getConfig().getBoolean("ignore-lives-restriction"));
-						
 
 					}
 					

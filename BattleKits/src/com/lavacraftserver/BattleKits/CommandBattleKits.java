@@ -62,7 +62,7 @@ public class CommandBattleKits implements CommandExecutor {
 					plugin.PM.warn(sender, "You don't have permission to use this command.");
 					return true;
 				}
-				this.plugin.reloadConfig();
+				plugin.reloadConfig();
 				plugin.PM.notify(sender, "Config reloaded");
 				return true;
 			}
@@ -136,7 +136,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 /**
 					  * Uses vault to charge user as specified in config
 					  */
-					 if (BattleKits.economy != null && plugin.getConfig().contains("kits." + className + ".cost") && !ignoreCost) {
+					 if (BattleKits.economy != null && plugin.getConfig().contains("kits." + className + ".cost") && plugin.getConfig().getDouble("kits." + className + ".cost") != 0 && !ignoreCost) {
 						 double cost = plugin.getConfig().getDouble("kits." + className + ".cost");
 						 
 						 if (!plugin.buy(cost, p.getName())) {
