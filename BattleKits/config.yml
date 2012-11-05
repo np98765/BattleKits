@@ -2,12 +2,12 @@ settings:
   once-per-life: true
   auto-update: false
   hide-death-messages: false
-  disable-dropping-items: false #With Q/drag out of inv
+  disable-dropping-items: false
   disable-player-drops-on-death: false
   disable-crafting: false
   disable-player-xp-drop: false
   disable-mob-xp-drop: false
-  disable-block-xp: false #XP on block break (e.g. coal)
+  disable-block-xp: false
   disable-inventory-interaction: false
   disable-pickup-items: false
   disable-block-break: false
@@ -15,6 +15,7 @@ settings:
   show-kit-info-on-respawn: true
   override-disable-respawn-kits: false
   instant-soup-drink: false
+    replenish-type: hunger
 kits:
   archer:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
