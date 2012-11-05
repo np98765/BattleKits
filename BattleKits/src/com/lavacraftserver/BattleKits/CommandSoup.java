@@ -21,7 +21,7 @@ public class CommandSoup implements CommandExecutor {
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
 
-			if (sender.hasPermission("BattleKits.soup")) {
+			if (sender.hasPermission("BattleKits.use.soup")) {
 				if (i.getType() != Material.BOWL) {
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");
 					return true;
