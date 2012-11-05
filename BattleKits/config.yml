@@ -16,6 +16,10 @@ settings:
   override-disable-respawn-kits: false
   instant-soup-drink: false
     replenish-type: hunger
+signs:
+  ignore-permissions: false
+  ignore-costs: false
+  enabled: true #Completely disable kit signs if set to false
 kits:
   archer:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
