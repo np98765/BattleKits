@@ -27,7 +27,6 @@ public class CommandSoup implements CommandExecutor {
 				if (i.getType() != Material.BOWL) {
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");
 					return true;
-
 				} else {
 					i.setType(Material.MUSHROOM_SOUP);
 					return true;
