@@ -87,6 +87,9 @@ public class BattleKits extends JavaPlugin {
 		
 	}
 	
+	public void warn(Player player, String message) {
+		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "] " + ChatColor.RED + message);
+	}
 	
 	
 	public ItemStack setColor(ItemStack item, int color) {
