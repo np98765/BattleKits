@@ -14,7 +14,7 @@ public class BattleKits extends JavaPlugin {
 	public static net.milkbowl.vault.economy.Economy economy = null;
 	
 	public HashSet<String> death = new HashSet<String>();
-	
+	CommandBattleKits cbk = new CommandBattleKits(this);
 	public PM PM = new PM(this);
 	
 	public boolean setupEconomy() {
@@ -70,7 +70,7 @@ public class BattleKits extends JavaPlugin {
 			this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
 		}
 
-		CommandBattleKits cbk = new CommandBattleKits(this);
+		
 		getCommand("battlekits").setExecutor(cbk);
 		saveConfig();
 		// this.buy(5, "lol768");

@@ -19,27 +19,44 @@ public class CommandBattleKits implements CommandExecutor {
 	
 	public BattleKits plugin;
 	
+	/**
+	* Constructor method used when creating instance of this class
+	* Used so we have access to the main plugin & config etc
+	* @param instance - Instance of BattleKits.java
+	*/
 	public CommandBattleKits(BattleKits p) {
 		this.plugin = p;
 	}
-
+	
+	/**
+	 * Method that is executed every time a BattleKit registered command is executed
+	 * Takes some info on the command, such as arguments
+	 * This determines whether to reload config, apply a kit, list kits etc
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.equalsIgnoreCase("bk") || commandLabel.equalsIgnoreCase("battlekits")  || commandLabel.equalsIgnoreCase("kit")) {
+			
+			/**
+			 * No args = list all available kits with costs
+			 */
 			if (args.length != 1) {
 				String kit_ref = "";
 				for (String s: plugin.getConfig().getConfigurationSection("kits").getKeys(false)) {
 					if (plugin.getConfig().contains("kits." + s + ".cost")) {
-						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ") ";
+						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ") "; //Builds list of kits incl. cost of each
 					}
-					kit_ref = kit_ref + s + ",";
+					kit_ref = kit_ref + s + ","; //Add new kit info to String
 				}
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
-				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " );
-				sender.sendMessage(kit_ref);
+				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " ); //Header for info
+				sender.sendMessage(kit_ref); //Send the kit list
 				return true;
 			}
 			
+			/**
+			 * This command reloads the BattleKit config
+			 */
 			if (args[0].equals("reload")) {
 				if (!sender.hasPermission("BattleKits.config.reload")) {
 					plugin.PM.warn(sender, "You don't have permission to use this command.");
@@ -50,6 +67,9 @@ public class CommandBattleKits implements CommandExecutor {
 				return true;
 			}
 			
+			/**
+			 * Restores the config back to the original defaults and saves it
+			 */
 			if (args[0].equals("restoreconfig")) {
 				if (!sender.hasPermission("BattleKits.config.restore")) {
 					plugin.PM.warn(sender, "You don't have permission to use this command."); 
@@ -61,18 +81,17 @@ public class CommandBattleKits implements CommandExecutor {
 				return true;
 			}
 			
-			if (args.length == 0) {
-				
-			}
-				
-			
+			/**
+			 * This handles checking the sender to ensure they are
+			 * a player and giving them the requested kit.
+			 */
 			if (!(sender instanceof Player)) {
 				plugin.PM.warn(sender, "Players are only supported by this command"); 
 				return true;
 				
 			 } else {
 				 Player p = (Player)sender;
-				 supplyKit(p, args[0], false, false, false, false);
+				 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions
 				 
 			
 			 }
@@ -80,16 +99,32 @@ public class CommandBattleKits implements CommandExecutor {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Big method that gives the player a specified kit
+	 * @param p - The player to give the kit
+	 * @param className - The name of the kit to give them
+	 * @param ignorePerms - Whether or not to ignore the BattleKits.use permission requirements
+	 * @param ignoreCost - Whether or not to ignore the economy & cost settings
+	 * @param ignoreLives - Whether or not to ignore the 1 per life rule
+	 * @param ignoreWorldRestriction - Whether or not to ignore the world restrictions
+	 * @return
+	 */
 	public Boolean supplyKit(Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
 		
-		if (!p.hasPermission("BattleKits.use." + className) && !ignorePerms) {
+		if (!p.hasPermission("BattleKits.use." + className) && !ignorePerms) { //Ensure they have permission to use the kit
 			 plugin.PM.warn(p, "You do not have permission to use this kit!");
 		 }
 		
+		/**
+		 * This if statement checks if the once-per-life rule is active, and whether the user has already used a kit
+		 */
 		if (ignoreLives || (plugin.getConfig().getBoolean("settings.once-per-life") && !plugin.getConfig().contains("dead." + p.getName())) || (plugin.getConfig().getBoolean("settings.once-per-life") == false)) {
-				 Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
+				 Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false); //Current kits in config
 				 
+				 /**
+				  * Ensures that there are no restrictions for the user's current world
+				  */
 				 if (keys.contains(className)) {
 					 if (plugin.getConfig().contains("kits." + className + ".active-in")) {
 						 if (ignoreWorldRestriction || !(plugin.getConfig().getString("kits." + className + ".active-in").contains("'" + p.getWorld().getName() + "'") || plugin.getConfig().getString("kits." + className + ".active-in").equals("all"))) {
@@ -98,6 +133,9 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 					 }
 					 
+					 /**
+					  * Uses vault to charge user as specified in config
+					  */
 					 if (BattleKits.economy != null && plugin.getConfig().contains("kits." + className + ".cost") && !ignoreCost) {
 						 double cost = plugin.getConfig().getDouble("kits." + className + ".cost");
 						 
@@ -105,12 +143,16 @@ public class CommandBattleKits implements CommandExecutor {
 							return true;
 						}
 					 }
-					 p.getInventory().clear();
-					 p.getInventory().setArmorContents(null);
 					 
+					 p.getInventory().clear();
+					 p.getInventory().setArmorContents(null); //Gets rid of current kit + items to avoid duplication
+					 
+					 /**
+					  * Handles kit give message
+					  */
 					 if (plugin.getConfig().contains("kits." + className + ".on-give-message") ) {
 						 
-						 if (!plugin.getConfig().getString("kits." + className + ".on-give-message").contains("&h")) {
+						 if (!plugin.getConfig().getString("kits." + className + ".on-give-message").contains("&h")) { //User may wish to hide BattleKits prefix
 							 plugin.PM.notify(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".on-give-message")));
 							 
 						 } else {
@@ -122,7 +164,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 
 					 int slot;
 					 
-					 this.plugin.getConfig().set("kitHistory." + p.getName(), className);
+					 this.plugin.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn
 					 
 					 for (slot = 0; slot<=35; slot++) {
 						 ItemStack i = new ItemStack(0);
@@ -144,7 +186,7 @@ public class CommandBattleKits implements CommandExecutor {
 								 }
 								 
 							 } else {
-								 i.setAmount(1);
+								 i.setAmount(1); //Default amount is 1
 							 }
 							 
 							 if (plugin.getConfig().contains("kits." + className + ".items" + ".names." + slot) ) {
@@ -183,11 +225,17 @@ public class CommandBattleKits implements CommandExecutor {
 					 String getLeggings = plugin.getConfig().getString("kits." + className + ".items" + ".leggings");
 					 String getBoots = plugin.getConfig().getString("kits." + className + ".items" + ".boots");
 					 
+					 //These hold the chosen colours for dying
 					 int helmColor = 0;
 					 int chestColor = 0;
 					 int legColor = 0;
 					 int bootColor = 0;
 					 
+					 /**
+					  * Main item stacks for various armour types.
+					  * They will not necessarily all be used, only those
+					  * that the user wishes to use and has defined in the config.
+					  */
 					 ItemStack lhelmet = new ItemStack(Material.LEATHER_HELMET);
 					 ItemStack lchestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
 					 ItemStack lleggings = new ItemStack(Material.LEATHER_LEGGINGS);
@@ -213,11 +261,13 @@ public class CommandBattleKits implements CommandExecutor {
 					 ItemStack cleggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
 					 ItemStack cboots = new ItemStack(Material.CHAINMAIL_BOOTS);
 					 
+					 //ItemStack for final armour items
 					 ItemStack finalHelmet = null;
 					 ItemStack finalChestplate = null;
 					 ItemStack finalLeggings = null;
 					 ItemStack finalBoots = null;
 					 
+					 //Dying leather armour
 					 if (plugin.getConfig().contains("kits." + className + ".items" + ".helmetColor")) {
 						  helmColor = Integer.parseInt(plugin.getConfig().getString("kits." + className + ".items.helmetColor").replace("#", ""), 16); 
 						  lhelmet = this.plugin.setColor(lhelmet, helmColor);	  
@@ -238,7 +288,7 @@ public class CommandBattleKits implements CommandExecutor {
 						  lboots= this.plugin.setColor(lboots, bootColor);
 					 }
 
-					 
+					 //Determine which type of armour they want to use
 					 if (getHelmet != null) {
 						 if (getHelmet.equals("leather")) {
 							 finalHelmet = lhelmet;

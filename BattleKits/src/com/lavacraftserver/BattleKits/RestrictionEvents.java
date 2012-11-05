@@ -15,11 +15,19 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 public class RestrictionEvents implements Listener
 {
 private BattleKits plugin;
-	
+
+	/**
+	* Constructor method used when creating instance of this class
+	* Used so we have access to the main plugin & config etc
+	* @param instance - Instance of BattleKits.java
+	*/
 	public RestrictionEvents(BattleKits plugin) 
 	{
 		this.plugin = plugin;
 	}
+	
+	//Most of these events are self explanatory
+	//TODO: change if statement to e.setCancelled(plugin.getConfig().getBoolean("settings.disable-dropping-items"))
 	
 	@EventHandler
 	public void itemDrop(PlayerDropItemEvent e)

@@ -10,11 +10,20 @@ import org.bukkit.inventory.ItemStack;
 public class CommandSoup implements CommandExecutor {
 
 	public BattleKits plugin;
-
+	
+	/**
+	* Constructor method used when creating instance of this class
+	* Used so we have access to the main plugin & config etc
+	* @param plugin - Instance of BattleKits.java
+	*/
 	public CommandSoup(BattleKits p) {
 		this.plugin = p;
 	}
 
+	/**
+	 * Method that is executed every time a soup command or alias is used
+	 * Takes some info on the command, such as arguments
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
@@ -32,7 +41,7 @@ public class CommandSoup implements CommandExecutor {
 				}
 				
 			} else {
-				plugin.PM.warn((Player) sender, "You don't have permission for this command.");
+				plugin.PM.warn(sender, "You don't have permission for this command.");
 				return true;
 			}
 		

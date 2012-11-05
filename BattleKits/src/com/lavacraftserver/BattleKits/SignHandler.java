@@ -13,11 +13,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignHandler implements Listener {
 	private BattleKits plugin;
 
+	/**
+	 * Constructor method used when creating instance of this class
+	 * Used so we have access to the main plugin & config etc
+	 * @param plugin - Instance of BattleKits.java
+	 */
 	public SignHandler(BattleKits plugin) {
 		this.plugin = plugin;
 
 	}
 	
+	/**
+	 * Event used to handle when a player clicks a sign
+	 * @param e PlayerInteractEvent
+	 */
 	@EventHandler
 	public void signClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
@@ -33,9 +42,8 @@ public class SignHandler implements Listener {
 						plugin.PM.warn(p, "That kit does not exist!");
 
 					} else {
-						//TODO: Give kit
-						if (plugin.getConfig().getBoolean("signs.ignore-permissions")) {}
-						if (plugin.getConfig().getBoolean("signs.ignore-costs")) {}
+						plugin.cbk.supplyKit(p, lines[1], plugin.getConfig().getBoolean("ignore-permissions"), plugin.getConfig().getBoolean("ignore-costs"), plugin.getConfig().getBoolean("ignore-world-restriction"), plugin.getConfig().getBoolean("ignore-lives-restriction"));
+						
 
 					}
 					
@@ -47,6 +55,11 @@ public class SignHandler implements Listener {
 		}
 	}
 
+	/**
+	 * Event when player clicks done after writing text on a sign
+	 * Used to check for Kit signs
+	 * @param e SignChangeEvent
+	 */
 	@EventHandler
 	public void signEdit(SignChangeEvent e) {
 		String[] lines = e.getLines();

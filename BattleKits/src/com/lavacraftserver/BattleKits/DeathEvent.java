@@ -9,11 +9,20 @@ public class DeathEvent implements Listener {
 
 	private BattleKits plugin;
 
+	/**
+	* Constructor method used when creating instance of this class
+	* Used so we have access to the main plugin & config etc
+	* @param instance - Instance of BattleKits.java
+	*/
 	public DeathEvent(BattleKits plugin) {
 		this.plugin = plugin;
 
 	}
 
+	/**
+	 * Death event that resets lives so that Player can get kits again
+	 * @param event - EntityDeathEvent
+	 */
 	@EventHandler
 	public void onPlayerDeath(EntityDeathEvent event) {
 		if (event.getEntity() instanceof Player) {

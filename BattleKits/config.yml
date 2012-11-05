@@ -19,6 +19,8 @@ settings:
 signs:
   ignore-permissions: false
   ignore-costs: false
+  ignore-world-restriction: false
+  ignore-lives-restriction: false
   enabled: true #Completely disable kit signs if set to false
 kits:
   archer:
