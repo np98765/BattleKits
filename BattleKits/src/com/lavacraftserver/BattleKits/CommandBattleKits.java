@@ -69,7 +69,7 @@ public class CommandBattleKits implements CommandExecutor {
 				 Player p = (Player)sender;
 				 String className = args[0];
 				 
-				 if (p.hasPermission("BattleKits.kit." + className)) {
+				 if (p.hasPermission("BattleKits.use." + className)) {
 					 if ((plugin.getConfig().getBoolean("settings.once-per-life") && !plugin.getConfig().contains("dead." + p.getName())) || (plugin.getConfig().getBoolean("settings.once-per-life") == false)) {
 						 if (args.length == 1) {
 							 Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
