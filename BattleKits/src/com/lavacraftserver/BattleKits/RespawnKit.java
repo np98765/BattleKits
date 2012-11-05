@@ -22,12 +22,10 @@ public class RespawnKit implements Listener {
 
 		if (kit != null && p.hasPermission("BattleKits.auto." + kit) && (!plugin.getConfig().getBoolean("settings.override-disable-respawn-kits"))) {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-
-						public void run() {
-							p.performCommand("pvp " + kit);
-						}
-					}, 20L);
-
+				public void run() {
+					p.performCommand("pvp " + kit);
+				}
+			}, 20L);
 		}
 	}
 }

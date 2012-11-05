@@ -115,7 +115,7 @@ kits:
       '34': '282'
       '35': '282'
   pyro:
-    active-in: all #Change if you want this only in certain worlds
+    active-in: all
     items:
       helmet: leather
       chestplate: leather

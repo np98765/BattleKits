@@ -24,12 +24,11 @@ public class SignHandler implements Listener {
 			if (plugin.getConfig().contains("kits." + lines[1])) {
 				e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
 				plugin.PM.notify(p, "Kit sign created successfully!");
+				
 			} else {
 				e.getBlock().breakNaturally();
 				plugin.PM.notify(p, "That kit does not exist!");
 			}
-
 		}
 	}
-
 }

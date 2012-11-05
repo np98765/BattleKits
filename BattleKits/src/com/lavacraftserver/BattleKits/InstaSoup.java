@@ -23,7 +23,7 @@ public class InstaSoup implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.getItemInHand().getType() == Material.MUSHROOM_SOUP) {
-				if (plugin.getConfig().getBoolean("settings.instant-soup-drink")) {
+				if (plugin.getConfig().getBoolean("settings.instant-soup-drink") == true) {
 					if (plugin.getConfig().getString("instant-soup-drink.replenish-type").equals("hunger")) {
 						
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
@@ -55,7 +55,6 @@ public class InstaSoup implements Listener {
 							p.setHealth(20);
 						}
 					}
-					
 				}
 			}
 		}
