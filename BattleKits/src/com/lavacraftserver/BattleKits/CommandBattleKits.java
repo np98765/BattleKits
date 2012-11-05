@@ -42,27 +42,27 @@ public class CommandBattleKits implements CommandExecutor {
 			
 			if (args[0].equals("reload")) {
 				if (!sender.hasPermission("BattleKits.config.reload")) {
-					sender.sendMessage("[BattleKits]" + ChatColor.RED +  "You don't have permission to use this command.");
+					plugin.PM.warn(sender, "You don't have permission to use this command.");
 					return true;
 				}
 				this.plugin.reloadConfig();
-				sender.sendMessage("[BattleKits]" + ChatColor.GREEN + "Config reloaded.");
+				plugin.PM.notify(sender, "Config reloaded");
 				return true;
 			}
 			
 			if (args[0].equals("restoreconfig")) {
 				if (!sender.hasPermission("BattleKits.config.restore")) {
-					sender.sendMessage(ChatColor.RED + "You don't have permission."); 
+					plugin.PM.warn(sender, "You don't have permission to use this command."); 
 					return true;
 				}
 				this.plugin.saveDefaultConfig();
 				this.plugin.saveConfig();
-				sender.sendMessage(ChatColor.GREEN + "Config restored to defaults!");
+				plugin.PM.notify(sender, "Config restored to defaults");
 				return true;
 			}
 			
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("[BattleKits] This command can only be executed by a player!");
+				plugin.PM.warn(sender, "Players are only supported by this command"); 
 				return true;
 				
 			 } else {
@@ -92,8 +92,16 @@ public class CommandBattleKits implements CommandExecutor {
 								 p.getInventory().clear();
 								 p.getInventory().setArmorContents(null);
 								 
-								 if (plugin.getConfig().contains("kits." + args[0] + ".on-give-message")) {
-									 p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + args[0] + ".on-give-message")));
+								 if (plugin.getConfig().contains("kits." + args[0] + ".on-give-message") ) {
+									 
+									 if (!plugin.getConfig().getString("kits." + args[0] + ".on-give-message").contains("&h")) {
+										 plugin.PM.notify(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + args[0] + ".on-give-message")));
+										 
+									 } else {
+										 p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + args[0] + ".on-give-message").replace("&h", "")));
+
+									 }
+										 
 								 }
 								 
 								 int slot;
