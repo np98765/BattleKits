@@ -6,26 +6,27 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class DeathEvent implements Listener {
-	
+
 	private BattleKits plugin;
-	
+
 	public DeathEvent(BattleKits plugin) {
 		this.plugin = plugin;
-		
+
 	}
-	
+
 	@EventHandler
-	public void onPlayerDeath (EntityDeathEvent event) {
-		
+	public void onPlayerDeath(EntityDeathEvent event) {
+
 		if (event.getEntity() instanceof Player) {
-			
+
+			Player p = (Player) event.getEntity();
+
 			if (plugin.getConfig().getBoolean("settings.once-per-life") == true) {
-				Player p = (Player) event.getEntity();
 				plugin.getConfig().set("dead." + p.getName(), null);
-				
-				if (plugin.getConfig().getBoolean("settings.show-kit-info-on-respawn")) {
-					plugin.PM.notify(p, "You may now use a kit");
-				}
+			}
+
+			if (plugin.getConfig().getBoolean("settings.show-kit-info-on-respawn") == true) {
+				plugin.PM.notify(p, "You may now use a kit");
 			}
 		}
 	}
