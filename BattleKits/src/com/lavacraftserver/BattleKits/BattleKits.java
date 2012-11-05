@@ -64,10 +64,10 @@ public class BattleKits extends JavaPlugin {
 		}
 		
 		if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-			Bukkit.getLogger().info("Found vault successfully!");
+			this.getLogger().info("Found vault successfully!");
 			setupEconomy();
 		} else {
-			Bukkit.getLogger().info("Couldn't find vault. Economy disabled for now.");
+			this.getLogger().info("Couldn't find vault. Economy disabled for now.");
 		}
 		
 		CommandBattleKits cbk = new CommandBattleKits(this);
