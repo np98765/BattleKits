@@ -30,25 +30,27 @@ public class SignHandler implements Listener {
 	@EventHandler
 	public void signClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
-			Sign s = (Sign) e.getClickedBlock().getState();
-			String[] lines = s.getLines();
-			if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
-				
-				if (p.hasPermission("BattleKits.sign.use")) {
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock() != null) {
+		
+			if (e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
+				Sign s = (Sign) e.getClickedBlock().getState();
+				String[] lines = s.getLines();
+				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
 					
-					if (!plugin.getConfig().contains("kits." + lines[1])) {
-						plugin.PM.warn(p, "That kit does not exist!");
-
+					if (p.hasPermission("BattleKits.sign.use")) {
+						
+						if (!plugin.getConfig().contains("kits." + lines[1])) {
+							plugin.PM.warn(p, "That kit does not exist!");
+	
+						} else {
+							plugin.cbk.supplyKit(p, lines[1], plugin.getConfig().getBoolean("ignore-permissions"), plugin.getConfig().getBoolean("ignore-costs"), plugin.getConfig().getBoolean("ignore-world-restriction"), plugin.getConfig().getBoolean("ignore-lives-restriction"));
+	
+						}
+						
 					} else {
-						plugin.cbk.supplyKit(p, lines[1], plugin.getConfig().getBoolean("ignore-permissions"), plugin.getConfig().getBoolean("ignore-costs"), plugin.getConfig().getBoolean("ignore-world-restriction"), plugin.getConfig().getBoolean("ignore-lives-restriction"));
-
+						plugin.PM.warn(p, "You don't have permission to use kit signs");
+	
 					}
-					
-				} else {
-					plugin.PM.warn(p, "You don't have permission to use kit signs");
-
 				}
 			}
 		}
