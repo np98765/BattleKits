@@ -59,8 +59,7 @@ public class RestrictionEvents implements Listener {
 		if (plugin.getConfig().getBoolean("settings.disable-player-xp-drop"))
 			e.setDroppedExp(0);
 
-		if (plugin.getConfig().getBoolean(
-				"settings.disable-player-drops-on-death"))
+		if (plugin.getConfig().getBoolean("settings.disable-player-drops-on-death"))
 			e.getDrops().clear();
 
 		if (plugin.getConfig().getBoolean("settings.hide-death-messages"))
@@ -71,8 +70,10 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void mobDeath(EntityDeathEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
-			if (plugin.getConfig().getBoolean("settings.disable-mob-xp-drop"))
+			if (plugin.getConfig().getBoolean("settings.disable-mob-xp-drop")) {
+				
 				e.setDroppedExp(0);
+			}
 		}
 	}
 
