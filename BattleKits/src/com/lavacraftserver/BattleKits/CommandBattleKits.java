@@ -112,9 +112,13 @@ public class CommandBattleKits implements CommandExecutor {
 	 */
 	public Boolean supplyKit(Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
 		
-		if (!p.hasPermission("BattleKits.use." + className) && !ignorePerms) { //Ensure they have permission to use the kit
-			 plugin.PM.warn(p, "You do not have permission to use this kit!");
+		if (p.hasPermission("BattleKits.use." + className) || ignorePerms) { //Ensure they have permission to use the kit
+			 
 		 }
+		else{
+			plugin.PM.warn(p, "You do not have permission to use this kit!");
+			return true;
+		}
 		
 		/**
 		 * This if statement checks if the once-per-life rule is active, and whether the user has already used a kit
