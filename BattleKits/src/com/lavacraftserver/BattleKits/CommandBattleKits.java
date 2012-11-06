@@ -46,10 +46,10 @@ public class CommandBattleKits implements CommandExecutor {
 					if (plugin.getConfig().contains("kits." + s + ".cost")) {
 						s = s + " (" + plugin.getConfig().getDouble("kits." + s + ".cost") + ") "; //Builds list of kits incl. cost of each
 					}
-					kit_ref = kit_ref + s + ","; //Add new kit info to String
+					kit_ref = kit_ref + s + ", "; //Add new kit info to String
 				}
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
-				sender.sendMessage(ChatColor.BLUE + "Available kits (cost): " ); //Header for info
+				plugin.PM.notify((Player)sender,"Available kits (cost): " ); //Header for info
 				sender.sendMessage(kit_ref); //Send the kit list
 				return true;
 			}
@@ -431,7 +431,7 @@ public class CommandBattleKits implements CommandExecutor {
 		 } else {
 			 plugin.PM.warn(p, "You may only use one kit per life!");
 		 }
-		return false;
+		return true;
 		
 	}
 
