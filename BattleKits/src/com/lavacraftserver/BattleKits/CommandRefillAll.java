@@ -1,39 +1,45 @@
 package com.lavacraftserver.BattleKits;
 
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
-public class CommandSoup implements CommandExecutor {
+public class CommandRefillAll implements CommandExecutor {
 
 	public BattleKits plugin;
 	
 	/**
-	* Constructor method used when creating instance of this class
-	* Used so we have access to the main plugin & config etc
-	* @param plugin - Instance of BattleKits.java
-	*/
-	public CommandSoup(BattleKits p) {
+	 * Thanks lol, I should start making my own code, I hope you liked this though -Maple
+	 */
+	public CommandRefillAll(BattleKits p) {
 		this.plugin = p;
 	}
 
 	/**
-	 * Method that is executed every time a soup command or aliases /refill or /stew is used
-	 * Takes some info on the command, such as arguments
+	 * Executed when /fillall or /fullsoup is used
+	 * Permissions is BattleKits.use.fillall
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (cmd.getName().equals("soup") || cmd.getName().equals("refill") || cmd.getName().equals("stew")) {
+		if (cmd.getName().equals("fillall") || cmd.getName().equals("fullsoup")) {
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
+		    PlayerInventory inv = p.getInventory();
 
-			if (sender.hasPermission("BattleKits.use.soup")) {
-				if (i.getType() != Material.BOWL) {
-					plugin.PM.warn(p, "You must have an empty bowl in your hand");
-					return true;
+			if (sender.hasPermission("BattleKits.use.fillall")) {
+				//Get array of itemstack
+				for (ItemStack slot : inv) {
+				    if (slot.getType() != Material.BOWL) {
+				    	plugin.PM.warn(p, "You have no empty bowls!");
+						return true;
+				   
+				    }
+				}
 					
 				} else {
 					i.setType(Material.MUSHROOM_SOUP);
@@ -45,7 +51,6 @@ public class CommandSoup implements CommandExecutor {
 				return true;
 			}
 		
-		}
 		return false;
 	}
 	
