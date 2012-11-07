@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/Jacob/Plugin API/bukkit-1.4.2-R0.3-20121103.060132-2.jar"/>
 	<classpathentry kind="lib" path="/Users/Jacob/Plugin API/Vault.jar"/>
-	<classpathentry kind="lib" path="/Users/Jacob/Plugin API/craftbukkit-1.4.2-R0.3-20121103.060223-2.jar"/>
 	<classpathentry kind="lib" path="/Users/Jacob/Plugin API/craftbukkit-1.4.2-R0.3-20121103.060132-2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
