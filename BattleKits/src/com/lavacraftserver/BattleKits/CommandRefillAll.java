@@ -34,7 +34,7 @@ public class CommandRefillAll implements CommandExecutor {
 			if (sender.hasPermission("BattleKits.use.fillall")) {
 				//Get array of itemstack
 				for (ItemStack slot : inv) {
-				    if (slot.getType() == Material.BOWL) {
+				    if (slot != null && slot.getType() == Material.BOWL) {
 				    	gotBowl = true;
 				    	slot.setType(Material.MUSHROOM_SOUP);
 				    }
