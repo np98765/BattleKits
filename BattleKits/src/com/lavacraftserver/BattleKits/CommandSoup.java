@@ -21,7 +21,7 @@ public class CommandSoup implements CommandExecutor {
 	}
 
 	/**
-	 * Method that is executed every time a soup command or alias is used
+	 * Method that is executed every time a soup command or aliases /refill or /stew is used
 	 * Takes some info on the command, such as arguments
 	 */
 	@Override
