@@ -1,6 +1,6 @@
 name: BattleKits
 main: com.lavacraftserver.BattleKits.BattleKits
-version: 1.4
+version: 1.4.1
 softdepend: [Vault]
 commands:
   battlekits:
@@ -11,3 +11,7 @@ commands:
     usage: /soup
     description: Refills soup bowl in your hand
     aliases: [refill,stew]
+  fillall:
+    usage: /fillall
+    description: Refills all soup in inventory
+    aliases: [fullsoup]

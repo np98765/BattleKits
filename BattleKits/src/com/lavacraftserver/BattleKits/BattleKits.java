@@ -56,7 +56,7 @@ public class BattleKits extends JavaPlugin {
 		getConfig().options().copyHeader(true);
 
 		getCommand("soup").setExecutor(new CommandSoup(this));
-
+		getCommand("fillall").setExecutor(new CommandRefillAll(this));
 		if (getConfig().getBoolean("settings.auto-update") == true) {
 			@SuppressWarnings("unused")
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); // New slug
