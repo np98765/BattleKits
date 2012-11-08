@@ -39,10 +39,12 @@ public class CommandRefillAll implements CommandExecutor {
 				    	slot.setType(Material.MUSHROOM_SOUP);
 				    }
 				}
+				
 				if (!gotBowl) {
 					plugin.PM.warn(p, "You have no empty bowls!");
-					return true;
+					return true; 
 				}
+				return true;
 				
 			} else {
 				plugin.PM.warn(sender, "You don't have permission for this command.");
