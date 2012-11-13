@@ -54,7 +54,7 @@ public class BattleKits extends JavaPlugin {
 
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
-
+		//Check TagAPI prescense
 		getCommand("soup").setExecutor(new CommandSoup(this));
 		getCommand("fillall").setExecutor(new CommandRefillAll(this));
 		if (getConfig().getBoolean("settings.auto-update") == true) {
