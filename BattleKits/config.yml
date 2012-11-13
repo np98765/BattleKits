@@ -27,6 +27,7 @@ kits:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds
     on-give-message: '&cGo and shoot some targets!'
     cost: 5
+    tagColor: '&c' #Allow overhead name colour changes
     commands: #Executed on kit give
       - 'tell <player> Enjoy your kit :)'
     items:
