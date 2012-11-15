@@ -54,14 +54,7 @@ public class BattleKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getServer().getPluginManager().registerEvents(new InstaSoup(this), this);
-		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
-			this.getLogger().info("TagAPI found");
-			getServer().getPluginManager().registerEvents(new TagHandler(this), this);
-
-			useTags = true;
-		} else {
-			this.getLogger().info("Disabling tag functionality as TagAPI is not installed.");
-		}
+		
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 
@@ -80,6 +73,14 @@ public class BattleKits extends JavaPlugin {
 			this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
 		}
 
+		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
+			this.getLogger().info("TagAPI found");
+			getServer().getPluginManager().registerEvents(new TagHandler(this), this);
+
+			useTags = true;
+		} else {
+			this.getLogger().info("Disabling tag functionality as TagAPI is not installed.");
+		}
 		
 		getCommand("battlekits").setExecutor(cbk);
 		// this.buy(5, "lol768");

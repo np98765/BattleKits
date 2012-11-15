@@ -93,7 +93,7 @@ public class CommandBattleKits implements CommandExecutor {
 			 } else {
 				 Player p = (Player)sender;
 				 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions
-				 
+				 return true;
 			
 			 }
 		
