@@ -15,7 +15,8 @@ settings:
   show-kit-info-on-respawn: true
   override-disable-respawn-kits: false
   instant-soup-drink: false
-  soup-replenish-type: hunger
+instant-soup-drink:
+  replenish-type: hunger #Could be health
 signs:
   ignore-permissions: false
   ignore-costs: false

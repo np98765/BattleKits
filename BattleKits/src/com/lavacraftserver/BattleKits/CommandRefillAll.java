@@ -7,7 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 public class CommandRefillAll implements CommandExecutor {
 
@@ -28,7 +27,6 @@ public class CommandRefillAll implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (cmd.getName().equals("fillall") || cmd.getName().equals("fullsoup")) {
 			Player p = (Player) sender;
-			ItemStack i = p.getItemInHand();
 		    ItemStack[] inv = p.getInventory().getContents();
 		    boolean gotBowl = false;
 			if (sender.hasPermission("BattleKits.use.fillall")) {

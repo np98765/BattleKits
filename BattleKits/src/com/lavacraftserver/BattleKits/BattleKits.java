@@ -1,5 +1,6 @@
 package com.lavacraftserver.BattleKits;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import net.minecraft.server.NBTTagCompound;
 import org.bukkit.Bukkit;
@@ -14,7 +15,9 @@ public class BattleKits extends JavaPlugin {
 	public static net.milkbowl.vault.economy.Economy economy = null;
 	
 	public HashSet<String> death = new HashSet<String>();
+	public HashMap<String, String> tags = new HashMap<String, String>(); //Name, prefix (colour codes)
 	CommandBattleKits cbk = new CommandBattleKits(this);
+	public boolean useTags = false;
 	public PM PM = new PM(this);
 	
 	public boolean setupEconomy() {
@@ -51,7 +54,12 @@ public class BattleKits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getServer().getPluginManager().registerEvents(new InstaSoup(this), this);
-
+		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
+			this.getLogger().info("TagAPI found");
+			useTags = true;
+		} else {
+			this.getLogger().info("Disabling tag functionality as TagAPI is not installed.");
+		}
 		getConfig().options().copyDefaults(true);
 		getConfig().options().copyHeader(true);
 
@@ -81,6 +89,7 @@ public class BattleKits extends JavaPlugin {
 		this.saveConfig();
 		this.getLogger().info("BattleKits has been disabled.");
 	}
+	
 
 	public ItemStack setColor(ItemStack item, int color) {
 		CraftItemStack craftStack = null;

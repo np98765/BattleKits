@@ -14,6 +14,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.kitteh.tag.TagAPI;
 
 public class CommandBattleKits implements CommandExecutor {
 	
@@ -166,6 +167,15 @@ public class CommandBattleKits implements CommandExecutor {
 							 
 					 }
 					 
+					 /**
+					  * Handles TagAPI stuff
+					  */
+					 if (plugin.getConfig().contains("kits." + className + ".tagPrefix") && plugin.useTags) {
+						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".tagPrefix"));
+						 plugin.tags.put(p.getName(), tagPrefix);
+						 TagAPI.refreshPlayer(p);
+					 }
+
 					 int slot;
 					 
 					 this.plugin.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn

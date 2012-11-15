@@ -23,7 +23,7 @@ public class InstaSoup implements Listener {
 
 	/**
 	 * Event that checks if user is right clicking with soup
-	 * Then automatically refills the bowl
+	 * Then automatically refills the bowl and adds health/hunger
 	 * @param event - PlayerInteractEvent
 	 */
 	@EventHandler
@@ -32,8 +32,8 @@ public class InstaSoup implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.getItemInHand().getType() == Material.MUSHROOM_SOUP) {
-				if (plugin.getConfig().getBoolean("settings.instant-soup-drink") == true) {
-					if (plugin.getConfig().getString("soup-replenish-type").equals("hunger")) {
+				if (plugin.getConfig().getBoolean("settings.instant-soup-drink")) {
+					if (plugin.getConfig().getString("instant-soup-drink.replenish-type").equals("hunger")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getFoodLevel() + 6 <= 20) { //Only add some hunger back on
