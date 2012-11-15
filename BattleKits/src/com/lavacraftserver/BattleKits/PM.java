@@ -24,7 +24,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void warn(Player player, String message) {
-		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "] " + ChatColor.RED + " " + message);
+		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.RED + " " + message);
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void warn(CommandSender sender, String message) {
-		sender.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "] " + ChatColor.RED +" " +  message);
+		sender.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.RED +" " +  message);
 	}
 	
 	/**

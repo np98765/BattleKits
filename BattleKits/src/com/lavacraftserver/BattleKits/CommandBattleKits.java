@@ -111,7 +111,7 @@ public class CommandBattleKits implements CommandExecutor {
 	 * @param ignoreWorldRestriction - Whether or not to ignore the world restrictions
 	 * @return
 	 */
-	public Boolean supplyKit(Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
+	public Boolean supplyKit(final Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
 		
 		if (p.hasPermission("BattleKits.use." + className) || ignorePerms) { //Ensure they have permission to use the kit
 			 
@@ -173,7 +173,12 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (plugin.getConfig().contains("kits." + className + ".tagPrefix") && plugin.useTags) {
 						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".tagPrefix"));
 						 plugin.tags.put(p.getName(), tagPrefix);
-						 TagAPI.refreshPlayer(p);
+						 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+								public void run() {
+									TagAPI.refreshPlayer(p);
+								}
+							}, 20L);
+						 
 					 }
 
 					 int slot;
