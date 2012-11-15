@@ -6,7 +6,7 @@ For more info, see the BukkitDev page:
 http://dev.bukkit.org/server-mods/battlekits/
 
 <b>Contributors:</b>
-lol768, np98765
+lol768, np98765, MapleFighter
 
 Pull request guidelines
 ======
