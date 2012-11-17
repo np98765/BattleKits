@@ -173,11 +173,9 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (plugin.getConfig().contains("kits." + className + ".tagPrefix") && plugin.useTags) {
 						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".tagPrefix"));
 						 plugin.tags.put(p.getName(), tagPrefix);
-						 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-								public void run() {
+						
 									TagAPI.refreshPlayer(p);
-								}
-							}, 20L);
+							
 						 
 					 }
 

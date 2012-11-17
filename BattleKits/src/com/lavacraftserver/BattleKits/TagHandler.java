@@ -1,5 +1,4 @@
 package com.lavacraftserver.BattleKits;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.kitteh.tag.PlayerReceiveNameTagEvent;
