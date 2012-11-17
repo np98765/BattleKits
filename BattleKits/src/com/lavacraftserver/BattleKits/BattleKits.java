@@ -40,7 +40,7 @@ public class BattleKits extends JavaPlugin {
 		if (economyProvider != null) {
 			economy = economyProvider.getProvider();
 		}
-		return (economy != null);
+		return (economy != null); //t/f
 	}
 
 	public boolean buy(double amount, String name) {
