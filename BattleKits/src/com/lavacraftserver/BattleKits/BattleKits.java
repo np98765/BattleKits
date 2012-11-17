@@ -1,9 +1,14 @@
 package com.lavacraftserver.BattleKits;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import net.minecraft.server.NBTTagCompound;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +24,17 @@ public class BattleKits extends JavaPlugin {
 	CommandBattleKits cbk = new CommandBattleKits(this);
 	public boolean useTags = false;
 	public PM PM = new PM(this);
-	
+	//Configuration stuff
+	public FileConfiguration global = null;
+    private File globalFile = null;
+    
+    public FileConfiguration kits = null;
+    private File kitsFile = null;
+    
+    public FileConfiguration kitHistory = null;
+    private File kitHistoryFile= null;
+    
+    
 	public boolean setupEconomy() {
 		RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		if (economyProvider != null) {
@@ -41,26 +56,122 @@ public class BattleKits extends JavaPlugin {
 		}
 		return false;
 	}
-
 	
+	private boolean createDataDirectory() {
+	    File file = this.getDataFolder();
+	    if (!file.isDirectory()){
+	        if (!file.mkdirs()) {
+	            // failed to create the non existent directory, so failed
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	public void loadHistory() {
+        if (kitHistoryFile == null) {
+        	kitHistoryFile = new File(getDataFolder(), "kitHistory.yml");
+        }
+        kitHistory = YamlConfiguration.loadConfiguration(kitHistoryFile);
+        
+        // Look for defaults in the jar
+        InputStream defConfigStream = this.getResource("kitHistory.yml");
+        if (defConfigStream != null && !kitHistoryFile.exists()) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            kitHistory.setDefaults(defConfig);
+            try {
+				kitHistory.save(kitHistoryFile);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				this.getLogger().severe("Couldn't save kit history defaults...");
+			}
+            
+            
+        } else {
+		this.getLogger().info("Loaded kitHistory config");
+        }
+
+    }
+	
+	public void reloadKits() {
+        if (kitsFile == null) {
+        	kitsFile = new File(getDataFolder(), "kits.yml");
+        }
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
+        
+        // Look for defaults in the jar
+        InputStream defConfigStream = this.getResource("kits.yml");
+        if (defConfigStream != null && !kitsFile.exists()) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            kits.setDefaults(defConfig);
+            try {
+				kits.save(kitsFile);
+				this.getLogger().info("Saved kits config defaults");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				this.getLogger().severe("Couldn't save configuration defaults...");
+			}
+            
+            
+        } else {
+		this.getLogger().info("Loaded kits config");
+        }
+
+    }
+
+    public void reloadGlobals() {
+        if (globalFile == null) {
+        	globalFile = new File(getDataFolder(), "global.yml");
+        }
+        global = YamlConfiguration.loadConfiguration(globalFile);
+        
+        // Look for defaults in the jar
+        InputStream defConfigStream = this.getResource("global.yml");
+        if (defConfigStream != null && !globalFile.exists()) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            global.setDefaults(defConfig);
+            try {
+				global.save(globalFile);
+				this.getLogger().info("Saved global config defaults");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				this.getLogger().severe("Couldn't save configuration defaults...");
+			}
+            
+            
+        } else {
+		this.getLogger().info("Loaded global config");
+        }
+
+    }
+    
 	@Override
 	public void onEnable() {
-		this.getLogger().info("BattleKits has been enabled!");
+		
+		if (!createDataDirectory()) {
+			this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
+			this.setEnabled(false);
+		}
+		
+		reloadGlobals(); //Load global config
+		reloadKits(); //load kit data
+		
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
 		
-		if (getConfig().getBoolean("signs.enabled"))
+		if (global.getBoolean("signs.enabled"))
 			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
 		
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
 		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getServer().getPluginManager().registerEvents(new InstaSoup(this), this);
-		
-		getConfig().options().copyDefaults(true);
-		getConfig().options().copyHeader(true);
+	
 
 		getCommand("soup").setExecutor(new CommandSoup(this));
 		getCommand("fillall").setExecutor(new CommandRefillAll(this));
-		if (getConfig().getBoolean("settings.auto-update") == true) {
+		if (global.getBoolean("settings.auto-update") == true) {
 			@SuppressWarnings("unused")
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); // New slug
 		}
@@ -72,9 +183,14 @@ public class BattleKits extends JavaPlugin {
 		} else {
 			this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
 		}
-
+		
+		
+		
+		
+		
+		
 		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
-			this.getLogger().info("TagAPI found");
+			this.getLogger().info("TagAPI found.");
 			getServer().getPluginManager().registerEvents(new TagHandler(this), this);
 
 			useTags = true;
@@ -84,12 +200,12 @@ public class BattleKits extends JavaPlugin {
 		
 		getCommand("battlekits").setExecutor(cbk);
 		// this.buy(5, "lol768");
+		this.getLogger().info("BattleKits has been enabled!");
 	}
 
 	@Override
 	public void onDisable() {
-		this.getLogger().info("Saved config! Use /pvp reload if you wish to modify it");
-		this.saveConfig();
+
 		this.getLogger().info("BattleKits has been disabled.");
 	}
 	

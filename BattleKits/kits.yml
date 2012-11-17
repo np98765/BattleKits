@@ -1,28 +1,3 @@
-settings:
-  once-per-life: true
-  auto-update: false
-  hide-death-messages: false
-  disable-dropping-items: false
-  disable-player-drops-on-death: false
-  disable-crafting: false
-  disable-player-xp-drop: false
-  disable-mob-xp-drop: false
-  disable-block-xp: false
-  disable-inventory-interaction: false
-  disable-pickup-items: false
-  disable-block-break: false
-  disable-block-place: false
-  show-kit-info-on-respawn: true
-  override-disable-respawn-kits: false
-  instant-soup-drink: false
-instant-soup-drink:
-  replenish-type: hunger #Could be health
-signs:
-  ignore-permissions: false
-  ignore-costs: false
-  ignore-world-restriction: false
-  ignore-lives-restriction: false
-  enabled: true #Completely disable kit signs if set to false
 kits:
   archer:
     active-in: "'world','word_nether','word_end'" #Change to "all" for all worlds

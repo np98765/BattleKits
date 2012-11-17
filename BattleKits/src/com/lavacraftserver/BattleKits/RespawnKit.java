@@ -26,12 +26,12 @@ public class RespawnKit implements Listener {
 	public void onRespawn(PlayerRespawnEvent event) {
 		// Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false);
 		final Player p = event.getPlayer();
-		final String kit = plugin.getConfig().getString("kitHistory." + p.getName());
+		final String kit = plugin.kitHistory.getString("kitHistory." + p.getName());
 
-		if (kit != null && p.hasPermission("BattleKits.auto." + kit) && (!plugin.getConfig().getBoolean("settings.override-disable-respawn-kits"))) {
+		if (kit != null && p.hasPermission("BattleKits.auto." + kit) && (!plugin.global.getBoolean("settings.override-disable-respawn-kits"))) {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				public void run() {
-					p.performCommand("pvp " + kit);
+					plugin.cbk.supplyKit(p, kit, false, false, false, false);
 				}
 			}, 20L);
 		}

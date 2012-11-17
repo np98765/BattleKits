@@ -32,8 +32,8 @@ public class InstaSoup implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.getItemInHand().getType() == Material.MUSHROOM_SOUP) {
-				if (plugin.getConfig().getBoolean("settings.instant-soup-drink")) {
-					if (plugin.getConfig().getString("instant-soup-drink.replenish-type").equals("hunger")) {
+				if (plugin.global.getBoolean("settings.instant-soup-drink")) {
+					if (plugin.global.getString("instant-soup-drink.replenish-type").equals("hunger")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getFoodLevel() + 6 <= 20) { //Only add some hunger back on
@@ -49,7 +49,7 @@ public class InstaSoup implements Listener {
 						}
 					}
 					
-					if (plugin.getConfig().getString("instant-soup-drink.replenish-type").equals("health")) {
+					if (plugin.global.getString("instant-soup-drink.replenish-type").equals("health")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getHealth() + 6 <= 20) { //Only add some health back on

@@ -39,11 +39,11 @@ public class SignHandler implements Listener {
 					
 					if (p.hasPermission("BattleKits.sign.use")) {
 						
-						if (!plugin.getConfig().contains("kits." + lines[1])) {
+						if (!plugin.global.contains("kits." + lines[1])) {
 							plugin.PM.warn(p, "That kit does not exist!");
 	
 						} else {
-							plugin.cbk.supplyKit(p, lines[1], plugin.getConfig().getBoolean("ignore-permissions"), plugin.getConfig().getBoolean("ignore-costs"), plugin.getConfig().getBoolean("ignore-world-restriction"), plugin.getConfig().getBoolean("ignore-lives-restriction"));
+							plugin.cbk.supplyKit(p, lines[1], plugin.global.getBoolean("ignore-permissions"), plugin.global.getBoolean("ignore-costs"), plugin.global.getBoolean("ignore-world-restriction"), plugin.global.getBoolean("ignore-lives-restriction"));
 	
 						}
 						
@@ -70,7 +70,7 @@ public class SignHandler implements Listener {
 			
 			if (p.hasPermission("BattleKits.sign.create")) {
 				
-				if (plugin.getConfig().contains("kits." + lines[1])) {
+				if (plugin.global.contains("kits." + lines[1])) {
 					e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
 					plugin.PM.notify(p, "Kit sign created successfully!");
 				

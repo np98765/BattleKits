@@ -63,31 +63,18 @@ public class CommandBattleKits implements CommandExecutor {
 					plugin.PM.warn(sender, "You don't have permission to use this command.");
 					return true;
 				}
-				plugin.reloadConfig();
-				plugin.PM.notify(sender, "Config reloaded");
+				plugin.reloadKits();
+				plugin.PM.notify(sender, "Kit config reloaded");
 				return true;
 			}
 			
-			/**
-			 * Restores the config back to the original defaults and saves it
-			 */
-			if (args[0].equals("restoreconfig")) {
-				if (!sender.hasPermission("BattleKits.config.restore")) {
-					plugin.PM.warn(sender, "You don't have permission to use this command."); 
-					return true;
-				}
-				this.plugin.saveDefaultConfig();
-				this.plugin.saveConfig();
-				plugin.PM.notify(sender, "Config restored to defaults");
-				return true;
-			}
 			
 			/**
 			 * This handles checking the sender to ensure they are
 			 * a player and giving them the requested kit.
 			 */
 			if (!(sender instanceof Player)) {
-				plugin.PM.warn(sender, "Players are only supported by this command"); 
+				plugin.PM.warn(sender, "Players are only supported by this command at present"); 
 				return true;
 				
 			 } else {
@@ -124,15 +111,15 @@ public class CommandBattleKits implements CommandExecutor {
 		/**
 		 * This if statement checks if the once-per-life rule is active, and whether the user has already used a kit
 		 */
-		if (ignoreLives || (plugin.getConfig().getBoolean("settings.once-per-life") && !plugin.getConfig().contains("dead." + p.getName())) || (plugin.getConfig().getBoolean("settings.once-per-life") == false)) {
-				 Set<String> keys = plugin.getConfig().getConfigurationSection("kits").getKeys(false); //Current kits in config
+		if (ignoreLives || (plugin.global.getBoolean("settings.once-per-life") && !plugin.kitHistory.contains("dead." + p.getName())) || (plugin.global.getBoolean("settings.once-per-life") == false)) {
+				 Set<String> keys = plugin.kits.getConfigurationSection("kits").getKeys(false); //Current kits in config
 				 
 				 /**
 				  * Ensures that there are no restrictions for the user's current world
 				  */
 				 if (keys.contains(className)) {
-					 if (plugin.getConfig().contains("kits." + className + ".active-in")) {
-						 if (ignoreWorldRestriction || !(plugin.getConfig().getString("kits." + className + ".active-in").contains("'" + p.getWorld().getName() + "'") || plugin.getConfig().getString("kits." + className + ".active-in").equals("all"))) {
+					 if (plugin.kits.contains("kits." + className + ".active-in")) {
+						 if (ignoreWorldRestriction || !(plugin.kits.getString("kits." + className + ".active-in").contains("'" + p.getWorld().getName() + "'") || plugin.kits.getString("kits." + className + ".active-in").equals("all"))) {
 							 plugin.PM.warn(p, "This kit is disabled in your current world (" + p.getWorld().getName() + ")");
 							 return true;
 						 }
@@ -141,8 +128,8 @@ public class CommandBattleKits implements CommandExecutor {
 					 /**
 					  * Uses vault to charge user as specified in config
 					  */
-					 if (BattleKits.economy != null && plugin.getConfig().contains("kits." + className + ".cost") && plugin.getConfig().getDouble("kits." + className + ".cost") != 0 && !ignoreCost) {
-						 double cost = plugin.getConfig().getDouble("kits." + className + ".cost");
+					 if (BattleKits.economy != null && plugin.kits.contains("kits." + className + ".cost") && plugin.kits.getDouble("kits." + className + ".cost") != 0 && !ignoreCost) {
+						 double cost = plugin.kits.getDouble("kits." + className + ".cost");
 						 
 						 if (!plugin.buy(cost, p.getName())) {
 							return true;
@@ -155,13 +142,13 @@ public class CommandBattleKits implements CommandExecutor {
 					 /**
 					  * Handles kit give message
 					  */
-					 if (plugin.getConfig().contains("kits." + className + ".on-give-message") ) {
+					 if (plugin.kits.contains("kits." + className + ".on-give-message") ) {
 						 
-						 if (!plugin.getConfig().getString("kits." + className + ".on-give-message").contains("&h")) { //User may wish to hide BattleKits prefix
-							 plugin.PM.notify(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".on-give-message")));
+						 if (!plugin.kits.getString("kits." + className + ".on-give-message").contains("&h")) { //User may wish to hide BattleKits prefix
+							 plugin.PM.notify(p, ChatColor.translateAlternateColorCodes('&', plugin.kits.getString("kits." + className + ".on-give-message")));
 							 
 						 } else {
-							 p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".on-give-message").replace("&h", "")));
+							 p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.kits.getString("kits." + className + ".on-give-message").replace("&h", "")));
 
 						 }
 							 
@@ -170,8 +157,8 @@ public class CommandBattleKits implements CommandExecutor {
 					 /**
 					  * Handles TagAPI stuff
 					  */
-					 if (plugin.getConfig().contains("kits." + className + ".tagPrefix") && plugin.useTags) {
-						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".tagPrefix"));
+					 if (plugin.kits.contains("kits." + className + ".tagPrefix") && plugin.useTags) {
+						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.kits.getString("kits." + className + ".tagPrefix"));
 						 plugin.tags.put(p.getName(), tagPrefix);
 						
 									TagAPI.refreshPlayer(p);
@@ -181,13 +168,13 @@ public class CommandBattleKits implements CommandExecutor {
 
 					 int slot;
 					 
-					 this.plugin.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn
+					 this.plugin.kitHistory.set("kitHistory." + p.getName(), className); //Stores last kit for respawn
 					 
 					 for (slot = 0; slot<=35; slot++) {
 						 ItemStack i = new ItemStack(0);
-						 String getSlot = plugin.getConfig().getString("kits." + className + ".items." + slot);
+						 String getSlot = plugin.kits.getString("kits." + className + ".items." + slot);
 						 
-						 if (!(plugin.getConfig().getString("kits." + className + ".items." + slot).equals(null)) || !(plugin.getConfig().getString("kits." + className + ".items." + slot).equals("0"))) {
+						 if (!(plugin.kits.getString("kits." + className + ".items." + slot).equals(null)) || !(plugin.kits.getString("kits." + className + ".items." + slot).equals("0"))) {
 							 String[] s = getSlot.split(" ");
 							 String[] item = s[0].split(":");
 
@@ -206,9 +193,9 @@ public class CommandBattleKits implements CommandExecutor {
 								 i.setAmount(1); //Default amount is 1
 							 }
 							 
-							 if (plugin.getConfig().contains("kits." + className + ".items" + ".names." + slot) ) {
+							 if (plugin.kits.contains("kits." + className + ".items" + ".names." + slot) ) {
 								 //get item name
-								 String name = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kits." + className + ".items" + ".names." + slot));
+								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getString("kits." + className + ".items" + ".names." + slot));
 								 CraftItemStack c = new CraftItemStack(i);
 								 NBTTagCompound tag = new NBTTagCompound();
 						            NBTTagCompound display = new NBTTagCompound();
@@ -237,10 +224,10 @@ public class CommandBattleKits implements CommandExecutor {
 					 }
 					 
 					//Sets the armor contents
-					 String getHelmet = plugin.getConfig().getString("kits." + className + ".items" + ".helmet");
-					 String getChestplate = plugin.getConfig().getString("kits." + className + ".items" + ".chestplate");
-					 String getLeggings = plugin.getConfig().getString("kits." + className + ".items" + ".leggings");
-					 String getBoots = plugin.getConfig().getString("kits." + className + ".items" + ".boots");
+					 String getHelmet = plugin.kits.getString("kits." + className + ".items" + ".helmet");
+					 String getChestplate = plugin.kits.getString("kits." + className + ".items" + ".chestplate");
+					 String getLeggings = plugin.kits.getString("kits." + className + ".items" + ".leggings");
+					 String getBoots = plugin.kits.getString("kits." + className + ".items" + ".boots");
 					 
 					 //These hold the chosen colours for dying
 					 int helmColor = 0;
@@ -285,23 +272,23 @@ public class CommandBattleKits implements CommandExecutor {
 					 ItemStack finalBoots = null;
 					 
 					 //Dying leather armour
-					 if (plugin.getConfig().contains("kits." + className + ".items" + ".helmetColor")) {
-						  helmColor = Integer.parseInt(plugin.getConfig().getString("kits." + className + ".items.helmetColor").replace("#", ""), 16); 
+					 if (plugin.kits.contains("kits." + className + ".items" + ".helmetColor")) {
+						  helmColor = Integer.parseInt(plugin.kits.getString("kits." + className + ".items.helmetColor").replace("#", ""), 16); 
 						  lhelmet = this.plugin.setColor(lhelmet, helmColor);	  
 					 }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items" + ".chestplateColor")) {
-						  chestColor = Integer.parseInt(plugin.getConfig().getString("kits." + className + ".items.chestplateColor").replace("#", ""), 16);  
+					 if (plugin.kits.contains("kits." + className + ".items" + ".chestplateColor")) {
+						  chestColor = Integer.parseInt(plugin.kits.getString("kits." + className + ".items.chestplateColor").replace("#", ""), 16);  
 						  lchestplate = this.plugin.setColor(lchestplate, chestColor);
 					 }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items" + ".leggingColor")) {
-						  legColor = Integer.parseInt(plugin.getConfig().getString("kits." + className + ".items.leggingColor").replace("#", ""), 16); 
+					 if (plugin.kits.contains("kits." + className + ".items" + ".leggingColor")) {
+						  legColor = Integer.parseInt(plugin.kits.getString("kits." + className + ".items.leggingColor").replace("#", ""), 16); 
 						  lleggings = this.plugin.setColor(lleggings, legColor);
 					 }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items" + ".bootColor")) {
-						  bootColor = Integer.parseInt(plugin.getConfig().getString("kits." + className + ".items.bootColor").replace("#", ""), 16);   
+					 if (plugin.kits.contains("kits." + className + ".items" + ".bootColor")) {
+						  bootColor = Integer.parseInt(plugin.kits.getString("kits." + className + ".items.bootColor").replace("#", ""), 16);   
 						  lboots= this.plugin.setColor(lboots, bootColor);
 					 }
 
@@ -381,8 +368,8 @@ public class CommandBattleKits implements CommandExecutor {
 						 
 					 }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
-						  for (String a : plugin.getConfig().getString("kits." + className + ".items.helmetEnchant").split(" ")) {
+					 if (plugin.kits.contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
+						  for (String a : plugin.kits.getString("kits." + className + ".items.helmetEnchant").split(" ")) {
 									String[] enchant = a.split(":");
 									Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 									int levelInt = Integer.parseInt(enchant[1]);
@@ -392,8 +379,8 @@ public class CommandBattleKits implements CommandExecutor {
 					 
 					
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items.chestplateEnchant") && finalChestplate != null) {
-						  for (String a : plugin.getConfig().getString("kits." + className + ".items.chestplateEnchant").split(" ")) {
+					 if (plugin.kits.contains("kits." + className + ".items.chestplateEnchant") && finalChestplate != null) {
+						  for (String a : plugin.kits.getString("kits." + className + ".items.chestplateEnchant").split(" ")) {
 									String[] enchant = a.split(":");
 									Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 									int levelInt = Integer.parseInt(enchant[1]);
@@ -401,8 +388,8 @@ public class CommandBattleKits implements CommandExecutor {
 							}
 					  }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items.leggingsEnchant") && finalLeggings != null) {
-						  for (String a : plugin.getConfig().getString("kits." + className + ".items.leggingsEnchant").split(" ")) {
+					 if (plugin.kits.contains("kits." + className + ".items.leggingsEnchant") && finalLeggings != null) {
+						  for (String a : plugin.kits.getString("kits." + className + ".items.leggingsEnchant").split(" ")) {
 									String[] enchant = a.split(":");
 									Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 									int levelInt = Integer.parseInt(enchant[1]);
@@ -410,8 +397,8 @@ public class CommandBattleKits implements CommandExecutor {
 							}
 					  }
 					 
-					 if (plugin.getConfig().contains("kits." + className + ".items.bootsEnchant") && finalBoots != null) {
-						  for (String a : plugin.getConfig().getString("kits." + className + ".items.bootsEnchant").split(" ")) {
+					 if (plugin.kits.contains("kits." + className + ".items.bootsEnchant") && finalBoots != null) {
+						  for (String a : plugin.kits.getString("kits." + className + ".items.bootsEnchant").split(" ")) {
 									String[] enchant = a.split(":");
 									Enchantment enchantmentInt = new EnchantmentWrapper(Integer.parseInt(enchant[0]));
 									int levelInt = Integer.parseInt(enchant[1]);
@@ -424,12 +411,12 @@ public class CommandBattleKits implements CommandExecutor {
 					 p.getInventory().setLeggings(finalLeggings);
 					 p.getInventory().setBoots(finalBoots);
 					 
-					 if (plugin.getConfig().getBoolean("settings.once-per-life")) {
-						 plugin.getConfig().set("dead." + p.getName(), true);
+					 if (plugin.global.getBoolean("settings.once-per-life")) {
+						 plugin.kitHistory.set("dead." + p.getName(), true);
 					 }
 					 
-					 if (plugin.getConfig().contains(("kits." + className + ".commands"))) {
-						 List<String> commands = this.plugin.getConfig().getStringList("kits." + className + ".commands");
+					 if (plugin.kits.contains(("kits." + className + ".commands"))) {
+						 List<String> commands = this.plugin.kits.getStringList("kits." + className + ".commands");
 						 
 						 for (String s : commands) {
 							 s = s.replace("<player>", p.getName());
