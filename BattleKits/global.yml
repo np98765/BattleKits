@@ -25,3 +25,6 @@ signs:
   ignore-world-restriction: false
   ignore-lives-restriction: false
   enabled: true #Completely disable kit signs if set to false
+rewards:
+  killCommands:
+  - 'xp 1L <player>'

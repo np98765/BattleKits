@@ -30,6 +30,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Class that sorts out the configs
+ * @author SagaciousZed & lol768
+ *
+ */
 public class ConfigAccessor {
 
     private final String fileName;
