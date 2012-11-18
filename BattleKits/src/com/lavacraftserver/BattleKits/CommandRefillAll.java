@@ -29,7 +29,7 @@ public class CommandRefillAll implements CommandExecutor {
 			Player p = (Player) sender;
 		    ItemStack[] inv = p.getInventory().getContents();
 		    boolean gotBowl = false;
-			if (sender.hasPermission("Battlekits.getConfig().use.fillall")) {
+			if (sender.hasPermission("Battlekits.use.fillall")) {
 				//Get array of itemstack
 				for (ItemStack slot : inv) {
 				    if (slot != null && slot.getType() == Material.BOWL) { //Check for NPE 

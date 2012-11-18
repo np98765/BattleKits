@@ -74,7 +74,7 @@ public class BattleKits extends JavaPlugin {
 		this.getLogger().info("Initializing configs...");
 		
 		makeConfigs();
-		//postStartup();
+		
 		
 	}
 
@@ -93,6 +93,7 @@ public class BattleKits extends JavaPlugin {
 		kits.reloadConfig();
 		global.reloadConfig();
 		kitHistory.reloadConfig();
+		postStartup();
 	}
 	
 	public void postStartup() {

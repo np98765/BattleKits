@@ -37,9 +37,9 @@ public class SignHandler implements Listener {
 				String[] lines = s.getLines();
 				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
 					
-					if (p.hasPermission("Battlekits.getConfig().sign.use")) {
+					if (p.hasPermission("Battlekits.sign.use")) {
 						
-						if (!plugin.global.getConfig().contains("kits.getConfig()." + lines[1])) {
+						if (!plugin.kits.getConfig().contains("kits." + lines[1])) {
 							plugin.PM.warn(p, "That kit does not exist!");
 	
 						} else {
@@ -68,9 +68,9 @@ public class SignHandler implements Listener {
 
 		if (lines.length > 1 && lines[0].equalsIgnoreCase("[BattleKits]")) {
 			
-			if (p.hasPermission("Battlekits.getConfig().sign.create")) {
+			if (p.hasPermission("Battlekits.sign.create")) {
 				
-				if (plugin.global.getConfig().contains("kits.getConfig()." + lines[1])) {
+				if (plugin.kits.getConfig().contains("kits." + lines[1])) {
 					e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
 					plugin.PM.notify(p, "Kit sign created successfully!");
 				

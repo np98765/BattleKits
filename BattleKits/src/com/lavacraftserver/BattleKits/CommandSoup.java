@@ -30,7 +30,7 @@ public class CommandSoup implements CommandExecutor {
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
 
-			if (sender.hasPermission("Battlekits.getConfig().use.soup")) {
+			if (sender.hasPermission("Battlekits.use.soup")) {
 				//TODO: @MapleFighter -- implement whole inventory
 				if (i.getType() != Material.BOWL) {
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");

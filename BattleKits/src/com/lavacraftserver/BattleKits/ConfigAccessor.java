@@ -66,11 +66,15 @@ public class ConfigAccessor {
             //fileConfiguration.setDefaults(defConfig);
             fileConfiguration = defConfig;
             if (fileName == "kitHistory.yml") {
-            	fileConfiguration.options().header("This file contains the kit history, i.e. the last kit the user requested for respawning kits on death\nAlso contains info on whether the player has used their kit in their life");
+            	fileConfiguration.options().header("This file contains the kit history, i.e. the last kit the user requested for respawning kits on death\nAlso contains info on whether the player has used their kit in their life\nThere is no reason to ever modify this file.");
             }
             
             if (fileName == "global.yml") {
             	fileConfiguration.options().header("Global BattleKits settings\nIgnored if world-specific config exists");
+            }
+            
+            if (fileName == "kits.yml") {
+            	fileConfiguration.options().header("Kit definitions\nThis is where you can add your own kits and customise various details");
             }
             plugin.getLogger().info("Saving " + fileName + "...");
         }
