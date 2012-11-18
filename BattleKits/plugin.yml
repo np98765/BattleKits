@@ -1,6 +1,8 @@
 name: BattleKits
-main: com.lavacraftserver.Battlekits.getConfig().BattleKits
-version: 1.6
+main: com.lavacraftserver.Battlekits.BattleKits
+version: 1.7 -DEV
+author: np98765
+authors: ['lol768', 'MapleFighter777']
 softdepend: [Vault, TagAPI]
 commands:
   battlekits:

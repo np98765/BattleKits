@@ -75,7 +75,11 @@ public class BattleKits extends JavaPlugin {
 		kitHistory = new ConfigAccessor(this, "kitHistory.yml");
 		kits = new ConfigAccessor(this, "kits.yml");
 		global = new ConfigAccessor(this, "global.yml");
-
+		
+		this.getLogger().info("Saving config...");
+		kits.saveConfig();
+		global.saveConfig();
+		kitHistory.saveConfig();
 		
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
 		
@@ -118,13 +122,14 @@ public class BattleKits extends JavaPlugin {
 		
 		getCommand("battlekits").setExecutor(cbk);
 		// this.buy(5, "lol768");
-		this.getLogger().info("BattleKits has been enabled!");
+		this.getLogger().info("BattleKits-DEV has been enabled!");
 	}
 
 	@Override
 	public void onDisable() {
-
-		this.getLogger().info("BattleKits has been disabled.");
+		
+		this.getLogger().info("BattleKits-DEV has been disabled.");
+		
 	}
 	
 
