@@ -71,58 +71,11 @@ public class BattleKits extends JavaPlugin {
 			this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
 			this.setEnabled(false);
 		}
-		this.getLogger().info("Initializing config...");
-		kitHistory = new ConfigAccessor(this, "kitHistory.yml");
-		kits = new ConfigAccessor(this, "kits.yml");
-		global = new ConfigAccessor(this, "global.yml");
+		this.getLogger().info("Initializing configs...");
 		
-		this.getLogger().info("Saving config...");
-		kits.saveConfig();
-		global.saveConfig();
-		kitHistory.saveConfig();
+		makeConfigs();
+		//postStartup();
 		
-		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
-		
-		if (global.getConfig().getBoolean("signs.enabled"))
-			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
-		
-		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
-		getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
-		getServer().getPluginManager().registerEvents(new InstaSoup(this), this);
-	
-
-		getCommand("soup").setExecutor(new CommandSoup(this));
-		getCommand("fillall").setExecutor(new CommandRefillAll(this));
-		if (global.getConfig().getBoolean("settings.auto-update") == true) {
-			@SuppressWarnings("unused")
-			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); // New slug
-		}
-
-		if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-			this.getLogger().info("Vault found.");
-			setupEconomy();
-			
-		} else {
-			this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
-		}
-		
-		
-		
-		
-		
-		
-		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
-			this.getLogger().info("TagAPI found.");
-			getServer().getPluginManager().registerEvents(new TagHandler(this), this);
-
-			useTags = true;
-		} else {
-			this.getLogger().info("Disabling tag functionality as TagAPI is not installed.");
-		}
-		
-		getCommand("battlekits").setExecutor(cbk);
-		// this.buy(5, "lol768");
-		this.getLogger().info("BattleKits-DEV has been enabled!");
 	}
 
 	@Override
@@ -132,6 +85,63 @@ public class BattleKits extends JavaPlugin {
 		
 	}
 	
+	public void makeConfigs() {
+		
+		kits = new ConfigAccessor(this, "kits.yml");
+		global = new ConfigAccessor(this, "global.yml");
+		kitHistory = new ConfigAccessor(this, "kitHistory.yml");
+		kits.reloadConfig();
+		global.reloadConfig();
+		kitHistory.reloadConfig();
+	}
+	
+	public void postStartup() {
+
+		getServer().getPluginManager().registerEvents(new DeathEvent(this),
+				this);
+
+		getServer().getPluginManager().registerEvents(new SignHandler(this),
+				this);
+
+		getServer().getPluginManager().registerEvents(new RespawnKit(this),
+				this);
+		getServer().getPluginManager().registerEvents(
+				new RestrictionEvents(this), this);
+		getServer().getPluginManager()
+				.registerEvents(new InstaSoup(this), this);
+
+		getCommand("soup").setExecutor(new CommandSoup(this));
+		getCommand("fillall").setExecutor(new CommandRefillAll(this));
+		if (global.getConfig().getBoolean("settings.auto-update") == true) {
+			@SuppressWarnings("unused")
+			Updater updater = new Updater(this, "battlekits", this.getFile(),
+					Updater.UpdateType.DEFAULT, true); // New slug
+		}
+
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+			this.getLogger().info("Vault found.");
+			setupEconomy();
+
+		} else {
+			this.getLogger().info(
+					"Couldn't find Vault. Economy disabled for now.");
+		}
+
+		if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
+			this.getLogger().info("TagAPI found.");
+			getServer().getPluginManager().registerEvents(new TagHandler(this),
+					this);
+
+			useTags = true;
+		} else {
+			this.getLogger().info(
+					"Disabling tag functionality as TagAPI is not installed.");
+		}
+
+		getCommand("battlekits").setExecutor(cbk);
+		// this.buy(5, "lol768");
+		this.getLogger().info("BattleKits-DEV has been enabled!");
+	}
 
 	public ItemStack setColor(ItemStack item, int color) {
 		CraftItemStack craftStack = null;

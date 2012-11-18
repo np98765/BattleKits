@@ -34,7 +34,7 @@ public class ConfigAccessor {
 
     private final String fileName;
     private final JavaPlugin plugin;
-    
+    private YamlConfiguration defConfig;
     private File configFile;
     private FileConfiguration fileConfiguration;
 
@@ -54,14 +54,29 @@ public class ConfigAccessor {
                 throw new IllegalStateException();
             configFile = new File(dataFolder, fileName);
         }
+    	
+
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
         // Look for defaults in the jar
         InputStream defConfigStream = plugin.getResource(fileName);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            fileConfiguration.setDefaults(defConfig);
+        if (defConfigStream != null && configFile.length() < 1) {
+        	plugin.getLogger().info("Generating config for " + fileName);
+            defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            //fileConfiguration.setDefaults(defConfig);
+            fileConfiguration = defConfig;
+            if (fileName == "kitHistory.yml") {
+            	fileConfiguration.options().header("This file contains the kit history, i.e. the last kit the user requested for respawning kits on death\nAlso contains info on whether the player has used their kit in their life");
+            }
+            
+            if (fileName == "global.yml") {
+            	fileConfiguration.options().header("Global BattleKits settings\nIgnored if world-specific config exists");
+            }
+            plugin.getLogger().info("Saving " + fileName + "...");
         }
+    	
+    	this.saveConfig();
+
     }
 
     public FileConfiguration getConfig() {
