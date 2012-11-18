@@ -25,9 +25,9 @@ public class BattleKits extends JavaPlugin {
 	public boolean useTags = false;
 	public PM PM = new PM(this);
 	//Configuration stuff
-    public ConfigAccessor global = new ConfigAccessor(this, "global.getConfig().yml");
-    public ConfigAccessor kits = new ConfigAccessor(this, "kits.getConfig().yml");
-    public ConfigAccessor kitHistory = new ConfigAccessor(this, "kitHistory.getConfig().yml");
+    public ConfigAccessor global;
+    public ConfigAccessor kits;
+    public ConfigAccessor kitHistory;
 
 
 	public boolean setupEconomy() {
@@ -71,8 +71,11 @@ public class BattleKits extends JavaPlugin {
 			this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
 			this.setEnabled(false);
 		}
-		
-		
+		this.getLogger().info("Initializing config...");
+		kitHistory = new ConfigAccessor(this, "kitHistory.yml");
+		kits = new ConfigAccessor(this, "kits.yml");
+		global = new ConfigAccessor(this, "global.yml");
+
 		
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
 		
