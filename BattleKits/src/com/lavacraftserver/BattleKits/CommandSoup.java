@@ -14,7 +14,7 @@ public class CommandSoup implements CommandExecutor {
 	/**
 	* Constructor method used when creating instance of this class
 	* Used so we have access to the main plugin & config etc
-	* @param plugin - Instance of BattleKits.java
+	* @param plugin - Instance of Battlekits.getConfig().java
 	*/
 	public CommandSoup(BattleKits p) {
 		this.plugin = p;
@@ -30,7 +30,7 @@ public class CommandSoup implements CommandExecutor {
 			Player p = (Player) sender;
 			ItemStack i = p.getItemInHand();
 
-			if (sender.hasPermission("BattleKits.use.soup")) {
+			if (sender.hasPermission("Battlekits.getConfig().use.soup")) {
 				//TODO: @MapleFighter -- implement whole inventory
 				if (i.getType() != Material.BOWL) {
 					plugin.PM.warn(p, "You must have an empty bowl in your hand");

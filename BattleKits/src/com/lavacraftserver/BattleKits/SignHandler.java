@@ -16,7 +16,7 @@ public class SignHandler implements Listener {
 	/**
 	 * Constructor method used when creating instance of this class
 	 * Used so we have access to the main plugin & config etc
-	 * @param plugin - Instance of BattleKits.java
+	 * @param plugin - Instance of Battlekits.getConfig().java
 	 */
 	public SignHandler(BattleKits plugin) {
 		this.plugin = plugin;
@@ -37,13 +37,13 @@ public class SignHandler implements Listener {
 				String[] lines = s.getLines();
 				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
 					
-					if (p.hasPermission("BattleKits.sign.use")) {
+					if (p.hasPermission("Battlekits.getConfig().sign.use")) {
 						
-						if (!plugin.global.contains("kits." + lines[1])) {
+						if (!plugin.global.getConfig().contains("kits.getConfig()." + lines[1])) {
 							plugin.PM.warn(p, "That kit does not exist!");
 	
 						} else {
-							plugin.cbk.supplyKit(p, lines[1], plugin.global.getBoolean("ignore-permissions"), plugin.global.getBoolean("ignore-costs"), plugin.global.getBoolean("ignore-world-restriction"), plugin.global.getBoolean("ignore-lives-restriction"));
+							plugin.cbk.supplyKit(p, lines[1], plugin.global.getConfig().getBoolean("ignore-permissions"), plugin.global.getConfig().getBoolean("ignore-costs"), plugin.global.getConfig().getBoolean("ignore-world-restriction"), plugin.global.getConfig().getBoolean("ignore-lives-restriction"));
 	
 						}
 						
@@ -68,9 +68,9 @@ public class SignHandler implements Listener {
 
 		if (lines.length > 1 && lines[0].equalsIgnoreCase("[BattleKits]")) {
 			
-			if (p.hasPermission("BattleKits.sign.create")) {
+			if (p.hasPermission("Battlekits.getConfig().sign.create")) {
 				
-				if (plugin.global.contains("kits." + lines[1])) {
+				if (plugin.global.getConfig().contains("kits.getConfig()." + lines[1])) {
 					e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
 					plugin.PM.notify(p, "Kit sign created successfully!");
 				

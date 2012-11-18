@@ -20,7 +20,7 @@ public class RestrictionEvents implements Listener {
 	 * have access to the main plugin & config etc
 	 * 
 	 * @param instance
-	 *            - Instance of BattleKits.java
+	 *            - Instance of Battlekits.getConfig().java
 	 */
 	public RestrictionEvents(BattleKits plugin) {
 		this.plugin = plugin;
@@ -28,41 +28,41 @@ public class RestrictionEvents implements Listener {
 
 	// Most of these events are self explanatory
 	// TODO: change if statement to
-	// e.setCancelled(plugin.global.getBoolean("settings.disable-dropping-items"))
+	// e.setCancelled(plugin.global.getConfig().getBoolean("settings.disable-dropping-items"))
 //Force new build
 	@EventHandler
 	public void itemDrop(PlayerDropItemEvent e) {
-		if (plugin.global.getBoolean("settings.disable-dropping-items"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-dropping-items"))
 			e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void itemDrop(CraftItemEvent e) {
-		if (plugin.global.getBoolean("settings.disable-crafting"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-crafting"))
 			e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void pickup(PlayerPickupItemEvent e) {
-		if (plugin.global.getBoolean("settings.disable-pickup-items"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-pickup-items"))
 			e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void pickup(BlockPlaceEvent e) {
-		if (plugin.global.getBoolean("settings.disable-block-place"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-block-place"))
 			e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void death(PlayerDeathEvent e) {
-		if (plugin.global.getBoolean("settings.disable-player-xp-drop"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-player-xp-drop"))
 			e.setDroppedExp(0);
 
-		if (plugin.global.getBoolean("settings.disable-player-drops-on-death"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-player-drops-on-death"))
 			e.getDrops().clear();
 
-		if (plugin.global.getBoolean("settings.hide-death-messages"))
+		if (plugin.global.getConfig().getBoolean("settings.hide-death-messages"))
 			e.setDeathMessage(null);
 
 	}
@@ -70,7 +70,7 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void mobDeath(EntityDeathEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
-			if (plugin.global.getBoolean("settings.disable-mob-xp-drop")) {
+			if (plugin.global.getConfig().getBoolean("settings.disable-mob-xp-drop")) {
 				
 				e.setDroppedExp(0);
 			}
@@ -80,17 +80,17 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void blockBreak(BlockBreakEvent e) {
 
-		if (plugin.global.getBoolean("settings.disable-block-xp"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-block-xp"))
 			e.setExpToDrop(0);
 
-		if (plugin.global.getBoolean("settings.disable-block-break"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-block-break"))
 			e.setCancelled(true);
 
 	}
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-		if (plugin.global.getBoolean(
+		if (plugin.global.getConfig().getBoolean(
 				"settings.disable-inventory-interaction"))
 			e.setCancelled(true);
 	}

@@ -1,5 +1,5 @@
 name: BattleKits
-main: com.lavacraftserver.BattleKits.BattleKits
+main: com.lavacraftserver.Battlekits.getConfig().BattleKits
 version: 1.6
 softdepend: [Vault, TagAPI]
 commands:

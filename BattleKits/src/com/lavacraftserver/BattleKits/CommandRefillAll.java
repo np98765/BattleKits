@@ -21,7 +21,7 @@ public class CommandRefillAll implements CommandExecutor {
 
 	/**
 	 * Executed when /fillall or /fullsoup is used
-	 * Permissions is BattleKits.use.fillall
+	 * Permissions is Battlekits.getConfig().use.fillall
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -29,7 +29,7 @@ public class CommandRefillAll implements CommandExecutor {
 			Player p = (Player) sender;
 		    ItemStack[] inv = p.getInventory().getContents();
 		    boolean gotBowl = false;
-			if (sender.hasPermission("BattleKits.use.fillall")) {
+			if (sender.hasPermission("Battlekits.getConfig().use.fillall")) {
 				//Get array of itemstack
 				for (ItemStack slot : inv) {
 				    if (slot != null && slot.getType() == Material.BOWL) { //Check for NPE 

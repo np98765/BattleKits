@@ -12,7 +12,7 @@ public class DeathEvent implements Listener {
 	/**
 	* Constructor method used when creating instance of this class
 	* Used so we have access to the main plugin & config etc
-	* @param instance - Instance of BattleKits.java
+	* @param instance - Instance of Battlekits.getConfig().java
 	*/
 	public DeathEvent(BattleKits plugin) {
 		this.plugin = plugin;

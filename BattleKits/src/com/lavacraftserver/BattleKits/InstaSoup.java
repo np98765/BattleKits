@@ -15,7 +15,7 @@ public class InstaSoup implements Listener {
 	/**
 	* Constructor method used when creating instance of this class
 	* Used so we have access to the main plugin & config etc
-	* @param p - Instance of BattleKits.java
+	* @param p - Instance of Battlekits.getConfig().java
 	*/
 	public InstaSoup(BattleKits p) {
 		this.plugin = p;
@@ -32,8 +32,8 @@ public class InstaSoup implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.getItemInHand().getType() == Material.MUSHROOM_SOUP) {
-				if (plugin.global.getBoolean("settings.instant-soup-drink")) {
-					if (plugin.global.getString("instant-soup-drink.replenish-type").equals("hunger")) {
+				if (plugin.global.getConfig().getBoolean("settings.instant-soup-drink")) {
+					if (plugin.global.getConfig().getString("instant-soup-drink.replenish-type").equals("hunger")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getFoodLevel() + 6 <= 20) { //Only add some hunger back on
@@ -49,7 +49,7 @@ public class InstaSoup implements Listener {
 						}
 					}
 					
-					if (plugin.global.getString("instant-soup-drink.replenish-type").equals("health")) {
+					if (plugin.global.getConfig().getString("instant-soup-drink.replenish-type").equals("health")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getHealth() + 6 <= 20) { //Only add some health back on

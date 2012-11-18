@@ -25,16 +25,11 @@ public class BattleKits extends JavaPlugin {
 	public boolean useTags = false;
 	public PM PM = new PM(this);
 	//Configuration stuff
-	public FileConfiguration global = null;
-    private File globalFile = null;
-    
-    public FileConfiguration kits = null;
-    private File kitsFile = null;
-    
-    public FileConfiguration kitHistory = null;
-    private File kitHistoryFile= null;
-    
-    
+    public ConfigAccessor global = new ConfigAccessor(this, "global.getConfig().yml");
+    public ConfigAccessor kits = new ConfigAccessor(this, "kits.getConfig().yml");
+    public ConfigAccessor kitHistory = new ConfigAccessor(this, "kitHistory.getConfig().yml");
+
+
 	public boolean setupEconomy() {
 		RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		if (economyProvider != null) {
@@ -68,85 +63,6 @@ public class BattleKits extends JavaPlugin {
 	    return true;
 	}
 	
-	public void loadHistory() {
-        if (kitHistoryFile == null) {
-        	kitHistoryFile = new File(getDataFolder(), "kitHistory.yml");
-        }
-        kitHistory = YamlConfiguration.loadConfiguration(kitHistoryFile);
-        
-        // Look for defaults in the jar
-        InputStream defConfigStream = this.getResource("kitHistory.yml");
-        if (defConfigStream != null && !kitHistoryFile.exists()) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            kitHistory.setDefaults(defConfig);
-            try {
-				kitHistory.save(kitHistoryFile);
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				this.getLogger().severe("Couldn't save kit history defaults...");
-			}
-            
-            
-        } else {
-		this.getLogger().info("Loaded kitHistory config");
-        }
-
-    }
-	
-	public void reloadKits() {
-        if (kitsFile == null) {
-        	kitsFile = new File(getDataFolder(), "kits.yml");
-        }
-        kits = YamlConfiguration.loadConfiguration(kitsFile);
-        
-        // Look for defaults in the jar
-        InputStream defConfigStream = this.getResource("kits.yml");
-        if (defConfigStream != null && !kitsFile.exists()) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            kits.setDefaults(defConfig);
-            try {
-				kits.save(kitsFile);
-				this.getLogger().info("Saved kits config defaults");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				this.getLogger().severe("Couldn't save configuration defaults...");
-			}
-            
-            
-        } else {
-		this.getLogger().info("Loaded kits config");
-        }
-
-    }
-
-    public void reloadGlobals() {
-        if (globalFile == null) {
-        	globalFile = new File(getDataFolder(), "global.yml");
-        }
-        global = YamlConfiguration.loadConfiguration(globalFile);
-        
-        // Look for defaults in the jar
-        InputStream defConfigStream = this.getResource("global.yml");
-        if (defConfigStream != null && !globalFile.exists()) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            global.setDefaults(defConfig);
-            try {
-				global.save(globalFile);
-				this.getLogger().info("Saved global config defaults");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				this.getLogger().severe("Couldn't save configuration defaults...");
-			}
-            
-            
-        } else {
-		this.getLogger().info("Loaded global config");
-        }
-
-    }
     
 	@Override
 	public void onEnable() {
@@ -156,12 +72,11 @@ public class BattleKits extends JavaPlugin {
 			this.setEnabled(false);
 		}
 		
-		reloadGlobals(); //Load global config
-		reloadKits(); //load kit data
+		
 		
 		getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
 		
-		if (global.getBoolean("signs.enabled"))
+		if (global.getConfig().getBoolean("signs.enabled"))
 			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
 		
 		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
@@ -171,7 +86,7 @@ public class BattleKits extends JavaPlugin {
 
 		getCommand("soup").setExecutor(new CommandSoup(this));
 		getCommand("fillall").setExecutor(new CommandRefillAll(this));
-		if (global.getBoolean("settings.auto-update") == true) {
+		if (global.getConfig().getBoolean("settings.auto-update") == true) {
 			@SuppressWarnings("unused")
 			Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); // New slug
 		}
