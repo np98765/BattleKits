@@ -65,6 +65,8 @@ public class ConfigAccessor {
 
         // Look for defaults in the jar
         InputStream defConfigStream = plugin.getResource(fileName);
+    	plugin.getLogger().info("length is " + configFile.length());
+
         if (defConfigStream != null && configFile.length() < 1) {
         	plugin.getLogger().info("Generating config for " + fileName);
             defConfig = YamlConfiguration.loadConfiguration(defConfigStream);

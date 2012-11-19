@@ -171,7 +171,6 @@ public class CommandBattleKits implements CommandExecutor {
 					 }
 
 					 int slot;
-					 
 					 this.plugin.kitHistory.getConfig().set("kitHistory.getConfig()." + p.getName(), className); //Stores last kit for respawn
 					 
 					 for (slot = 0; slot<=35; slot++) {
