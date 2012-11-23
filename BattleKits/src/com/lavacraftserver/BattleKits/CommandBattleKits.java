@@ -104,7 +104,7 @@ public class CommandBattleKits implements CommandExecutor {
 	 */
 	public Boolean supplyKit(final Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
 		
-		if (p.hasPermission("Battlekits.getConfig().use." + className) || ignorePerms) { //Ensure they have permission to use the kit
+		if (p.hasPermission("Battlekits.use." + className) || ignorePerms) { //Ensure they have permission to use the kit
 			 
 		 }
 		else{
@@ -171,7 +171,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 }
 
 					 int slot;
-					 this.plugin.kitHistory.getConfig().set("kitHistory.getConfig()." + p.getName(), className); //Stores last kit for respawn
+					 this.plugin.kitHistory.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn
 					 
 					 for (slot = 0; slot<=35; slot++) {
 						 ItemStack i = new ItemStack(0);
