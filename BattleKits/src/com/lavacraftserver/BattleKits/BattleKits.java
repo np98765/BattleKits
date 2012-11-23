@@ -78,6 +78,7 @@ public class BattleKits extends JavaPlugin {
 	public void onDisable() {
 		
 		this.getLogger().info("BattleKits-DEV has been disabled.");
+		kitHistory.saveConfig();
 		
 	}
 	

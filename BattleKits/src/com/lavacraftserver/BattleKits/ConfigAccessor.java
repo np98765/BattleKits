@@ -84,9 +84,10 @@ public class ConfigAccessor {
             	fileConfiguration.options().header("Kit definitions\nThis is where you can add your own kits and customise various details");
             }
             plugin.getLogger().info("Saving " + fileName + "...");
+            this.saveConfig();
         }
     	
-    	this.saveConfig();
+    	
 
     }
 
