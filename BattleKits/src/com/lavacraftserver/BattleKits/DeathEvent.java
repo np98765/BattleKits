@@ -25,7 +25,7 @@ public class DeathEvent implements Listener {
 	 * Death event that resets lives so that Player can get kits again
 	 * @param event - EntityDamageEvent
 	 */
-	 @EventHandler(priority = EventPriority.MONITOR)
+	 @EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player p = (Player) event.getEntity();
