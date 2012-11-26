@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -90,8 +91,13 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-		if (plugin.global.getConfig().getBoolean(
-				"settings.disable-inventory-interaction"))
+		if (plugin.global.getConfig().getBoolean("settings.disable-inventory-interaction"))
+			e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
+		if (plugin.global.getConfig().getBoolean("settings.disable-hunger"))
 			e.setCancelled(true);
 	}
 

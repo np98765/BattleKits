@@ -11,6 +11,7 @@ kits:
       chestplate: leather
       leggings: leather
       boots: leather
+      helmetDurability: 25
       helmetColor: '#FF0000'
       chestplateColor: '#FFFF00'
       leggingColor: '#FF00FF'
