@@ -27,7 +27,7 @@ public class DeathEvent implements Listener {
 	 */
 	 @EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(EntityDamageEvent event) {
-		if (event.getEntity() instanceof Player) {
+		if (event.getEntity() instanceof Player) { 
 			Player p = (Player) event.getEntity();
 			if (event.getDamage() > p.getHealth()) { //Make sure they'll die :)
 
