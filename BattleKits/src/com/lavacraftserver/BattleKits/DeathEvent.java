@@ -2,7 +2,9 @@ package com.lavacraftserver.BattleKits;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class DeathEvent implements Listener {
@@ -21,19 +23,22 @@ public class DeathEvent implements Listener {
 
 	/**
 	 * Death event that resets lives so that Player can get kits again
-	 * @param event - EntityDeathEvent
+	 * @param event - EntityDamageEvent
 	 */
-	@EventHandler
-	public void onPlayerDeath(EntityDeathEvent event) {
+	 @EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerDeath(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player p = (Player) event.getEntity();
-			
-			if (plugin.global.getConfig().getBoolean("settings.once-per-life") == true) {
-				plugin.kitHistory.getConfig().set("dead." + p.getName(), null);
-			}
+			if (event.getDamage() > p.getHealth()) { //Make sure they'll die :)
 
-			if (plugin.global.getConfig().getBoolean("settings.show-kit-info-on-respawn") == true) {
-				plugin.PM.notify(p, "You may now use a kit");
+				if (plugin.global.getConfig().getBoolean("settings.once-per-life") == true) {
+					plugin.kitHistory.getConfig().set("dead." + p.getName(), null);
+				}
+	
+				if (plugin.global.getConfig().getBoolean("settings.show-kit-info-on-respawn") == true) {
+					plugin.PM.notify(p, "You may now use a kit");
+				}
+			
 			}
 		}
 	}
