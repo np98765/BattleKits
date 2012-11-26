@@ -232,6 +232,8 @@ public class CommandBattleKits implements CommandExecutor {
 					 String getLeggings = plugin.kits.getConfig().getString("kits." + className + ".items" + ".leggings");
 					 String getBoots = plugin.kits.getConfig().getString("kits." + className + ".items" + ".boots");
 					 
+					 
+					 
 					 //These hold the chosen colours for dying
 					 int helmColor = 0;
 					 int chestColor = 0;
@@ -370,6 +372,20 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 						 
 					 }
+					 short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability");
+					 short s2 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.chestplateDurability");
+					 short s3 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.leggingsDurability");
+					 short s4 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.bootsDurability");
+					 if (s1 == -1) s1 = finalHelmet.getType().getMaxDurability();
+					 if (s2 == -1) s2 = finalChestplate.getType().getMaxDurability();
+					 if (s3 == -1) s3 = finalLeggings.getType().getMaxDurability();
+					 if (s4 == -1) s4 = finalBoots.getType().getMaxDurability();
+
+					 finalHelmet.setDurability(s1);
+					 finalChestplate.setDurability(s2);
+					 finalLeggings.setDurability(s3);
+					 finalBoots.setDurability(s4);
+
 					 
 					 if (plugin.kits.getConfig().contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
 						  for (String a : plugin.kits.getConfig().getString("kits." + className + ".items.helmetEnchant").split(" ")) {
