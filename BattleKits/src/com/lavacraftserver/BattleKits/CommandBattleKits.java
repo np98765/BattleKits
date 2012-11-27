@@ -177,7 +177,7 @@ public class CommandBattleKits implements CommandExecutor {
 						 ItemStack i = new ItemStack(0);
 						 String getSlot = plugin.kits.getConfig().getString("kits." + className + ".items." + slot);
 						 
-						 if (!(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals(null)) || !(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals("0"))) {
+						 if (plugin.kits.getConfig().contains("kits." + className + ".items." + slot) && !(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals("0")) && !(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals(""))) {
 							 String[] s = getSlot.split(" ");
 							 String[] item = s[0].split(":");
 
