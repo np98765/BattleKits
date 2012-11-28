@@ -26,44 +26,81 @@ public class RestrictionEvents implements Listener {
 	public RestrictionEvents(BattleKits plugin) {
 		this.plugin = plugin;
 	}
+	
+	/**
+	 * Multi-world config accessor
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param Player p - Player to get world from
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - result
+	 */
+	public Object checkSetting(String path, Player p, Object defaultValue) {
+		if (plugin.global.getConfig().contains(p.getWorld().getName() + "." + path)) {
+			//We have an override
+			return plugin.getConfig().get(p.getWorld().getName() + "." + path);
+		} else {
+			if (plugin.global.getConfig().contains(path)) {
+				return plugin.global.getConfig().get(path);
+			} else {
+				return defaultValue;
+			}
+		}
+		
+	}
+	
+	/**
+	 * Multi-world config accessor -- accepts world name instead of Player
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param String world - World to check
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - result
+	 */
+	public Object checkSetting(String path, String world, Object defaultValue) {
+		if (plugin.global.getConfig().contains(world + "." + path)) {
+			//We have an override
+			return plugin.getConfig().get(world + "." + path);
+		} else {
+			if (plugin.global.getConfig().contains(path)) {
+				return plugin.global.getConfig().get(path);
+			} else {
+				return defaultValue;
+			}
+		}
+		
+	}
 
-	// Most of these events are self explanatory
-	// TODO: change if statement to
-	// e.setCancelled(plugin.global.getConfig().getBoolean("settings.disable-dropping-items"))
-//Force new build
 	@EventHandler
 	public void itemDrop(PlayerDropItemEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-dropping-items"))
-			e.setCancelled(true);
+			e.setCancelled((boolean) checkSetting("settings.disable-dropping-items", e.getPlayer(), false));
 	}
 
 	@EventHandler
 	public void itemDrop(CraftItemEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-crafting"))
-			e.setCancelled(true);
+		e.setCancelled((boolean) checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false));
+
 	}
 
 	@EventHandler
 	public void pickup(PlayerPickupItemEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-pickup-items"))
-			e.setCancelled(true);
+		e.setCancelled((boolean) checkSetting("settings.disable-pickup-items",  e.getPlayer(), false));
+
 	}
 
 	@EventHandler
-	public void pickup(BlockPlaceEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-block-place"))
-			e.setCancelled(true);
+	public void bpe(BlockPlaceEvent e) {
+		e.setCancelled((boolean) checkSetting("settings.disable-block-place", e.getPlayer(), false));
+
 	}
 
 	@EventHandler
 	public void death(PlayerDeathEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-player-xp-drop"))
+		if ((boolean) checkSetting("settings.disable-player-xp-drop", e.getEntity(), false))
 			e.setDroppedExp(0);
 
-		if (plugin.global.getConfig().getBoolean("settings.disable-player-drops-on-death"))
+		if ((boolean) checkSetting("settings.disable-player-drops-on-death", e.getEntity(), false))
 			e.getDrops().clear();
 
-		if (plugin.global.getConfig().getBoolean("settings.hide-death-messages"))
+		if ((boolean) checkSetting("settings.hide-death-messages", e.getEntity(), false))
 			e.setDeathMessage(null);
 
 	}
@@ -71,7 +108,7 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void mobDeath(EntityDeathEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
-			if (plugin.global.getConfig().getBoolean("settings.disable-mob-xp-drop")) {
+			if ((boolean) checkSetting("settings.disable-mob-xp", e.getEntity().getWorld().getName(), false)) {
 				
 				e.setDroppedExp(0);
 			}
@@ -81,23 +118,23 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void blockBreak(BlockBreakEvent e) {
 
-		if (plugin.global.getConfig().getBoolean("settings.disable-block-xp"))
+		if ((boolean) checkSetting("settings.disable-block-xp", e.getPlayer(), false))
 			e.setExpToDrop(0);
 
-		if (plugin.global.getConfig().getBoolean("settings.disable-block-break"))
+		if ((boolean) checkSetting("settings.disable-block-break", e.getPlayer(), false))
 			e.setCancelled(true);
 
 	}
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-inventory-interaction"))
+		if ((boolean) checkSetting("settings.disable-inventory-interaction", (Player) e.getWhoClicked(), false))
 			e.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-		if (plugin.global.getConfig().getBoolean("settings.disable-hunger"))
+		if (e.getEntity() instanceof Player && (boolean) checkSetting("settings.disable-hunger", (Player) e.getEntity(), false))
 			e.setCancelled(true);
 	}
 

@@ -33,6 +33,8 @@ public class BattleKits extends JavaPlugin {
 		}
 		return (economy != null); //t/f
 	}
+	
+	
 
 	public boolean buy(double amount, String name) {
 		Player p = Bukkit.getPlayer(name);
@@ -93,13 +95,15 @@ public class BattleKits extends JavaPlugin {
 		postStartup();
 	}
 	
+	
 	public void postStartup() {
+		String dt = "281112";
 
 		getServer().getPluginManager().registerEvents(new DeathEvent(this),
 				this);
-
-		getServer().getPluginManager().registerEvents(new SignHandler(this),
-				this);
+		if (global.getConfig().getBoolean("signs.enabled")) {
+			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
+		}
 
 		getServer().getPluginManager().registerEvents(new RespawnKit(this),
 				this);
@@ -139,8 +143,7 @@ public class BattleKits extends JavaPlugin {
 		}
 
 		getCommand("battlekits").setExecutor(cbk);
-		// this.buy(5, "lol768");
-		this.getLogger().info("BattleKits-DEV has been enabled!");
+		this.getLogger().info("BattleKits-DEV (" + dt + ") has been enabled!");
 	}
 
 	public ItemStack setColor(ItemStack item, int color) {

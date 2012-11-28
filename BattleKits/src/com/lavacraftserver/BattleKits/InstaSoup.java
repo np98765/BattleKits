@@ -20,6 +20,26 @@ public class InstaSoup implements Listener {
 	public InstaSoup(BattleKits p) {
 		this.plugin = p;
 	}
+	
+	/**
+	 * Multi-world config accessor
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param Player p - Player to get world from
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - result
+	 */
+	public Object checkSetting(String path, Player p, Object defaultValue) {
+		if (plugin.global.getConfig().contains(p.getWorld().getName() + "." + path)) {
+			//We have an override
+			return plugin.getConfig().get(p.getWorld().getName() + "." + path);
+		} else {
+			if (plugin.global.getConfig().contains(path)) {
+				return plugin.global.getConfig().get(path);
+			} else {
+				return defaultValue;
+			}
+		}
+	}
 
 	/**
 	 * Event that checks if user is right clicking with soup
@@ -32,8 +52,8 @@ public class InstaSoup implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (p.getItemInHand().getType() == Material.MUSHROOM_SOUP) {
-				if (plugin.global.getConfig().getBoolean("settings.instant-soup-drink")) {
-					if (plugin.global.getConfig().getString("instant-soup-drink.replenish-type").equals("hunger")) {
+				if ((boolean) checkSetting("settings.instant-soup-drink", p, false)) {
+					if (checkSetting("instant-soup-drink.replenish-type", p, "hunger").equals("hunger")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getFoodLevel() + 6 <= 20) { //Only add some hunger back on
@@ -49,7 +69,7 @@ public class InstaSoup implements Listener {
 						}
 					}
 					
-					if (plugin.global.getConfig().getString("instant-soup-drink.replenish-type").equals("health")) {
+					if (checkSetting("instant-soup-drink.replenish-type", p, "hunger").equals("health")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
 
 						if (p.getHealth() + 6 <= 20) { //Only add some health back on

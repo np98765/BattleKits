@@ -26,15 +26,26 @@ public class PlayerReward implements Listener {
 		if (dead.getLastDamageCause().getEntity() instanceof Player) {
 			attacker = (Player) dead.getLastDamageCause().getEntity();
 			String name = attacker.getName();
-			 if (plugin.global.getConfig().contains(("rewards.killCommands"))) {
-				 List<String> commands = this.plugin.global.getConfig().getStringList("rewards.killCommands");
+			if (plugin.global.getConfig().contains((dead.getWorld().getName() + ".rewards.killCommands"))) {
+					 List<String> commands = this.plugin.global.getConfig().getStringList(dead.getWorld().getName() + ".rewards.killCommands");
+					 
+					 for (String s : commands) {
+						 s = s.replace("<player>", name);
+						 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+					 }
 				 
-				 for (String s : commands) {
-					 s = s.replace("<player>", name);
-					 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+			} else {
+				 if (plugin.global.getConfig().contains(("rewards.killCommands"))) {
+					 List<String> commands = this.plugin.global.getConfig().getStringList("rewards.killCommands");
+					 
+					 for (String s : commands) {
+						 s = s.replace("<player>", name);
+						 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+					 }
+				 
 				 }
-			 
-			 }
+			}
+				
 		}
 	}
 

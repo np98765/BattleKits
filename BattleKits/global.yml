@@ -25,7 +25,7 @@ signs:
   ignore-costs: false
   ignore-world-restriction: false
   ignore-lives-restriction: false
-  enabled: true #Completely disable kit signs if set to false
+  enabled: true #Completely disable kit signs if set to false, cannot be overriden by world specific config
 rewards:
   killCommands:
   - 'xp 1L <player>'
