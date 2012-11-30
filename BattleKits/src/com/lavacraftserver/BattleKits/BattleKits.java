@@ -138,7 +138,7 @@ public class BattleKits extends JavaPlugin {
 	
 	
 	public void postStartup() {
-		String dt = "281112";
+		String dt = "301112";
 
 		getServer().getPluginManager().registerEvents(new DeathEvent(this),
 				this);
