@@ -23,26 +23,6 @@ public class SignHandler implements Listener {
 
 	}
 	
-	/**
-	 * Multi-world config accessor
-	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
-	 * @param Player p - Player to get world from
-	 * @param Object defaultValue - If empty, use this
-	 * @return Object - result
-	 */
-	public Object checkSetting(String path, Player p, Object defaultValue) {
-		if (plugin.global.getConfig().contains(p.getWorld().getName() + "." + path)) {
-			//We have an override
-			return plugin.getConfig().get(p.getWorld().getName() + "." + path);
-		} else {
-			if (plugin.global.getConfig().contains(path)) {
-				return plugin.global.getConfig().get(path);
-			} else {
-				return defaultValue;
-			}
-		}
-		
-	}
 	
 	/**
 	 * Event used to handle when a player clicks a sign
@@ -64,7 +44,7 @@ public class SignHandler implements Listener {
 							plugin.PM.warn(p, "That kit does not exist!");
 	
 						} else {
-							plugin.cbk.supplyKit(p, lines[1], (boolean) checkSetting("signs.ignore-permissions", p, false), (boolean) checkSetting("signs.ignore-costs", p, false), (boolean) checkSetting("signs.ignore-world-restriction", p, false), (boolean) checkSetting("signs.ignore-lives-restriction", p, false));
+							plugin.cbk.supplyKit(p, lines[1], (boolean) plugin.checkSetting("signs.ignore-permissions", p, false), (boolean) plugin.checkSetting("signs.ignore-costs", p, false), (boolean) plugin.checkSetting("signs.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("signs.ignore-lives-restriction", p, false));
 	
 						}
 						

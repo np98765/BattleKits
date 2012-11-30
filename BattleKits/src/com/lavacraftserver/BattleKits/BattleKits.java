@@ -34,6 +34,47 @@ public class BattleKits extends JavaPlugin {
 		return (economy != null); //t/f
 	}
 	
+	/**
+	 * Multi-world config accessor
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param Player p - Player to get world from
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - result
+	 */
+	public Object checkSetting(String path, Player p, Object defaultValue) {
+		if (global.getConfig().contains(p.getWorld().getName() + "." + path)) {
+			return global.getConfig().getBoolean(p.getWorld().getName() + "." + path);
+		} else {
+			if (global.getConfig().contains(path)) {
+				return global.getConfig().get(path);
+			} else {
+				return defaultValue;
+			}
+		}
+		
+	}
+	
+	/**
+	 * Multi-world config accessor -- accepts world name instead of Player
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param String world - World to check
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - result
+	 */
+	public Object checkSetting(String path, String world, Object defaultValue) {
+		if (global.getConfig().contains(world + "." + path)) {
+			//We have an override
+			
+			return global.getConfig().get(world + "." + path);
+		} else {
+			if (global.getConfig().contains(path)) {
+				return global.getConfig().get(path);
+			} else {
+				return defaultValue;
+			}
+		}
+		
+	}
 	
 
 	public boolean buy(double amount, String name) {
