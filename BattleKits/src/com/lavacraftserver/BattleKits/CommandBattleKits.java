@@ -78,7 +78,17 @@ public class CommandBattleKits implements CommandExecutor {
 			 * a player and giving them the requested kit.
 			 */
 			if (!(sender instanceof Player)) {
-				plugin.PM.warn(sender, "Players are only supported by this command at present"); 
+				if (args.length != 2) {
+					sender.sendMessage(ChatColor.RED + "Usage for console: /<command> <player> <kit>");
+					return true;
+				}
+				Player p = Bukkit.getPlayer(args[0]); 
+				if (p == null) {
+					sender.sendMessage(ChatColor.RED + "Couldn't find specified player: " + args[0]);
+					return true;
+				}
+				
+				supplyKit(p, args[1], (boolean) plugin.checkSetting("console.ignore-permissions", p, false), (boolean) plugin.checkSetting("console.ignore-costs", p, false), (boolean) plugin.checkSetting("console.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("console.ignore-lives-restriction", p, false));
 				return true;
 				
 			 } else {
