@@ -79,22 +79,33 @@ public class CommandBattleKits implements CommandExecutor {
 			 */
 			if (!(sender instanceof Player)) {
 				if (args.length != 2) {
-					sender.sendMessage(ChatColor.RED + "Usage for console: /<command> <player> <kit>");
+					plugin.PM.warn(sender, "Usage for console: /<command> <kit> <player>");
 					return true;
 				}
-				Player p = Bukkit.getPlayer(args[0]); 
-				if (p == null) {
-					sender.sendMessage(ChatColor.RED + "Couldn't find specified player: " + args[0]);
-					return true;
-				}
+				Player p = Bukkit.getPlayer(args[1]); 
 				
-				supplyKit(p, args[1], (boolean) plugin.checkSetting("console.ignore-permissions", p, false), (boolean) plugin.checkSetting("console.ignore-costs", p, false), (boolean) plugin.checkSetting("console.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("console.ignore-lives-restriction", p, false));
+				 if (p == null) {
+					 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
+				 }
+				
+				supplyKit(p, args[0], (boolean) plugin.checkSetting("console.ignore-permissions", p, false), (boolean) plugin.checkSetting("console.ignore-costs", p, false), (boolean) plugin.checkSetting("console.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("console.ignore-lives-restriction", p, false));
 				return true;
 				
 			 } else {
-				 Player p = (Player)sender;
-				 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions
-				 return true;
+				 if (args.length == 1) {
+					 Player p = (Player)sender;
+					 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions (still adheres to config)
+					 return true;
+				 } else {
+					 Player p = Bukkit.getPlayer(args[1]);
+					 
+					 if (p == null) {
+						 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
+					 }
+					 
+					 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions (still adheres to config)
+					 return true;
+				 }
 			
 			 }
 		
