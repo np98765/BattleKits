@@ -88,7 +88,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
 				 }
 				
-				supplyKit(p, args[0], (boolean) plugin.checkSetting("console.ignore-permissions", p, false), (boolean) plugin.checkSetting("console.ignore-costs", p, false), (boolean) plugin.checkSetting("console.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("console.ignore-lives-restriction", p, false));
+				supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
 				return true;
 				
 			 } else {
@@ -103,7 +103,7 @@ public class CommandBattleKits implements CommandExecutor {
 						 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
 					 }
 					 
-					 supplyKit(p, args[0], false, false, false, false); //Obey all restrictions (still adheres to config)
+						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
 					 return true;
 				 }
 			
