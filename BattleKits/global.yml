@@ -33,3 +33,8 @@ indirect:
 rewards:
   killCommands:
   - 'xp 1L <player>'
+experimental:
+  enable-wg: false
+  region-commands:
+    test: "bk archer <player>"
+    others: "clear <player>"

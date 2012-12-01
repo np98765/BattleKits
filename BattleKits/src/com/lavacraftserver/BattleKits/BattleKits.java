@@ -8,8 +8,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class BattleKits extends JavaPlugin {
 	
@@ -24,6 +27,7 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
+    public Plugin WGP = getServer().getPluginManager().getPlugin("WorldGuard");
 
 
 	public boolean setupEconomy() {
@@ -144,6 +148,17 @@ public class BattleKits extends JavaPlugin {
 				this);
 		if (global.getConfig().getBoolean("signs.enabled")) {
 			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
+		}
+		
+		if (global.getConfig().getBoolean("experimental.enable-wg")) {
+		    
+		    // WorldGuard may not be loaded
+		    if (WGP == null || !(WGP instanceof WorldGuardPlugin)) {
+		        getLogger().severe("Only enable worldguard integration if you have WorldGuard installed.");
+		        
+		    } else {
+				getServer().getPluginManager().registerEvents(new WorldGuardIntegration(this), this);
+		    }
 		}
 
 		getServer().getPluginManager().registerEvents(new RespawnKit(this),
