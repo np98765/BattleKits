@@ -1,4 +1,4 @@
-![Logo](http://dev.bukkit.org/media/images/47/806/battlekits.png)
+![Logo](http://dev.bukkit.org/thumbman/images/47/806/100x100/battlekits.png.-m1.png)
 
 A comprehensive, configurable Bukkit plugin that allows you to specify kits with many varying features.
 For more info, see the BukkitDev page:
