@@ -103,6 +103,11 @@ public class CommandBattleKits implements CommandExecutor {
 						 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
 					 }
 					 
+					 if (!sender.hasPermission("BattleKits.kit.other")) {
+						 plugin.PM.warn(sender, "You don't have permission for indirect kit distribution."); return true;
+
+					 }
+					 
 						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
 					 return true;
 				 }
