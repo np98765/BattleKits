@@ -15,4 +15,4 @@ Pull request guidelines
 * Please test :)
 * Don't worry if it's not fully functional, we appreciate all help.
 
-<a href = "http://dev.bukkit.org/server-mods/battlekits/"><img src = "http://i.imgur.com/4oHLw.png" /></a>
+<a href = "http://dev.bukkit.org/server-mods/battlekits/"><img src = "http://i.imgur.com/gDb1R.png" /></a>
