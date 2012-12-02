@@ -1,10 +1,7 @@
-
-BattleKits <img src = "http://dev.bukkit.org/thumbman/images/47/806/100x100/battlekits.png.-m1.png" align = "right" style = "display: inline">
+BattleKits <img src = "http://i.imgur.com/swmVU.png" align = "right" style = "display: inline">
 ======
 
 A comprehensive, configurable Bukkit plugin that allows you to specify kits with many varying features.
-For more info, see the BukkitDev page:
-http://dev.bukkit.org/server-mods/battlekits/
 
 <b>Contributors:</b>
 lol768, np98765, MapleFighter
@@ -17,3 +14,5 @@ Pull request guidelines
 * Tabs, not spaces (allows client to configure tab width)
 * Please test :)
 * Don't worry if it's not fully functional, we appreciate all help.
+
+<a href = "http://dev.bukkit.org/server-mods/battlekits/"><img src = "http://i.imgur.com/4oHLw.png" /></a>
