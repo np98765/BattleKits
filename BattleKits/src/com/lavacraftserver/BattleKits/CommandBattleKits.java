@@ -41,7 +41,7 @@ public class CommandBattleKits implements CommandExecutor {
 			/**
 			 * No args = list all available kits with costs
 			 */
-			if (args.length != 1) {
+			if (args.length == 0) {
 				String kit_ref = "";
 				for (String s: plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false)) {
 					if (plugin.kits.getConfig().contains("kits." + s + ".cost")) {
@@ -52,6 +52,10 @@ public class CommandBattleKits implements CommandExecutor {
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
 				plugin.PM.notify((Player)sender,"Available kits (cost): " ); //Header for info
 				sender.sendMessage(kit_ref); //Send the kit list
+				return true;
+			}
+			if (args.length != 1 && args.length != 2) {
+				plugin.PM.warn(sender, "Need at least one argument");
 				return true;
 			}
 			
