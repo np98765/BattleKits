@@ -1,4 +1,6 @@
-<div style="float: right">![Logo](http://dev.bukkit.org/thumbman/images/47/806/100x100/battlekits.png.-m1.png)</div>
+
+BattleKits <img src = "http://dev.bukkit.org/thumbman/images/47/806/100x100/battlekits.png.-m1.png" align = "right" style = "display: inline">
+======
 
 A comprehensive, configurable Bukkit plugin that allows you to specify kits with many varying features.
 For more info, see the BukkitDev page:
