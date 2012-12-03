@@ -35,7 +35,10 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void itemDrop(CraftItemEvent e) {
-		e.setCancelled((boolean) plugin.checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false));
+		
+		if ((boolean) plugin.checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false)) {
+		e.setCancelled(true);
+		}
 
 	}
 
@@ -87,8 +90,7 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-		if ((boolean) plugin.checkSetting("settings.disable-inventory-interaction", (Player) e.getWhoClicked(), false))
-			e.setCancelled(true);
+			e.setCancelled((boolean) plugin.checkSetting("settings.disable-inventory-interaction", (Player) e.getWhoClicked(), false));
 	}
 	
 	@EventHandler
