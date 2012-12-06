@@ -12,8 +12,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
 public class BattleKits extends JavaPlugin {
 	
 	public static net.milkbowl.vault.economy.Economy economy = null;
@@ -142,8 +140,6 @@ public class BattleKits extends JavaPlugin {
 	
 	
 	public void postStartup() {
-		String dt = "301112";
-
 		getServer().getPluginManager().registerEvents(new DeathEvent(this),
 				this);
 		if (global.getConfig().getBoolean("signs.enabled")) {
