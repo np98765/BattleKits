@@ -124,7 +124,7 @@ public class BattleKits extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		
-		this.getLogger().info("BattleKits-DEV has been disabled.");
+		this.getLogger().info("BattleKits has been disabled.");
 		kitHistory.saveConfig();
 		
 	}
@@ -151,14 +151,15 @@ public class BattleKits extends JavaPlugin {
 		}
 		
 		if (global.getConfig().getBoolean("experimental.enable-wg")) {
-		    
-		    // WorldGuard may not be loaded
+	        getLogger().severe("You're not a beta tester.");
+
+		   /* // WorldGuard may not be loaded
 		    if (WGP == null || !(WGP instanceof WorldGuardPlugin)) {
 		        getLogger().severe("Only enable worldguard integration if you have WorldGuard installed.");
 		        
 		    } else {
 				getServer().getPluginManager().registerEvents(new WorldGuardIntegration(this), this);
-		    }
+		    } */
 		}
 
 		getServer().getPluginManager().registerEvents(new RespawnKit(this),
@@ -199,7 +200,7 @@ public class BattleKits extends JavaPlugin {
 		}
 
 		getCommand("battlekits").setExecutor(cbk);
-		this.getLogger().info("BattleKits-DEV (" + dt + ") has been enabled!");
+		this.getLogger().info("BattleKits has been enabled!");
 	}
 
 	public ItemStack setColor(ItemStack item, int color) {

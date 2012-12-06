@@ -30,13 +30,13 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void itemDrop(PlayerDropItemEvent e) {
-			e.setCancelled((boolean) plugin.checkSetting("settings.disable-dropping-items", e.getPlayer(), false));
+			e.setCancelled((boolean) plugin.checkSetting("settings.disable-dropping-items", e.getPlayer(), false) || e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-dropping-items") && !(e.isCancelled()));
 	}
 
 	@EventHandler
 	public void itemDrop(CraftItemEvent e) {
 		
-		if ((boolean) plugin.checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false)) {
+		if ((boolean) plugin.checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false) || e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-crafting") && !(e.isCancelled())) {
 		e.setCancelled(true);
 		}
 
@@ -44,25 +44,25 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void pickup(PlayerPickupItemEvent e) {
-		e.setCancelled((boolean) plugin.checkSetting("settings.disable-pickup-items",  e.getPlayer(), false));
+		e.setCancelled((boolean) plugin.checkSetting("settings.disable-pickup-items",  e.getPlayer(), false) || e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-pickup-items") && !(e.isCancelled()));
 
 	}
 
 	@EventHandler
 	public void bpe(BlockPlaceEvent e) {
-		e.setCancelled((boolean) plugin.checkSetting("settings.disable-block-place", e.getPlayer(), false));
+		e.setCancelled((boolean) plugin.checkSetting("settings.disable-block-place", e.getPlayer(), false) || e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-place"));
 
 	}
 
 	@EventHandler
 	public void death(PlayerDeathEvent e) {
-		if ((boolean) plugin.checkSetting("settings.disable-player-xp-drop", e.getEntity(), false))
+		if ((boolean) plugin.checkSetting("settings.disable-player-xp-drop", e.getEntity(), false) || e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-xp-drop"))
 			e.setDroppedExp(0);
 
-		if ((boolean) plugin.checkSetting("settings.disable-player-drops-on-death", e.getEntity(), false))
+		if ((boolean) plugin.checkSetting("settings.disable-player-drops-on-death", e.getEntity(), false) || e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-drops-on-death"))
 			e.getDrops().clear();
 
-		if ((boolean) plugin.checkSetting("settings.hide-death-messages", e.getEntity(), false))
+		if ((boolean) plugin.checkSetting("settings.hide-death-messages", e.getEntity(), false) || e.getEntity().hasPermission("BattleKits.bypassRestriction.hide-death-messages"))
 			e.setDeathMessage(null);
 
 	}
@@ -80,22 +80,22 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void blockBreak(BlockBreakEvent e) {
 
-		if ((boolean) plugin.checkSetting("settings.disable-block-xp", e.getPlayer(), false))
+		if ((boolean) plugin.checkSetting("settings.disable-block-xp", e.getPlayer(), false) || e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-xp"))
 			e.setExpToDrop(0);
 
-		if ((boolean) plugin.checkSetting("settings.disable-block-break", e.getPlayer(), false))
+		if ((boolean) plugin.checkSetting("settings.disable-block-break", e.getPlayer(), false) || e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-break"))
 			e.setCancelled(true);
 
 	}
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-			e.setCancelled((boolean) plugin.checkSetting("settings.disable-inventory-interaction", (Player) e.getWhoClicked(), false));
+			e.setCancelled((boolean) plugin.checkSetting("settings.disable-inventory-interaction", (Player) e.getWhoClicked(), false) || e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-inventory-interaction"));
 	}
 	
 	@EventHandler
 	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-		if (e.getEntity() instanceof Player && (boolean) plugin.checkSetting("settings.disable-hunger", (Player) e.getEntity(), false))
+		if (e.getEntity() instanceof Player && (boolean) plugin.checkSetting("settings.disable-hunger", (Player) e.getEntity(), false) || e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-hunger"))
 			e.setCancelled(true);
 	}
 
