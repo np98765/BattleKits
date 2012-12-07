@@ -23,7 +23,7 @@ public class WorldGuardIntegration implements Listener {
 	*/
 	public WorldGuardIntegration(BattleKits plugin) {
 		this.plugin = plugin;
-		wgp = (WorldGuardPlugin) plugin.WGP;
+		wgp =null;
 		
 
 	}
