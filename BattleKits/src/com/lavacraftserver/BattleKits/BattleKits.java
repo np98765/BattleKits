@@ -25,7 +25,6 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
-    public Plugin WGP = getServer().getPluginManager().getPlugin("WorldGuard");
 
 
 	public boolean setupEconomy() {
