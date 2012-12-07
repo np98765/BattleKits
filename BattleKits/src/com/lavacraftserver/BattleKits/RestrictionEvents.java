@@ -34,7 +34,7 @@ public class RestrictionEvents implements Listener {
 	}
 
 	@EventHandler
-	public void itemDrop(CraftItemEvent e) {
+	public void craftItemEvent(CraftItemEvent e) {
 		
 		if ((boolean) plugin.checkSetting("settings.disable-crafting", (Player) e.getWhoClicked(), false) || e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-crafting") && !(e.isCancelled())) {
 		e.setCancelled(true);
