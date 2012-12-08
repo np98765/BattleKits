@@ -161,8 +161,7 @@ public class BattleKits extends JavaPlugin {
 				this);
 		getServer().getPluginManager().registerEvents(new PlayerReward(this),
 				this);
-		getServer().getPluginManager().registerEvents(
-				new RestrictionEvents(this), this);
+		//getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getServer().getPluginManager()
 				.registerEvents(new InstaSoup(this), this);
 
