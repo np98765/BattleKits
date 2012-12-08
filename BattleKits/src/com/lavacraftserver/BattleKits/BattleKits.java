@@ -188,7 +188,8 @@ public class BattleKits extends JavaPlugin {
 		}
 
 		getCommand("battlekits").setExecutor(cbk);
-		this.getLogger().info("BattleKits has been enabled!");
+		String ver = getDescription().getVersion();
+		this.getLogger().info("BattleKits (" + ver + ") has been enabled!");
 	}
 
 	public ItemStack setColor(ItemStack item, int color) {
