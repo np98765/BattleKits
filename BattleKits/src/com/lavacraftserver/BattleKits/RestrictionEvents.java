@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class RestrictionEvents implements Listener {
+	@SuppressWarnings("unused")
 	private BattleKits plugin;
 
 	/**
