@@ -150,6 +150,8 @@ public class BattleKits extends JavaPlugin {
 		
 		if (global.getConfig().getBoolean("settings.enable-restrictions")) {
 			getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
+			getLogger().info("Restrictions enabled. Use permissions to setup");
+
 
 		} else {
 			getLogger().info("Not enabling restrictions due to config setting");

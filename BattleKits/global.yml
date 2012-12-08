@@ -4,21 +4,9 @@ settings:
   once-per-life: true
   auto-update: false #Ignored by world-specific config
   enable-restrictions: true #Ignored by world-specific config
-  hide-death-messages: false
-  disable-dropping-items: false
-  disable-player-drops-on-death: false
-  disable-crafting: false
-  disable-player-xp-drop: false
-  disable-mob-xp-drop: false
-  disable-block-xp: false
-  disable-inventory-interaction: false
-  disable-pickup-items: false
-  disable-block-break: false
-  disable-block-place: false
   show-kit-info-on-respawn: true
   override-disable-respawn-kits: false
   instant-soup-drink: false
-  disable-hunger: false
 instant-soup-drink:
   replenish-type: hunger #Could be health
 signs:
@@ -34,8 +22,3 @@ indirect:
 rewards:
   killCommands:
   - 'xp 1L <player>'
-experimental:
-  enable-wg: false
-  region-commands:
-    test: "bk archer <player>"
-    others: "clear <player>"

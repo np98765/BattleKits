@@ -77,7 +77,7 @@ public class ConfigAccessor {
             }
             
             if (fileName == "global.yml") {
-            	fileConfiguration.options().header("Global BattleKits settings\nIgnored if world-specific config exists");
+            	fileConfiguration.options().header("Global BattleKits settings\nAdd world-specific blocks by warapping everything in the name of the world.\nRestrictions are handled by permissions now.");
             }
             
             if (fileName == "kits.yml") {
