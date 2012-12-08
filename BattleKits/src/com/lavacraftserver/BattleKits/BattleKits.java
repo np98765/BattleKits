@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -145,23 +144,16 @@ public class BattleKits extends JavaPlugin {
 			getServer().getPluginManager().registerEvents(new SignHandler(this), this);
 		}
 		
-		if (global.getConfig().getBoolean("experimental.enable-wg")) {
-	        getLogger().severe("You're not a beta tester.");
 
-		   /* // WorldGuard may not be loaded
-		    if (WGP == null || !(WGP instanceof WorldGuardPlugin)) {
-		        getLogger().severe("Only enable worldguard integration if you have WorldGuard installed.");
-		        
-		    } else {
-				getServer().getPluginManager().registerEvents(new WorldGuardIntegration(this), this);
-		    } */
+		getServer().getPluginManager().registerEvents(new RespawnKit(this), this);
+		getServer().getPluginManager().registerEvents(new PlayerReward(this),this);
+		
+		if (global.getConfig().getBoolean("settings.enable-restrictions")) {
+			getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
+
+		} else {
+			getLogger().info("Not enabling restrictions due to config setting");
 		}
-
-		getServer().getPluginManager().registerEvents(new RespawnKit(this),
-				this);
-		getServer().getPluginManager().registerEvents(new PlayerReward(this),
-				this);
-		//getServer().getPluginManager().registerEvents(new RestrictionEvents(this), this);
 		getServer().getPluginManager()
 				.registerEvents(new InstaSoup(this), this);
 

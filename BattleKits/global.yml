@@ -3,6 +3,7 @@
 settings:
   once-per-life: true
   auto-update: false #Ignored by world-specific config
+  enable-restrictions: true #Ignored by world-specific config
   hide-death-messages: false
   disable-dropping-items: false
   disable-player-drops-on-death: false
