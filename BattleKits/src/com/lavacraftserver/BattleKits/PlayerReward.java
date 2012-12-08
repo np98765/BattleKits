@@ -24,7 +24,7 @@ public class PlayerReward implements Listener {
 		Player dead = event.getEntity();
 		Player attacker;
 		if (dead.getLastDamageCause().getEntity() instanceof Player) {
-			attacker = (Player) dead.getLastDamageCause().getEntity();
+			attacker = (Player) dead.getKiller();
 			String name = attacker.getName();
 			if (plugin.global.getConfig().contains((dead.getWorld().getName() + ".rewards.killCommands"))) {
 					 List<String> commands = this.plugin.global.getConfig().getStringList(dead.getWorld().getName() + ".rewards.killCommands");
