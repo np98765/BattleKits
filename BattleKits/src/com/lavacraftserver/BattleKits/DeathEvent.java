@@ -28,7 +28,7 @@ public class DeathEvent implements Listener {
 	 @EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) { 
-			Player p = (Player) event.getEntity();
+			final Player p = (Player) event.getEntity();
 			if (event.getDamage() > p.getHealth() && plugin.kitHistory.getConfig().contains("dead." + p.getName())) { //Make sure they'll die :)
 
 				if ((boolean) plugin.checkSetting("settings.once-per-life", p, false)) {
@@ -36,7 +36,12 @@ public class DeathEvent implements Listener {
 				}
 	
 				if ((boolean) plugin.checkSetting("settings.show-kit-info-on-respawn", p, false)) {
-					plugin.PM.notify(p, "You may now use a kit");
+					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						  public void run() {
+							  plugin.PM.notify(p, "You may now use a kit");
+						  }
+						}, 60L);
+					
 				}
 			
 			}
