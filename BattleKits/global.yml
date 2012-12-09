@@ -15,6 +15,7 @@ signs:
   ignore-costs: false
   ignore-world-restriction: false
   ignore-lives-restriction: false
+  soupFillCost: 2.0
 indirect:
   ignore-costs: false
   ignore-permissions: true
