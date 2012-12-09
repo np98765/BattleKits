@@ -23,7 +23,7 @@ public class PlayerReward implements Listener {
 	public void ede(PlayerDeathEvent event) {
 		Player dead = event.getEntity();
 		Player attacker;
-		if (dead.getLastDamageCause().getEntity() instanceof Player) {
+		if (dead.getKiller() != null && dead.getKiller() instanceof Player) {
 			attacker = (Player) dead.getKiller();
 			String name = attacker.getName();
 			if (plugin.global.getConfig().contains((dead.getWorld().getName() + ".rewards.killCommands"))) {
