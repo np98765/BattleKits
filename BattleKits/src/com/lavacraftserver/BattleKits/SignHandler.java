@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class SignHandler implements Listener {
 	private BattleKits plugin;
@@ -41,7 +42,25 @@ public class SignHandler implements Listener {
 					if (p.hasPermission("Battlekits.sign.use")) {
 						
 						if (!plugin.kits.getConfig().contains("kits." + lines[1])) {
-							plugin.PM.warn(p, "That kit does not exist!");
+							if (lines[1].equals("soupFill")) {
+								if (!p.hasPermission("BattleKits.soupFill")) {
+									plugin.PM.warn(p, "You don't have permission for this!");
+								}
+								Boolean rez = true;
+								if ((Float) plugin.checkSetting("signs.soupFillCost", p, null) != null && BattleKits.economy != null) {
+									rez = plugin.buy((Float) plugin.checkSetting("signs.soupFillCost", p, null), p.getName());
+									
+								}
+								if (rez) {
+									for(ItemStack i : p.getInventory().getContents()) {
+										if(i == null) {
+											p.getInventory().addItem(new ItemStack(Material.MUSHROOM_SOUP, 1));
+										}
+									}
+								}
+							} else {
+								plugin.PM.warn(p, "That kit does not exist!");
+							}
 	
 						} else {
 							plugin.cbk.supplyKit(p, lines[1], (boolean) plugin.checkSetting("signs.ignore-permissions", p, false), (boolean) plugin.checkSetting("signs.ignore-costs", p, false), (boolean) plugin.checkSetting("signs.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("signs.ignore-lives-restriction", p, false));
@@ -71,7 +90,7 @@ public class SignHandler implements Listener {
 			
 			if (p.hasPermission("Battlekits.sign.create")) {
 				
-				if (plugin.kits.getConfig().contains("kits." + lines[1])) {
+				if (plugin.kits.getConfig().contains("kits." + lines[1]) || lines[1].equals("soupFill")) {
 					e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
 					plugin.PM.notify(p, "Kit sign created successfully!");
 				
