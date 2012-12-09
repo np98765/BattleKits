@@ -2,14 +2,15 @@
 #Ignored if world-specific config exists
 settings:
   once-per-life: true
-  auto-update: false #Ignored by world-specific config
-  enable-restrictions: true #Ignored by world-specific config
+  auto-update: true #Ignored by world-specific config
+  enable-restrictions: false #Ignored by world-specific config
   show-kit-info-on-respawn: true
   override-disable-respawn-kits: false
   instant-soup-drink: false
 instant-soup-drink:
   replenish-type: hunger #Could be health
 signs:
+  enabled: true
   ignore-permissions: false
   ignore-costs: false
   ignore-world-restriction: false

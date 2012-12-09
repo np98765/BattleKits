@@ -29,7 +29,7 @@ public class DeathEvent implements Listener {
 	public void onPlayerDeath(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) { 
 			Player p = (Player) event.getEntity();
-			if (event.getDamage() > p.getHealth()) { //Make sure they'll die :)
+			if (event.getDamage() > p.getHealth() && plugin.kitHistory.getConfig().contains("dead." + p.getName())) { //Make sure they'll die :)
 
 				if ((boolean) plugin.checkSetting("settings.once-per-life", p, false)) {
 					plugin.kitHistory.getConfig().set("dead." + p.getName(), null);

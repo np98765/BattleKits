@@ -3,9 +3,12 @@ package com.lavacraftserver.BattleKits;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import net.minecraft.server.NBTTagCompound;
+
+import net.minecraft.server.v1_4_5.NBTTagCompound;
+
+import org.bukkit.craftbukkit.v1_4_5.inventory.CraftItemStack;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -194,7 +197,7 @@ public class BattleKits extends JavaPlugin {
 
 	public ItemStack setColor(ItemStack item, int color) {
 		CraftItemStack craftStack = null;
-		net.minecraft.server.ItemStack itemStack = null;
+		net.minecraft.server.v1_4_5.ItemStack itemStack = null;
 		
 		if (item instanceof CraftItemStack) {
 			craftStack = (CraftItemStack) item;
