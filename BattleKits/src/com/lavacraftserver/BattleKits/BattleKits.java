@@ -94,6 +94,20 @@ public class BattleKits extends JavaPlugin {
 		return false;
 	}
 	
+	public boolean buyNeutral(double amount, String name) {
+		Player p = Bukkit.getPlayer(name);
+		net.milkbowl.vault.economy.EconomyResponse r = economy.withdrawPlayer(name, amount);
+		
+		if (r.transactionSuccess()) {
+			this.PM.notify(p, "Purchase successful! You spent " + amount + " and now have " + r.balance);
+			return true;
+			
+		} else {
+			this.PM.warn(p, "You don't have enough money! This costs " + amount + " and you have " + r.balance);
+		}
+		return false;
+	}
+	
 	private boolean createDataDirectory() {
 	    File file = this.getDataFolder();
 	    if (!file.isDirectory()){

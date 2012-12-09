@@ -47,9 +47,11 @@ public class SignHandler implements Listener {
 									plugin.PM.warn(p, "You don't have permission for this!");
 								}
 								Boolean rez = true;
-								if ((Float) plugin.checkSetting("signs.soupFillCost", p, null) != null && BattleKits.economy != null) {
-									rez = plugin.buy((Float) plugin.checkSetting("signs.soupFillCost", p, null), p.getName());
+								if ((Double) plugin.checkSetting("signs.soupFillCost", p, null) != null && BattleKits.economy != null) {
+									rez = plugin.buyNeutral((Double) plugin.checkSetting("signs.soupFillCost", p, null), p.getName());
 									
+								} else {
+									plugin.getLogger().info(BattleKits.economy + " " + plugin.checkSetting("signs.soupFillCost", p, null));
 								}
 								if (rez) {
 									for(ItemStack i : p.getInventory().getContents()) {
