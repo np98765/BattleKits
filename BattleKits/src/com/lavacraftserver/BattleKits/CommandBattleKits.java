@@ -42,6 +42,9 @@ public class CommandBattleKits implements CommandExecutor {
 			 * No args = list all available kits with costs
 			 */
 			if (args.length == 0) {
+				if (!sender.hasPermission("BattleKits.listKits")) {
+					plugin.PM.warn(sender, "You do not have permission to use this command.");
+				}
 				String kit_ref = "";
 				for (String s: plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false)) {
 					if (plugin.kits.getConfig().contains("kits." + s + ".cost")) {

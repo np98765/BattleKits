@@ -1,6 +1,7 @@
 package com.lavacraftserver.BattleKits;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -151,6 +152,7 @@ public class BattleKits extends JavaPlugin {
 		this.getLogger().info("Initializing configs...");
 		
 		makeConfigs();
+	
 		
 		
 	}
@@ -226,6 +228,33 @@ public class BattleKits extends JavaPlugin {
 		}
 
 		getCommand("battlekits").setExecutor(cbk);
+		
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.addCustomData(new Metrics.Plotter("Number of kits") {
+
+		        @Override
+		        public int getValue() {
+		            return kits.getConfig().getConfigurationSection("kits").getKeys(false).size();
+		        }
+
+		    });
+		    
+		    metrics.addCustomData(new Metrics.Plotter("Restrictions enabled") {
+
+		        @Override
+		        public int getValue() {
+		            if (global.getConfig().getBoolean("settings.enable-restrictions")) { return 1; }
+		            return 0;
+		        }
+
+		    });
+		    metrics.start();
+		} catch (IOException e) {
+			this.getLogger().severe("Metrics failed.");
+
+		}
+		
 		String ver = getDescription().getVersion();
 		this.getLogger().info("BattleKits (" + ver + ") has been enabled!");
 	}
