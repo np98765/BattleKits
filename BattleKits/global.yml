@@ -21,6 +21,9 @@ indirect:
   ignore-permissions: true
   ignore-world-restriction: false
   ignore-lives-restriction: false
+killStreaks:
+  enabled: true
+  actionDefault: '!&c<player> has an amazing kill streak of &e<kills>&c!'
 rewards:
   killCommands:
   - 'xp 1L <player>'

@@ -153,9 +153,11 @@ public class CommandBattleKits implements CommandExecutor {
 				  */
 				 if (keys.contains(className)) {
 					 if (plugin.kits.getConfig().contains("kits." + className + ".active-in")) {
-						 if (ignoreWorldRestriction || !(plugin.kits.getConfig().getString("kits." + className + ".active-in").contains("'" + p.getWorld().getName() + "'") || plugin.kits.getConfig().getString("kits." + className + ".active-in").equals("all"))) {
-							 plugin.PM.warn(p, "This kit is disabled in your current world (" + p.getWorld().getName() + ")");
-							 return true;
+						 if (!(plugin.kits.getConfig().getString("kits." + className + ".active-in").contains("'" + p.getWorld().getName() + "'") || plugin.kits.getConfig().getString("kits." + className + ".active-in").equals("all"))) {
+								 if (!ignoreWorldRestriction) {
+									 plugin.PM.warn(p, "This kit is disabled in your current world (" + p.getWorld().getName() + ")");
+									 return true;
+								 }
 						 }
 					 }
 					 

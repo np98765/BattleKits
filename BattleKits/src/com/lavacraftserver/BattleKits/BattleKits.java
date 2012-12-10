@@ -3,6 +3,7 @@ package com.lavacraftserver.BattleKits;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import net.minecraft.server.v1_4_5.NBTTagCompound;
 
@@ -46,12 +47,32 @@ public class BattleKits extends JavaPlugin {
 	 */
 	public Object checkSetting(String path, Player p, Object defaultValue) {
 		if (global.getConfig().contains(p.getWorld().getName() + "." + path)) {
-			return global.getConfig().getBoolean(p.getWorld().getName() + "." + path);
+			return global.getConfig().get(p.getWorld().getName() + "." + path);
 		} else {
 			if (global.getConfig().contains(path)) {
 				return global.getConfig().get(path);
 			} else {
 				return defaultValue;
+			}
+		}
+		
+	}
+	
+	/**
+	 * Multi-world config accessor
+	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
+	 * @param Player p - Player to get world from
+	 * @param Object defaultValue - If empty, use this
+	 * @return Object - resultant list
+	 */
+	public List<String> checkList(String path, Player p) {
+		if (global.getConfig().contains(p.getWorld().getName() + "." + path)) {
+			return global.getConfig().getStringList(p.getWorld().getName() + "." + path);
+		} else {
+			if (global.getConfig().contains(path)) {
+				return global.getConfig().getStringList(path);
+			} else {
+				return null;
 			}
 		}
 		
