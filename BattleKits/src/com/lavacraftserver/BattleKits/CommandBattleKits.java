@@ -165,9 +165,28 @@ public class CommandBattleKits implements CommandExecutor {
 					 }
 					 
 					 /**
+					  * One-off purchases
+					  */
+					 if (BattleKits.economy != null && plugin.kits.getConfig().contains("kits." + className + ".cost") && plugin.kits.getConfig().getDouble("kits." + className + ".cost") != 0 && !ignoreCost && plugin.kits.getConfig().getBoolean("kits." + className + ".one-off-purchase")) {
+						 double cost = plugin.kits.getConfig().getDouble("kits." + className + ".cost");
+						 if (!plugin.kitHistory.getConfig().getBoolean(p.getName() + ".unlocked." + className)) {
+							 if (!plugin.buy(cost, p.getName())) {
+									return true;
+								} else {
+									plugin.kitHistory.getConfig().set(p.getName() + ".unlocked." + className, true);
+									p.sendMessage(ChatColor.GREEN + "You have now permanently unlocked this kit!");
+									
+								}
+							 
+						 }
+
+					 }
+					 
+					 
+					 /**
 					  * Uses vault to charge user as specified in config
 					  */
-					 if (BattleKits.economy != null && plugin.kits.getConfig().contains("kits." + className + ".cost") && plugin.kits.getConfig().getDouble("kits." + className + ".cost") != 0 && !ignoreCost) {
+					 if (BattleKits.economy != null && plugin.kits.getConfig().contains("kits." + className + ".cost") && plugin.kits.getConfig().getDouble("kits." + className + ".cost") != 0 && !ignoreCost && !plugin.kits.getConfig().getBoolean("kits." + className + ".one-off-purchase")) {
 						 double cost = plugin.kits.getConfig().getDouble("kits." + className + ".cost");
 						 
 						 if (!plugin.buy(cost, p.getName())) {
