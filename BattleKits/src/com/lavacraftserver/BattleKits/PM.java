@@ -16,6 +16,41 @@ public class PM {
 	public PM(BattleKits instance) {
 		plugin = instance;
 	}
+	
+	/**
+	 * Logger method which supports localisation
+	 * 
+	 * @param message
+	 */
+	public void trLogger(String message, String type) {
+		String ld = plugin.global.getConfig().getString("language"); //User's selected language
+		if (type.equals("info")) {
+			plugin.getLogger().info(message);
+			return;
+
+		}
+
+		if (type.equals("warn") || type.equals("warning")) {
+			plugin.getLogger().warning(message);
+
+			return;
+
+		}
+
+		if (type.equals("error") || type.equals("severe")) {
+			plugin.getLogger().severe(message);
+
+			return;
+
+		}
+		try {
+			throw new Exception("Gimme class name");
+		} catch( Exception e) {
+			plugin.getLogger().severe("Not given a valid type in " + e.getStackTrace()[1].getClassName() + "." + e.getStackTrace()[1].getMethodName() + "!" );
+		}
+
+
+	}
 
 	/**
 	 * Method to keep messages consistent
