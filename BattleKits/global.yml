@@ -1,5 +1,6 @@
 #Global BattleKits settings
 #Ignored if world-specific config exists
+language: english
 settings:
   once-per-life: true
   auto-update: true #Ignored by world-specific config
