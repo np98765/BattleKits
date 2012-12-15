@@ -223,7 +223,14 @@ public class CommandBattleKits implements CommandExecutor {
 							
 						 
 					 }
-
+					 
+					 /**
+					  * Clears inventory when switching kit
+					  */
+					 if ((boolean) plugin.checkSetting("settings.clear-default", p, false)) {
+						p.getInventory().clear(); 
+					 }
+					 
 					 int slot;
 					 this.plugin.kitHistory.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn
 					 

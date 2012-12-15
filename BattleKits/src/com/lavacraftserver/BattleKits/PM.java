@@ -24,6 +24,17 @@ public class PM {
 	 */
 	public void trLogger(String message, String type) {
 		String ld = plugin.global.getConfig().getString("language"); //User's selected language
+		
+		if (plugin.global.getConfig().contains("messages." + ld + "." + message)) {
+			message = plugin.global.getConfig().getString("messages." + ld + "." + message);
+		} else {
+			try {
+				throw new Exception("Gimme class name");
+			} catch( Exception e) {
+				plugin.getLogger().severe("Not given a valid language in config at " + e.getStackTrace()[1].getClassName() + "." + e.getStackTrace()[1].getMethodName() + "!" );
+			}
+			return;
+		}
 		if (type.equals("info")) {
 			plugin.getLogger().info(message);
 			return;
