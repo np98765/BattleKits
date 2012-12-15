@@ -17,3 +17,7 @@ commands:
     usage: /fillall
     description: Refills all soup in inventory
     aliases: [fullsoup]
+permissions:
+  BattleKits.auto.*:
+    default: false
+    description: Auto-respawns all kits
