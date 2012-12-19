@@ -2,8 +2,7 @@ package com.lavacraftserver.BattleKits;
 
 import java.util.List;
 import java.util.Set;
-import net.minecraft.server.v1_4_5.NBTTagCompound;
-import org.bukkit.craftbukkit.v1_4_5.inventory.CraftItemStack;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.kitteh.tag.TagAPI;
 
 public class CommandBattleKits implements CommandExecutor {
@@ -260,13 +260,9 @@ public class CommandBattleKits implements CommandExecutor {
 							 if (plugin.kits.getConfig().contains("kits." + className + ".items" + ".names." + slot) ) {
 								 //get item name
 								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items" + ".names." + slot));
-								 CraftItemStack c = new CraftItemStack(i);
-								 NBTTagCompound tag = new NBTTagCompound();
-						            NBTTagCompound display = new NBTTagCompound();
-						            tag.setCompound("display", display);
-						            display.setString("Name", name);
-						            c.getHandle().tag = tag;
-						            i = c;
+								 ItemMeta im = plugin.myFactory.getItemMeta(i.getType());
+								 im.setDisplayName(name);
+								 i.setItemMeta(im);
 							 }
 							 
 							// Sets the enchantments and level

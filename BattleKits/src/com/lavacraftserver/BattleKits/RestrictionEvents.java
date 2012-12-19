@@ -100,7 +100,7 @@ public class RestrictionEvents implements Listener {
 
 	@EventHandler
 	public void invInteract(InventoryClickEvent e) {
-		if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-block-place") && !e.isCancelled()) {
+		if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-inventory-click") && !e.isCancelled()) {
 
 			e.setCancelled(true);
 		}
@@ -108,7 +108,7 @@ public class RestrictionEvents implements Listener {
 	
 	@EventHandler
 	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-block-place") && !e.isCancelled()) {
+		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-food-change") && !e.isCancelled()) {
 
 			e.setCancelled(true);
 		}
@@ -120,7 +120,7 @@ public class RestrictionEvents implements Listener {
 	@EventHandler
 	public void playerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		plugin.getLogger().info(p.hasPermission("Battlekits.auto." + kit));
+		plugin.getLogger().info(Boolean.toString(p.hasPermission("Battlekits.auto." + "archer")));
 	}
 
 }

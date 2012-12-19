@@ -18,6 +18,6 @@ commands:
     description: Refills all soup in inventory
     aliases: [fullsoup]
 permissions:
-  BattleKits.auto.*:
+  BattleKits.auto:
     default: false
     description: Auto-respawns all kits
