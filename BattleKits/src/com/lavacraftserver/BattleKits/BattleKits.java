@@ -10,7 +10,6 @@ import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +27,6 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
-    public ItemFactory myFactory;
 
 
 	public boolean setupEconomy() {
@@ -150,7 +148,6 @@ public class BattleKits extends JavaPlugin {
 			this.setEnabled(false);
 		}
 		this.getLogger().info("Initializing configs...");
-		myFactory = Bukkit.getServer().getItemFactory();
 		makeConfigs();
 	
 		
@@ -280,7 +277,7 @@ public class BattleKits extends JavaPlugin {
 		tag = itemStack.tag.getCompound("display");
 		tag.setInt("color", color);
 		itemStack.tag.setCompound("display", tag);*/
-		LeatherArmorMeta im = (LeatherArmorMeta) myFactory.getItemMeta(item.getType());
+		LeatherArmorMeta im = (LeatherArmorMeta) item.getItemMeta();
 		im.setColor(Color.fromRGB(color));
 		item.setItemMeta(im);
 		return item;

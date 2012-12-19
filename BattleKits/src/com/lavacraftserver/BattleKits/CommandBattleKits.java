@@ -260,7 +260,7 @@ public class CommandBattleKits implements CommandExecutor {
 							 if (plugin.kits.getConfig().contains("kits." + className + ".items" + ".names." + slot) ) {
 								 //get item name
 								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items" + ".names." + slot));
-								 ItemMeta im = plugin.myFactory.getItemMeta(i.getType());
+								 ItemMeta im = i.getItemMeta();
 								 im.setDisplayName(name);
 								 i.setItemMeta(im);
 							 }

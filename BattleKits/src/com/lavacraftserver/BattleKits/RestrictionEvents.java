@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class RestrictionEvents implements Listener {
-	@SuppressWarnings("unused")
 	private BattleKits plugin;
 
 	/**
@@ -112,15 +111,6 @@ public class RestrictionEvents implements Listener {
 
 			e.setCancelled(true);
 		}
-	}
-	
-	/**
-	 * DEBUG EVENT
-	 */
-	@EventHandler
-	public void playerJoin(PlayerJoinEvent e) {
-		Player p = e.getPlayer();
-		plugin.getLogger().info(Boolean.toString(p.hasPermission("Battlekits.auto." + "archer")));
 	}
 
 }
