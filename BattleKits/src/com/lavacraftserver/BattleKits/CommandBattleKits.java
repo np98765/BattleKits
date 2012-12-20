@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -127,6 +128,22 @@ public class CommandBattleKits implements CommandExecutor {
 	}
 	
 	/**
+	 * Method that tells us how much xp is required to reach a level
+	 * @param level The lev you want the player at
+	 * @return
+	 */
+	public int getExpTolevel(int level) {
+		if (level <= 16) {
+			return (level * 17);
+		} else {
+			int r = level - 16;
+			r = r * 3;
+			r = (level * 17) + r;
+			return r;
+		}
+	}
+	
+	/**
 	 * Big method that gives the player a specified kit
 	 * @param p - The player to give the kit
 	 * @param className - The name of the kit to give them
@@ -217,18 +234,23 @@ public class CommandBattleKits implements CommandExecutor {
 					  * XP 'showering'
 					  */
 					 
-					 if (plugin.kits.getConfig().contains("kits." + className + ".xp")) {
-						 int amount = plugin.kits.getConfig().getInt("kits." + className + ".xp");
-						 int i = 0;
-						 while (i < amount) {
-							 int x = 0;
-							 while (x < p.getExpToLevel()) {
-								 p.getWorld().spawnEntity(p.getEyeLocation().add(0, 2, 0), EntityType.EXPERIENCE_ORB);
-								 x++;
-							 }
-							 i++;
+					 if (plugin.kits.getConfig().contains("kits." + className + ".xpLevels")) {
+						 int amount = plugin.kits.getConfig().getInt("kits." + className + ".xpLevels");
+						 int required = getExpTolevel(amount);
+						 plugin.getLogger().info(Integer.toString(required));
+						 required = required - (int) p.getExp();
+						 int divisor = 5;
+						 int quotient = required / divisor;
+						 plugin.getLogger().info(Integer.toString(quotient) + " " + Integer.toString(required) + " " + Integer.toString(amount));
+						 int counter = 0;
+						 while (counter < quotient) {
+							 ExperienceOrb orb = (ExperienceOrb) p.getWorld().spawnEntity(p.getEyeLocation().add(0, 3, 0), EntityType.EXPERIENCE_ORB);
+							 orb.setExperience(divisor);
+							 counter++;
 						 }
-						 int req = p.getExpToLevel();
+						 int remaining = required % divisor;
+						 ExperienceOrb orbRemaining = (ExperienceOrb) p.getWorld().spawnEntity(p.getEyeLocation().add(0, 3, 0), EntityType.EXPERIENCE_ORB);
+						 orbRemaining.setExperience(remaining);
 					 }
 					 
 					 /**
