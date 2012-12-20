@@ -2,6 +2,7 @@ package com.lavacraftserver.BattleKits;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.eclipse.jetty.server.Server;
 
 public class BattleKits extends JavaPlugin {
 	
@@ -26,7 +28,7 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
-
+    private Server listener;
 
 	public boolean setupEconomy() {
 		RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -196,7 +198,29 @@ public class BattleKits extends JavaPlugin {
 				.registerEvents(new InstaSoup(this), this);
 
 		getCommand("soup").setExecutor(new CommandSoup(this));
+		getCommand("toolkit").setExecutor(new CommandKitCreation(this));
 		getCommand("fillall").setExecutor(new CommandRefillAll(this));
+		
+		/*
+		 * JETTY
+		 */
+		if (global.getConfig().getBoolean("server.enabled") && false) {
+			final InetSocketAddress addrToBind = new InetSocketAddress("0.0.0.0", global.getConfig().getInt("server.port"));
+			getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        listener = new Server(addrToBind);
+                        listener.setHandler(new WebHandler());
+                        listener.start();
+                    } catch (Exception ex) {
+                        getLogger().severe("Listener failed to create.");
+                        ex.printStackTrace();
+                    }
+                }
+            });
+			
+		}
 		if (global.getConfig().getBoolean("settings.auto-update") == true) {
 			@SuppressWarnings("unused")
 			Updater updater = new Updater(this, "battlekits", this.getFile(),

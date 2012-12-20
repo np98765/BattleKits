@@ -1,6 +1,9 @@
 #Global BattleKits settings
 #Ignored if world-specific config exists
 language: english
+server:
+  enabled: false
+  port: 8080
 settings:
   once-per-life: true
   auto-update: true #Ignored by world-specific config
