@@ -11,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -210,6 +211,24 @@ public class CommandBattleKits implements CommandExecutor {
 
 						 }
 							 
+					 }
+					 
+					 /**
+					  * XP 'showering'
+					  */
+					 
+					 if (plugin.kits.getConfig().contains("kits." + className + ".xp")) {
+						 int amount = plugin.kits.getConfig().getInt("kits." + className + ".xp");
+						 int i = 0;
+						 while (i < amount) {
+							 int x = 0;
+							 while (x < p.getExpToLevel()) {
+								 p.getWorld().spawnEntity(p.getEyeLocation().add(0, 2, 0), EntityType.EXPERIENCE_ORB);
+								 x++;
+							 }
+							 i++;
+						 }
+						 int req = p.getExpToLevel();
 					 }
 					 
 					 /**
