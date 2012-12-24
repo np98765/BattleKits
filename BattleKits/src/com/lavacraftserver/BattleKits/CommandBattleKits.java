@@ -16,6 +16,7 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.kitteh.tag.TagAPI;
 
 public class CommandBattleKits implements CommandExecutor {
@@ -129,7 +130,7 @@ public class CommandBattleKits implements CommandExecutor {
 	
 	/**
 	 * Method that tells us how much xp is required to reach a level
-	 * @param level The lev you want the player at
+	 * @param level The level you want the player at
 	 * @return
 	 */
 	public int getExpTolevel(int level) {
@@ -303,7 +304,9 @@ public class CommandBattleKits implements CommandExecutor {
 								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items" + ".names." + slot));
 								 ItemMeta im = i.getItemMeta();
 								 im.setDisplayName(name);
+								 
 								 i.setItemMeta(im);
+								 
 							 }
 							 
 							// Sets the enchantments and level

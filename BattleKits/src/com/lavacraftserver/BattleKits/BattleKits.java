@@ -250,8 +250,8 @@ public class BattleKits extends JavaPlugin {
 		getCommand("battlekits").setExecutor(cbk);
 		
 		try {
-		    Metrics metrics = new Metrics(this);
-		    metrics.addCustomData(new Metrics.Plotter("Number of kits") {
+		    BukkitMetrics metrics = new BukkitMetrics(this);
+		    metrics.addCustomData(new BukkitMetrics.Plotter("Number of kits") {
 
 		        @Override
 		        public int getValue() {
@@ -260,7 +260,7 @@ public class BattleKits extends JavaPlugin {
 
 		    });
 		    
-		    metrics.addCustomData(new Metrics.Plotter("Restrictions enabled") {
+		    metrics.addCustomData(new BukkitMetrics.Plotter("Restrictions enabled") {
 
 		        @Override
 		        public int getValue() {
