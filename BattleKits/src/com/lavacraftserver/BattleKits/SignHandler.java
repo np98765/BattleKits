@@ -46,6 +46,7 @@ public class SignHandler implements Listener {
 								if (!p.hasPermission("BattleKits.soupFill")) {
 									plugin.PM.warn(p, "You don't have permission for this!");
 								}
+
 								Boolean rez = true;
 								if ((Double) plugin.checkSetting("signs.soupFillCost", p, null) != null && BattleKits.economy != null) {
 									rez = plugin.buyNeutral((Double) plugin.checkSetting("signs.soupFillCost", p, null), p.getName());
@@ -65,6 +66,7 @@ public class SignHandler implements Listener {
 							}
 	
 						} else {
+							plugin.getLogger().info("Supplying kit - " + lines[1]);
 							plugin.cbk.supplyKit(p, lines[1], (boolean) plugin.checkSetting("signs.ignore-permissions", p, false), (boolean) plugin.checkSetting("signs.ignore-costs", p, false), (boolean) plugin.checkSetting("signs.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("signs.ignore-lives-restriction", p, false));
 	
 						}

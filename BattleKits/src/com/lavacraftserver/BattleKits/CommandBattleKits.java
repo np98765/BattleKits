@@ -473,6 +473,7 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 						 
 					 }
+					 
 					 short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability");
 					 short s2 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.chestplateDurability");
 					 short s3 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.leggingsDurability");
@@ -482,10 +483,11 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (s3 == -1) s3 = finalLeggings.getType().getMaxDurability();
 					 if (s4 == -1) s4 = finalBoots.getType().getMaxDurability();
 
-					 finalHelmet.setDurability(s1);
-					 finalChestplate.setDurability(s2);
-					 finalLeggings.setDurability(s3);
-					 finalBoots.setDurability(s4);
+					 if (finalHelmet != null) finalHelmet.setDurability(s1);
+					 if (finalChestplate != null) finalChestplate.setDurability(s2);
+					 if (finalLeggings != null) finalLeggings.setDurability(s3);
+					 if (finalBoots != null) finalBoots.setDurability(s4);
+					 
 
 					 
 					 if (plugin.kits.getConfig().contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
