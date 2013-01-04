@@ -19,3 +19,8 @@ Pull request guidelines
 <a href = "http://dev.bukkit.org/profiles/np98765">NP98765</a>, <a href = "http://dev.bukkit.org/profiles/lol768">lol768</a>, <a href = "http://dev.bukkit.org/profiles/maplefighter777">MapleFighter777</a>
 
 <a href = "http://dev.bukkit.org/server-mods/battlekits/"><img src = "http://i.imgur.com/gDb1R.png" /></a>
+
+Development builds
+======
+
+Development builds are available http://199.241.30.86/builds (please note these files have not been approved by BukkitDev staff).
