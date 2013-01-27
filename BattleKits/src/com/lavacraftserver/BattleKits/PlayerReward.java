@@ -17,10 +17,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
  */
 public class PlayerReward implements Listener {
 	private BattleKits plugin;
-
 	public PlayerReward(BattleKits p) {
-		this.plugin = p;
-	}
+		plugin = p;
+	} 
 
 	/**
 	 * Method that automatically fills in and does magic stuff

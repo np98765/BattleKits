@@ -16,7 +16,6 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.kitteh.tag.TagAPI;
 
 public class CommandBattleKits implements CommandExecutor {
@@ -47,16 +46,25 @@ public class CommandBattleKits implements CommandExecutor {
 			if (args.length == 0) {
 				if (!sender.hasPermission("BattleKits.listKits")) {
 					plugin.PM.warn(sender, "You do not have permission to use this command.");
+					return true;
 				}
 				String kit_ref = "";
 				for (String s: plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false)) {
-					if (plugin.kits.getConfig().contains("kits." + s + ".cost")) {
-						s = s + " (" + plugin.kits.getConfig().getDouble("kits." + s + ".cost") + ") "; //Builds list of kits incl. cost of each
+					
+					if (sender.hasPermission("BattleKits.use." + s)) {
+						s = ChatColor.GREEN + s + ChatColor.RESET;
+					} else {
+						s = ChatColor.RED + s + ChatColor.RESET;
 					}
+					if (plugin.kits.getConfig().contains("kits." + ChatColor.stripColor(s) + ".cost")) {
+						s = s + " (" + plugin.kits.getConfig().getDouble("kits." + ChatColor.stripColor(s) + ".cost") + ")"; //Builds list of kits incl. cost of each
+					}
+					
 					kit_ref = kit_ref + s + ", "; //Add new kit info to String
 				}
-				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
+				kit_ref = kit_ref.substring(0, kit_ref.length() - 2); //remove last comma and space
 				plugin.PM.notify((Player)sender,"Available kits (cost): " ); //Header for info
+				plugin.PM.notify((Player)sender,"Accessible kits are marked green." );
 				sender.sendMessage(kit_ref); //Send the kit list
 				return true;
 			}
@@ -98,7 +106,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
 				 }
 				
-				supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
+				supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false));
 				return true;
 				
 			 } else {
@@ -118,7 +126,7 @@ public class CommandBattleKits implements CommandExecutor {
 
 					 }
 					 
-						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
+						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false));
 					 return true;
 				 }
 			
@@ -167,7 +175,8 @@ public class CommandBattleKits implements CommandExecutor {
 		/**
 		 * This if statement checks if the once-per-life rule is active, and whether the user has already used a kit
 		 */
-		if (ignoreLives || (plugin.global.getConfig().getBoolean("settings.once-per-life") && !plugin.kitHistory.getConfig().contains("dead." + p.getName())) || (plugin.global.getConfig().getBoolean("settings.once-per-life") == false)) {
+		if (!ignoreLives && plugin.global.getConfig().getBoolean("settings.once-per-life")) {
+			if (!plugin.kitHistory.getConfig().contains("dead." + p.getName())) {
 				 Set<String> keys = plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false); //Current kits in config
 				 
 				 /**
@@ -182,6 +191,16 @@ public class CommandBattleKits implements CommandExecutor {
 								 }
 						 }
 					 }
+				 } else {
+					 plugin.PM.warn(p, "Please choose a valid kit!");
+				 }
+			 } else {
+				 plugin.PM.warn(p, "You may only use one kit per life!");
+				 
+				 return true;
+			 }
+			
+		}
 					 
 					 /**
 					  * One-off purchases
@@ -546,17 +565,10 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 					 
 					 }
-					 return true;
-					 
-				 } else {
-					 plugin.PM.warn(p, "Please choose a valid kit!");
-				 }
 				 
 			 
 			 
-		 } else {
-			 plugin.PM.warn(p, "You may only use one kit per life!");
-		 }
+		 
 		return true;
 		
 	}

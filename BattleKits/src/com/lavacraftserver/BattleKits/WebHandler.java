@@ -1,24 +1,36 @@
 package com.lavacraftserver.BattleKits;
+import java.io.PrintStream;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
-
-public class WebHandler extends AbstractHandler {
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
+import org.simpleframework.http.core.Container;
 
 
-	@Override
-	public void handle(String arg0, Request arg1, HttpServletRequest arg2, HttpServletResponse response) throws IOException, ServletException {
-		byte[] body;
-		String html = "<h1>Java web server!</h1>";
-		body = html.getBytes();
-		response.setContentType("text/html");
-		response.setContentLength(body.length);
-		response.getOutputStream().write(body);
-		response.getOutputStream().close();
+
+public class WebHandler implements Container {
+	private BattleKits plugin;
+	public WebHandler(BattleKits p) {
+		plugin = p;
+		plugin.html = plugin.html.replace("##SERVERNAME##", plugin.global.getConfig().getString("server.server-name"));
+		plugin.html = plugin.html.replace("##DESCRIPTION##", plugin.global.getConfig().getString("server.server-description"));
 	}
+	public void handle(Request request, Response response) {
+	      try {
+	         PrintStream body = response.getPrintStream();
+	         long time = System.currentTimeMillis();
+	   
+	         response.setValue("Content-Type", "text/html");
+	         response.setValue("Server", "BattleKits/1.0 (Simple 4.0)");
+	         response.setDate("Date", time);
+	         response.setDate("Last-Modified", time);
+	   
+	         body.println(plugin.html);
+	         body.close();
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
+	   } 
+	
+
 
 }

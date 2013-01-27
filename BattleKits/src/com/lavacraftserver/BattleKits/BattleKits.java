@@ -2,7 +2,9 @@ package com.lavacraftserver.BattleKits;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,12 +15,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.eclipse.jetty.server.Server;
+import org.simpleframework.http.core.Container;
+import org.simpleframework.http.core.ContainerServer;
+import org.simpleframework.transport.Server;
+import org.simpleframework.transport.connect.Connection;
+import org.simpleframework.transport.connect.SocketConnection;
 
 public class BattleKits extends JavaPlugin {
 	
 	public static net.milkbowl.vault.economy.Economy economy = null;
-	
+	public String html = "Error";
 	public HashSet<String> death = new HashSet<String>();
 	public HashMap<String, String> tags = new HashMap<String, String>(); //Name, prefix (colour codes)
 	CommandBattleKits cbk = new CommandBattleKits(this);
@@ -28,7 +34,7 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
-    private Server listener;
+    Connection connection = null;
 
 	public boolean setupEconomy() {
 		RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -100,6 +106,10 @@ public class BattleKits extends JavaPlugin {
 		
 	}
 	
+	public static String convertStreamToString(java.io.InputStream is) {
+	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+	    return s.hasNext() ? s.next() : "";
+	}
 
 	public boolean buy(double amount, String name) {
 		Player p = Bukkit.getPlayer(name);
@@ -144,13 +154,21 @@ public class BattleKits extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		
+		if (!Bukkit.getServer().getOnlineMode()) {
+			getLogger().severe("This plugin requires an online mode server to operate.");
+			Bukkit.getPluginManager().disablePlugin(this);
+		}
+		
 		if (!createDataDirectory()) {
 			this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
 			this.setEnabled(false);
 		}
 		this.getLogger().info("Initializing configs...");
 		makeConfigs();
-	
+		InputStream page = getResource("page.txt");
+		html = convertStreamToString(page);
+		
+
 		
 		
 	}
@@ -160,6 +178,14 @@ public class BattleKits extends JavaPlugin {
 		
 		this.getLogger().info("BattleKits has been disabled.");
 		kitHistory.saveConfig();
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
@@ -202,24 +228,22 @@ public class BattleKits extends JavaPlugin {
 		getCommand("fillall").setExecutor(new CommandRefillAll(this));
 		
 		/*
-		 * JETTY
+		 * Web
 		 */
-		if (global.getConfig().getBoolean("server.enabled") && false) {
-			final InetSocketAddress addrToBind = new InetSocketAddress("0.0.0.0", global.getConfig().getInt("server.port"));
-			getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        listener = new Server(addrToBind);
-                        listener.setHandler(new WebHandler());
-                        listener.start();
-                    } catch (Exception ex) {
-                        getLogger().severe("Listener failed to create.");
-                        ex.printStackTrace();
-                    }
-                }
-            });
+		if (global.getConfig().getBoolean("server.enabled")) {
+			int port = global.getConfig().getInt("server.port");
+			try {
+				
 			
+			  Container container = new WebHandler(this);
+		      Server server = new ContainerServer(container);
+		      connection = new SocketConnection(server);
+		      SocketAddress address = new InetSocketAddress(port);
+
+		      connection.connect(address);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		if (global.getConfig().getBoolean("settings.auto-update") == true) {
 			@SuppressWarnings("unused")
