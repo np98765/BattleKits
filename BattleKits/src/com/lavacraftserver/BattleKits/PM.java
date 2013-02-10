@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class PM {
 
-	BattleKits plugin;
+	public BattleKits plugin;
 	
 	/**
 	* Constructor method used when creating instance of this class
@@ -70,7 +70,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void warn(Player player, String message) {
-		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.RED + " " + message);
+		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + ChatColor.translateAlternateColorCodes('&', plugin.global.getConfig().getString("brand")) + ChatColor.GRAY + "]" + ChatColor.RED + " " + message);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void warn(CommandSender sender, String message) {
-		sender.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.RED +" " +  message);
+		sender.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + ChatColor.translateAlternateColorCodes('&', plugin.global.getConfig().getString("brand")) + ChatColor.GRAY + "]" + ChatColor.RED +" " +  message);
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void notify(CommandSender player, String message) {
-		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.YELLOW + " " + message);
+		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + ChatColor.translateAlternateColorCodes('&', plugin.global.getConfig().getString("brand")) + ChatColor.GRAY + "]" + ChatColor.YELLOW + " " + message);
 	}
 	
 	/**
@@ -101,7 +101,7 @@ public class PM {
 	 * @param message - The message to send them
 	 */
 	public void notify(Player player, String message) {
-		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + "BattleKits" + ChatColor.GRAY + "]" + ChatColor.YELLOW + " " + message);
+		player.sendMessage(ChatColor.GRAY + "[" + ChatColor.GOLD + ChatColor.translateAlternateColorCodes('&', plugin.global.getConfig().getString("brand")) + ChatColor.GRAY + "]" + ChatColor.YELLOW + " " + message);
 	}
 
 }

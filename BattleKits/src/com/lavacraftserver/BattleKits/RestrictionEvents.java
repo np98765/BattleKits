@@ -106,7 +106,8 @@ public class RestrictionEvents implements Listener {
 	
 	@EventHandler
 	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-food-change") && !e.isCancelled()) {
+		Player p = (Player) e.getEntity();
+		if (p.hasPermission("BattleKits.disableFoodChange")) {
 
 			e.setCancelled(true);
 		}
