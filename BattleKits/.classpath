@@ -5,6 +5,6 @@
 	<classpathentry kind="lib" path="/home/lol768/BC/Vault.jar"/>
 	<classpathentry kind="lib" path="/home/lol768/BC/TagAPI.jar"/>
 	<classpathentry kind="lib" path="/home/lol768/BC/web_server/simple-5.0.4.jar"/>
-	<classpathentry kind="lib" path="/home/lol768/BC/bukkit-dev-17.jar"/>
+	<classpathentry kind="lib" path="/home/lol768/BC/bukkit_147_RB.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

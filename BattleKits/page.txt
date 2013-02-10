@@ -77,7 +77,7 @@
                   <th>Username</th>
                   <th>Kills</th>
                   <th>Deaths</th>
-                  <th>KD Ratio</th>
+                  <th>Kill percentage</th>
                 </tr>
               </thead>
               <tbody>

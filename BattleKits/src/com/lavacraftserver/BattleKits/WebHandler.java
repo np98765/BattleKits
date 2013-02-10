@@ -75,7 +75,7 @@ public class WebHandler implements Container {
 	        		kill = this.kills.get(pairs.getKey());
 	        	}
 	        	plugin.getLogger().info("Adding stats for " + pairs.getKey());
-	        	int per = kill / (kill + death);
+	        	double per = kill / (kill + death);
 	        	per = per * 100;
 	        	table = table + "<tr><td>" + pairs.getKey() + "</td><td>" + kill + "</td><td>" + death + "</td><td>" + per + "%</td>";
 	         }
