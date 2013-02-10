@@ -74,7 +74,6 @@
           <table class="table">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Username</th>
                   <th>Kills</th>
                   <th>Deaths</th>

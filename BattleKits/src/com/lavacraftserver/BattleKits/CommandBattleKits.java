@@ -551,7 +551,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (finalChestplate != null) { p.getInventory().setChestplate(finalChestplate); }
 					 if (finalLeggings != null) { p.getInventory().setLeggings(finalLeggings); }
 					 if (finalBoots != null) { p.getInventory().setBoots(finalBoots); }
-					 
+					 p.updateInventory();
 					 if (plugin.global.getConfig().getBoolean("settings.once-per-life")) {
 						 plugin.kitHistory.getConfig().set("dead." + p.getName(), true);
 					 }

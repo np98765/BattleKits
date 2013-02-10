@@ -1,10 +1,11 @@
 #Global BattleKits settings
 #Ignored if world-specific config exists
-language: english
 brand: "BattleKits"
 server:
   enabled: false
   port: 8080
+  server-name: "BattleKits"
+  server-description: "A BattleKits server"
 settings:
   once-per-life: true
   auto-update: false #Ignored by world-specific config

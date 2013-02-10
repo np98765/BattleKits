@@ -34,6 +34,7 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
+    public WebHandler wh;
     Connection connection = null;
 
 	public boolean setupEconomy() {
@@ -153,23 +154,14 @@ public class BattleKits extends JavaPlugin {
     
 	@Override
 	public void onEnable() {
-		
-		if (!Bukkit.getServer().getOnlineMode()) {
-			getLogger().severe("This plugin requires an online mode server to operate.");
-			Bukkit.getPluginManager().disablePlugin(this);
-		}
-		
 		if (!createDataDirectory()) {
 			this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
 			this.setEnabled(false);
 		}
 		this.getLogger().info("Initializing configs...");
-		makeConfigs();
 		InputStream page = getResource("page.txt");
 		html = convertStreamToString(page);
-		
-
-		
+		makeConfigs();
 		
 	}
 
@@ -178,6 +170,7 @@ public class BattleKits extends JavaPlugin {
 		
 		this.getLogger().info("BattleKits has been disabled.");
 		kitHistory.saveConfig();
+		wh.saveAll();
 		if (connection != null) {
 			try {
 				connection.close();
@@ -234,8 +227,11 @@ public class BattleKits extends JavaPlugin {
 			int port = global.getConfig().getInt("server.port");
 			try {
 				
-			
-			  Container container = new WebHandler(this);
+			  wh = new WebHandler(this);
+			  
+			  wh.html = html;
+			  Container container = wh;
+			  
 		      Server server = new ContainerServer(container);
 		      connection = new SocketConnection(server);
 		      SocketAddress address = new InetSocketAddress(port);

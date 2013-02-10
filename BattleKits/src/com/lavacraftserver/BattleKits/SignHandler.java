@@ -37,7 +37,7 @@ public class SignHandler implements Listener {
 			if (e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
 				Sign s = (Sign) e.getClickedBlock().getState();
 				String[] lines = s.getLines();
-				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[BattleKits]")) {
+				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[" + ChatColor.stripColor(plugin.global.getConfig().getString("brand")) + "]")) {
 					
 					if (p.hasPermission("Battlekits.sign.use")) {
 						
@@ -91,12 +91,12 @@ public class SignHandler implements Listener {
 		String[] lines = e.getLines();
 		Player p = e.getPlayer();
 
-		if (lines.length > 1 && lines[0].equalsIgnoreCase("[BattleKits]")) {
+		if (lines.length > 1 && lines[0].equalsIgnoreCase("[" + ChatColor.stripColor(plugin.global.getConfig().getString("brand")) + "]")) {
 			
 			if (p.hasPermission("Battlekits.sign.create")) {
 				
 				if (plugin.kits.getConfig().contains("kits." + lines[1]) || lines[1].equals("soupFill")) {
-					e.setLine(0, ChatColor.DARK_RED + "[BattleKits]");
+					e.setLine(0, ChatColor.DARK_RED + "[" + ChatColor.stripColor(plugin.global.getConfig().getString("brand")) + "]");
 					plugin.PM.notify(p, "Kit sign created successfully!");
 				
 				} else {

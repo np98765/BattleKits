@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/home/lol768/BC/Vault.jar"/>
-	<classpathentry kind="lib" path="/home/lol768/BC/bukkit-1.4.6-R0.2-20121227.191029-5.jar"/>
 	<classpathentry kind="lib" path="/home/lol768/BC/TagAPI.jar"/>
 	<classpathentry kind="lib" path="/home/lol768/BC/web_server/simple-5.0.4.jar"/>
+	<classpathentry kind="lib" path="/home/lol768/BC/bukkit-dev-17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
