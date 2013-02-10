@@ -1,6 +1,6 @@
 name: BattleKits
 main: com.lavacraftserver.BattleKits.BattleKits
-version: 1.9.6
+version: 2.0
 author: np98765
 authors: ['lol768', 'MapleFighter777']
 softdepend: [Vault, TagAPI]
@@ -19,4 +19,4 @@ commands:
     aliases: [fullsoup]
   toolkit:
     usage: /toolkit [action]
-    description: Allows creation of kits with what is in the inventory
+    description: Allows creation of kits with what is in the inventory. Not yet written.
