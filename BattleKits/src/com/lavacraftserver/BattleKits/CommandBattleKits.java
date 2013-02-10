@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,16 +46,25 @@ public class CommandBattleKits implements CommandExecutor {
 			if (args.length == 0) {
 				if (!sender.hasPermission("BattleKits.listKits")) {
 					plugin.PM.warn(sender, "You do not have permission to use this command.");
+					return true;
 				}
 				String kit_ref = "";
 				for (String s: plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false)) {
-					if (plugin.kits.getConfig().contains("kits." + s + ".cost")) {
-						s = s + " (" + plugin.kits.getConfig().getDouble("kits." + s + ".cost") + ") "; //Builds list of kits incl. cost of each
+					
+					if (sender.hasPermission("BattleKits.use." + s)) {
+						s = ChatColor.GREEN + s + ChatColor.RESET;
+					} else {
+						s = ChatColor.RED + s + ChatColor.RESET;
 					}
+					if (plugin.kits.getConfig().contains("kits." + ChatColor.stripColor(s) + ".cost")) {
+						s = s + " (" + plugin.kits.getConfig().getDouble("kits." + ChatColor.stripColor(s) + ".cost") + ")"; //Builds list of kits incl. cost of each
+					}
+					
 					kit_ref = kit_ref + s + ", "; //Add new kit info to String
 				}
-				kit_ref = kit_ref.substring(0, kit_ref.length() - 1); //remove last comma
+				kit_ref = kit_ref.substring(0, kit_ref.length() - 2); //remove last comma and space
 				plugin.PM.notify((Player)sender,"Available kits (cost): " ); //Header for info
+				plugin.PM.notify((Player)sender,"Accessible kits are marked green." );
 				sender.sendMessage(kit_ref); //Send the kit list
 				return true;
 			}
@@ -95,7 +106,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 plugin.PM.warn(sender, "Couldn't locate specified player."); return true;
 				 }
 				
-				supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
+				supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false));
 				return true;
 				
 			 } else {
@@ -115,7 +126,7 @@ public class CommandBattleKits implements CommandExecutor {
 
 					 }
 					 
-						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false));
+						supplyKit(p, args[0], (boolean) plugin.checkSetting("indirect.ignore-permissions", p, false), (boolean) plugin.checkSetting("indirect.ignore-costs", p, false), (boolean) plugin.checkSetting("indirect.ignore-lives-restriction", p, false), (boolean) plugin.checkSetting("indirect.ignore-world-restriction", p, false));
 					 return true;
 				 }
 			
@@ -123,6 +134,22 @@ public class CommandBattleKits implements CommandExecutor {
 		
 		}
 		return false;
+	}
+	
+	/**
+	 * Method that tells us how much xp is required to reach a level
+	 * @param level The level you want the player at
+	 * @return
+	 */
+	public int getExpTolevel(int level) {
+		if (level <= 16) {
+			return (level * 17);
+		} else {
+			int r = level - 16;
+			r = r * 3;
+			r = (level * 17) + r;
+			return r;
+		}
 	}
 	
 	/**
@@ -148,7 +175,8 @@ public class CommandBattleKits implements CommandExecutor {
 		/**
 		 * This if statement checks if the once-per-life rule is active, and whether the user has already used a kit
 		 */
-		if (ignoreLives || (plugin.global.getConfig().getBoolean("settings.once-per-life") && !plugin.kitHistory.getConfig().contains("dead." + p.getName())) || (plugin.global.getConfig().getBoolean("settings.once-per-life") == false)) {
+		if (!ignoreLives && plugin.global.getConfig().getBoolean("settings.once-per-life")) {
+			if (!plugin.kitHistory.getConfig().contains("dead." + p.getName())) {
 				 Set<String> keys = plugin.kits.getConfig().getConfigurationSection("kits").getKeys(false); //Current kits in config
 				 
 				 /**
@@ -163,6 +191,16 @@ public class CommandBattleKits implements CommandExecutor {
 								 }
 						 }
 					 }
+				 } else {
+					 plugin.PM.warn(p, "Please choose a valid kit!");
+				 }
+			 } else {
+				 plugin.PM.warn(p, "You may only use one kit per life!");
+				 
+				 return true;
+			 }
+			
+		}
 					 
 					 /**
 					  * One-off purchases
@@ -210,6 +248,29 @@ public class CommandBattleKits implements CommandExecutor {
 
 						 }
 							 
+					 }
+					 
+					 /**
+					  * XP 'showering'
+					  */
+					 
+					 if (plugin.kits.getConfig().contains("kits." + className + ".xpLevels")) {
+						 int amount = plugin.kits.getConfig().getInt("kits." + className + ".xpLevels");
+						 int required = getExpTolevel(amount);
+						 plugin.getLogger().info(Integer.toString(required));
+						 required = required - (int) p.getExp();
+						 int divisor = 5;
+						 int quotient = required / divisor;
+						 plugin.getLogger().info(Integer.toString(quotient) + " " + Integer.toString(required) + " " + Integer.toString(amount));
+						 int counter = 0;
+						 while (counter < quotient) {
+							 ExperienceOrb orb = (ExperienceOrb) p.getWorld().spawnEntity(p.getEyeLocation().add(0, 3, 0), EntityType.EXPERIENCE_ORB);
+							 orb.setExperience(divisor);
+							 counter++;
+						 }
+						 int remaining = required % divisor;
+						 ExperienceOrb orbRemaining = (ExperienceOrb) p.getWorld().spawnEntity(p.getEyeLocation().add(0, 3, 0), EntityType.EXPERIENCE_ORB);
+						 orbRemaining.setExperience(remaining);
 					 }
 					 
 					 /**
@@ -262,7 +323,9 @@ public class CommandBattleKits implements CommandExecutor {
 								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items" + ".names." + slot));
 								 ItemMeta im = i.getItemMeta();
 								 im.setDisplayName(name);
+								 
 								 i.setItemMeta(im);
+								 
 							 }
 							 
 							// Sets the enchantments and level
@@ -429,6 +492,7 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 						 
 					 }
+					 
 					 short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability");
 					 short s2 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.chestplateDurability");
 					 short s3 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.leggingsDurability");
@@ -438,10 +502,11 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (s3 == -1) s3 = finalLeggings.getType().getMaxDurability();
 					 if (s4 == -1) s4 = finalBoots.getType().getMaxDurability();
 
-					 finalHelmet.setDurability(s1);
-					 finalChestplate.setDurability(s2);
-					 finalLeggings.setDurability(s3);
-					 finalBoots.setDurability(s4);
+					 if (finalHelmet != null) finalHelmet.setDurability(s1);
+					 if (finalChestplate != null) finalChestplate.setDurability(s2);
+					 if (finalLeggings != null) finalLeggings.setDurability(s3);
+					 if (finalBoots != null) finalBoots.setDurability(s4);
+					 
 
 					 
 					 if (plugin.kits.getConfig().contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
@@ -486,7 +551,7 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (finalChestplate != null) { p.getInventory().setChestplate(finalChestplate); }
 					 if (finalLeggings != null) { p.getInventory().setLeggings(finalLeggings); }
 					 if (finalBoots != null) { p.getInventory().setBoots(finalBoots); }
-					 
+					 p.updateInventory();
 					 if (plugin.global.getConfig().getBoolean("settings.once-per-life")) {
 						 plugin.kitHistory.getConfig().set("dead." + p.getName(), true);
 					 }
@@ -500,17 +565,10 @@ public class CommandBattleKits implements CommandExecutor {
 						 }
 					 
 					 }
-					 return true;
-					 
-				 } else {
-					 plugin.PM.warn(p, "Please choose a valid kit!");
-				 }
 				 
 			 
 			 
-		 } else {
-			 plugin.PM.warn(p, "You may only use one kit per life!");
-		 }
+		 
 		return true;
 		
 	}

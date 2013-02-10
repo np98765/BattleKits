@@ -70,7 +70,7 @@ public class ConfigAccessor {
         if (defConfigStream != null && configFile.length() < 1) {
         	plugin.getLogger().info("Generating config for " + fileName);
             defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            //fileConfiguration.setDefaults(defConfig);
+            fileConfiguration.setDefaults(defConfig);
             fileConfiguration = defConfig;
             if (fileName == "kitHistory.yml") {
             	fileConfiguration.options().header("This file contains the kit history, i.e. the last kit the user requested for respawning kits on death\nAlso contains info on whether the player has used their kit in their life\nThere is no reason to ever modify this file.");
