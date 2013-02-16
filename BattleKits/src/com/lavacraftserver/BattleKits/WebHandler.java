@@ -69,14 +69,15 @@ public class WebHandler implements Container {
 	 		Iterator it = deaths.entrySet().iterator();
 	 	    while (it.hasNext()) {
 	 	    	Map.Entry pairs = (Map.Entry)it.next();
-	        	int death = (int) pairs.getValue();
+	 	    	int death = (int) pairs.getValue();
 	        	int kill = 0;
 	        	if (this.kills.get(pairs.getKey()) != null) {
 	        		kill = this.kills.get(pairs.getKey());
 	        	}
 	        	plugin.getLogger().info("Adding stats for " + pairs.getKey());
-	        	double per = kill / (kill + death);
+	        	double per = kill / (double) (kill + death);
 	        	per = per * 100;
+	        	per = Math.ceil(per);
 	        	table = table + "<tr><td>" + pairs.getKey() + "</td><td>" + kill + "</td><td>" + death + "</td><td>" + per + "%</td>";
 	         }
 	       
