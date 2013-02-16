@@ -86,7 +86,7 @@ public class PlayerReward implements Listener {
 				
 			}
 
-			if (plugin.global.getConfig().contains((dead.getWorld().getName() + ".rewards.killCommands"))) {
+			if (plugin.global.getConfig().contains((dead.getWorld().getName() + ".rewards.killCommands")) && !(dead.getKiller().getName().equals(dead.getName()))) {
 				List<String> commands = this.plugin.global.getConfig().getStringList(dead.getWorld().getName() + ".rewards.killCommands");
 
 				for (String s : commands) {
