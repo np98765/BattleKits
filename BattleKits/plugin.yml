@@ -1,6 +1,6 @@
 name: BattleKits
 main: com.lavacraftserver.BattleKits.BattleKits
-version: 2.0.2
+version: 2.0.3
 author: np98765
 authors: ['lol768', 'MapleFighter777']
 softdepend: [Vault, TagAPI]
