@@ -170,7 +170,7 @@ public class BattleKits extends JavaPlugin {
 		
 		this.getLogger().info("BattleKits has been disabled.");
 		kitHistory.saveConfig();
-		wh.saveAll();
+		if (wh != null) { wh.saveAll(); }
 		if (connection != null) {
 			try {
 				connection.close();

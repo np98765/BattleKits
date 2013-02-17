@@ -47,6 +47,7 @@ public class WebHandler implements Container {
 	public void saveAll() {
 		try {
 			SLAPI.save(deaths, plugin.getDataFolder().getPath() + "/stat-deaths.bin");
+			plugin.getDataFolder().
 			SLAPI.save(kills, plugin.getDataFolder().getPath() + "/stat-kills.bin");
 		} catch (Exception e) {
 			e.printStackTrace();
