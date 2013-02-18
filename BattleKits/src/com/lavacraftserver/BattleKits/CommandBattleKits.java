@@ -63,8 +63,8 @@ public class CommandBattleKits implements CommandExecutor {
 					kit_ref = kit_ref + s + ", "; //Add new kit info to String
 				}
 				kit_ref = kit_ref.substring(0, kit_ref.length() - 2); //remove last comma and space
-				plugin.PM.notify((Player)sender,"Available kits (cost): " ); //Header for info
-				plugin.PM.notify((Player)sender,"Accessible kits are marked green." );
+				plugin.PM.notify(sender,"Available kits (cost): " ); //Header for info
+				plugin.PM.notify(sender,"Accessible kits are marked green." );
 				sender.sendMessage(kit_ref); //Send the kit list
 				return true;
 			}
