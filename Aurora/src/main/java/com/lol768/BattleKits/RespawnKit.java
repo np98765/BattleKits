@@ -1,4 +1,4 @@
-package com.lavacraftserver.BattleKits;
+package com.lol768.BattleKits;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

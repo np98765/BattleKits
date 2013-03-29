@@ -1,4 +1,4 @@
-package com.lavacraftserver.BattleKits;
+package com.lol768.BattleKits;
 
 /*
 * Copyright (C) 2012 SagaciousZed

@@ -1,4 +1,4 @@
-package com.lavacraftserver.BattleKits;
+package com.lol768.BattleKits;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;

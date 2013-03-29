@@ -1,4 +1,4 @@
-package com.lavacraftserver.BattleKits;
+package com.lol768.BattleKits;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +16,6 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.kitteh.tag.TagAPI;
 
 public class CommandBattleKits implements CommandExecutor {
 	
@@ -277,10 +276,7 @@ public class CommandBattleKits implements CommandExecutor {
 					  * Handles TagAPI stuff
 					  */
 					 if (plugin.kits.getConfig().contains("kits." + className + ".tagPrefix") && plugin.useTags) {
-						 String tagPrefix = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".tagPrefix"));
-						 plugin.tags.put(p.getName(), tagPrefix);
-						
-									TagAPI.refreshPlayer(p);
+						 plugin.getLogger().info("TagAPI support removed pending native 1.5 API");
 							
 						 
 					 }

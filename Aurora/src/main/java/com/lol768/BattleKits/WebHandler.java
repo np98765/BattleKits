@@ -1,4 +1,4 @@
-package com.lavacraftserver.BattleKits;
+package com.lol768.BattleKits;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Iterator;
