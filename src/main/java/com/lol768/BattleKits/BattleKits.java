@@ -49,7 +49,7 @@ public class BattleKits extends JavaPlugin {
 	 * Multi-world config accessor
 	 * @param String path - The setting path to look for (e.g. settings.disable-xp)
 	 * @param Player p - Player to get world from
-	 * @param Object defaultValue - If empty, use this
+	 * @param Object defaultValue - If empty, use this value
 	 * @return Object - result
 	 */
 	public Object checkSetting(String path, Player p, Object defaultValue) {
