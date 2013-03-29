@@ -42,7 +42,7 @@ public class BattleKits extends JavaPlugin {
 		if (economyProvider != null) {
 			economy = economyProvider.getProvider();
 		}
-		return (economy != null); //t/f
+		return (economy != null); 
 	}
 	
 	/**
