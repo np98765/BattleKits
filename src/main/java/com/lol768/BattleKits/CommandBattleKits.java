@@ -318,7 +318,12 @@ public class CommandBattleKits implements CommandExecutor {
 								 //get item name
 								 String name = ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items" + ".names." + slot));
 								 ItemMeta im = i.getItemMeta();
-								 im.setDisplayName(name);
+								 if (name.equals(ChatColor.RESET + "" + ChatColor.RESET)) {
+								     im.setDisplayName(name + im.getDisplayName());
+								 } else {
+								     
+								 }
+								 
 								 
 								 i.setItemMeta(im);
 								 
