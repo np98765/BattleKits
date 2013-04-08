@@ -489,20 +489,22 @@ public class CommandBattleKits implements CommandExecutor {
 						 
 					 }
 					 
-					 short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability");
-					 short s2 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.chestplateDurability");
-					 short s3 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.leggingsDurability");
-					 short s4 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.bootsDurability");
+					 short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability", -2);
+					 short s2 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.chestplateDurability", -2);
+					 short s3 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.leggingsDurability", -2);
+					 short s4 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.bootsDurability", -2);
+					 
 					 if (s1 == -1) s1 = finalHelmet.getType().getMaxDurability();
 					 if (s2 == -1) s2 = finalChestplate.getType().getMaxDurability();
 					 if (s3 == -1) s3 = finalLeggings.getType().getMaxDurability();
 					 if (s4 == -1) s4 = finalBoots.getType().getMaxDurability();
 
-					 if (finalHelmet != null) finalHelmet.setDurability(s1);
-					 if (finalChestplate != null) finalChestplate.setDurability(s2);
-					 if (finalLeggings != null) finalLeggings.setDurability(s3);
-					 if (finalBoots != null) finalBoots.setDurability(s4);
+					 if (finalHelmet != null && s1 != -2) finalHelmet.setDurability(s1);
+					 if (finalChestplate != null && s2 != -2) finalChestplate.setDurability(s2);
+					 if (finalLeggings != null && s3 != -2) finalLeggings.setDurability(s3);
+					 if (finalBoots != null && s4 != -2) finalBoots.setDurability(s4);
 					 
+			
 
 					 
 					 if (plugin.kits.getConfig().contains("kits." + className + ".items.helmetEnchant") && finalHelmet != null) {
