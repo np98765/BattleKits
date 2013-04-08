@@ -321,7 +321,7 @@ public class CommandBattleKits implements CommandExecutor {
 								 if (name.equals(ChatColor.RESET + "" + ChatColor.RESET)) {
 								     im.setDisplayName(name + im.getDisplayName());
 								 } else {
-								     
+								     im.setDisplayName(name);
 								 }
 								 
 								 
