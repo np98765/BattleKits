@@ -1,11 +1,13 @@
 package com.lol768.BattleKits;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DeathEvent implements Listener {
 
@@ -19,6 +21,15 @@ public class DeathEvent implements Listener {
 	public DeathEvent(BattleKits plugin) {
 		this.plugin = plugin;
 
+	}
+	
+	@EventHandler
+	public void onUse(PlayerInteractEvent e) {
+	    if (e.getPlayer().getItemInHand() != null) {
+	        if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + "" + ChatColor.RESET)) {
+	            e.getPlayer().getItemInHand().setDurability(e.getPlayer().getItemInHand().getType().getMaxDurability());
+	        }
+	    }
 	}
 	
 
