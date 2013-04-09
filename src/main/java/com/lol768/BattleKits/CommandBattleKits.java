@@ -506,22 +506,30 @@ public class CommandBattleKits implements CommandExecutor {
 					 
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
 					     ItemMeta im = finalHelmet.getItemMeta();
-					     im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.helmetName")));
+					     String name = plugin.kits.getConfig().getString("kits." + className + ".items.helmetName");
+                         name = ChatColor.translateAlternateColorCodes('&', name);
+                         im.setDisplayName(name);
 					     finalHelmet.setItemMeta(im); 
 					 }
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName") != null) {
                          ItemMeta im = finalChestplate.getItemMeta();
-                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName")));
+                         String name = plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName");
+                         name = ChatColor.translateAlternateColorCodes('&', name);
+                         im.setDisplayName(name);
                          finalChestplate.setItemMeta(im); 
                      }
-					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
+					 if (plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName") != null) {
                          ItemMeta im = finalLeggings.getItemMeta();
-                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName")));
+                         String name = plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName");
+                         name = ChatColor.translateAlternateColorCodes('&', name);
+                         im.setDisplayName(name);
                          finalLeggings.setItemMeta(im); 
                      }
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.bootsName") != null) {
                          ItemMeta im = finalBoots.getItemMeta();
-                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.bootsName")));
+                         String name = plugin.kits.getConfig().getString("kits." + className + ".items.bootsName");
+                         name = ChatColor.translateAlternateColorCodes('&', name);
+                         im.setDisplayName(name);
                          finalBoots.setItemMeta(im); 
                      }
 
