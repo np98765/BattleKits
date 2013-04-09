@@ -503,11 +503,36 @@ public class CommandBattleKits implements CommandExecutor {
 					 if (s2 == -1) s2 = finalChestplate.getType().getMaxDurability();
 					 if (s3 == -1) s3 = finalLeggings.getType().getMaxDurability();
 					 if (s4 == -1) s4 = finalBoots.getType().getMaxDurability();
+					 
+					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
+					     ItemMeta im = finalHelmet.getItemMeta();
+					     im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.helmetName"));
+					     finalHelmet.setItemMeta(im); 
+					 }
+					 if (plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName") != null) {
+                         ItemMeta im = finalChestplate.getItemMeta();
+                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName"));
+                         finalChestplate.setItemMeta(im); 
+                     }
+					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
+                         ItemMeta im = finalLeggings.getItemMeta();
+                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName"));
+                         finalLeggings.setItemMeta(im); 
+                     }
+					 if (plugin.kits.getConfig().getString("kits." + className + ".items.bootsName") != null) {
+                         ItemMeta im = finalBoots.getItemMeta();
+                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.bootsName"));
+                         finalBoots.setItemMeta(im); 
+                     }
 
-					 if (finalHelmet != null && s1 != -2) finalHelmet.setDurability(s1);
-					 if (finalChestplate != null && s2 != -2) finalChestplate.setDurability(s2);
-					 if (finalLeggings != null && s3 != -2) finalLeggings.setDurability(s3);
-					 if (finalBoots != null && s4 != -2) finalBoots.setDurability(s4);
+                     if (s2 == -3) s2 = finalChestplate.getType().getMaxDurability();
+                     if (s3 == -3) s3 = finalLeggings.getType().getMaxDurability();
+                     if (s4 == -3) s4 = finalBoots.getType().getMaxDurability();
+
+					 if (finalHelmet != null && s1 != -2 && s1 != -3) finalHelmet.setDurability(s1); plugin.getLogger().info("Setting durability to " + s1);
+					 if (finalChestplate != null && s2 != -2 && s1 != -3) finalChestplate.setDurability(s2);
+					 if (finalLeggings != null && s3 != -2 && s1 != -3) finalLeggings.setDurability(s3);
+					 if (finalBoots != null && s4 != -2 && s1 != -3) finalBoots.setDurability(s4);
 					 
 			
 

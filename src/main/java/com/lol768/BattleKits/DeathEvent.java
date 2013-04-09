@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class DeathEvent implements Listener {
 
@@ -21,6 +22,23 @@ public class DeathEvent implements Listener {
 	public DeathEvent(BattleKits plugin) {
 		this.plugin = plugin;
 
+	}
+	
+	@EventHandler 
+	public void onArmourDeplete(EntityDamageEvent e) {
+	    if (e.getEntity() instanceof Player) {
+	        Player p = (Player) e.getEntity();
+	        for (ItemStack armour: p.getInventory().getArmorContents()) {
+	            if (armour.hasItemMeta()) {
+	                if (armour.getItemMeta().hasDisplayName()) {
+	                    if (armour.getItemMeta().getDisplayName().startsWith(ChatColor.RESET + "" + ChatColor.RESET)) {
+	                        armour.setDurability(armour.getType().getMaxDurability());
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
 	}
 	
 	@EventHandler
