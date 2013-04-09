@@ -506,22 +506,22 @@ public class CommandBattleKits implements CommandExecutor {
 					 
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
 					     ItemMeta im = finalHelmet.getItemMeta();
-					     im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.helmetName"));
+					     im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.helmetName")));
 					     finalHelmet.setItemMeta(im); 
 					 }
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName") != null) {
                          ItemMeta im = finalChestplate.getItemMeta();
-                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName"));
+                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName")));
                          finalChestplate.setItemMeta(im); 
                      }
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
                          ItemMeta im = finalLeggings.getItemMeta();
-                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName"));
+                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName")));
                          finalLeggings.setItemMeta(im); 
                      }
 					 if (plugin.kits.getConfig().getString("kits." + className + ".items.bootsName") != null) {
                          ItemMeta im = finalBoots.getItemMeta();
-                         im.setDisplayName(plugin.kits.getConfig().getString("kits." + className + ".items.bootsName"));
+                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.kits.getConfig().getString("kits." + className + ".items.bootsName")));
                          finalBoots.setItemMeta(im); 
                      }
 
