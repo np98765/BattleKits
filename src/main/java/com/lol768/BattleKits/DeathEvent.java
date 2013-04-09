@@ -32,7 +32,7 @@ public class DeathEvent implements Listener {
 	            if (armour.hasItemMeta()) {
 	                if (armour.getItemMeta().hasDisplayName()) {
 	                    if (armour.getItemMeta().getDisplayName().startsWith(ChatColor.RESET + "" + ChatColor.RESET)) {
-	                        armour.setDurability(armour.getType().getMaxDurability());
+	                        armour.setDurability((short) 0);
 	                    }
 	                }
 	            }
