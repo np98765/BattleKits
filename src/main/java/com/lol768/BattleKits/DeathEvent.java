@@ -43,7 +43,7 @@ public class DeathEvent implements Listener {
 	
 	@EventHandler
 	public void onUse(PlayerInteractEvent e) {
-	    if (e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getItemMeta().getDisplayName() != null) {
+	    if (e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getItemMeta() != null && e.getPlayer().getItemInHand().getItemMeta().getDisplayName() != null) {
 	        if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + "" + ChatColor.RESET)) {
 	            e.getPlayer().getItemInHand().setDurability((short) 0);
 	        }
