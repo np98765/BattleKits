@@ -36,6 +36,12 @@ public class InstaSoup implements Listener {
 				if ((boolean) plugin.checkSetting("settings.instant-soup-drink", p, false)) {
 					if (plugin.checkSetting("instant-soup-drink.replenish-type", p, "hunger").equals("hunger")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
+						
+						if(p.getFoodLevel() == 20){//If food is full, stop the code.
+							event.setCancelled(true);
+							p.sendMessage(ChatColor.RED+"Your food is already full!");
+							return;
+						}
 
 						if (p.getFoodLevel() + 6 <= 20) { //Only add some hunger back on
 							event.setCancelled(true);
@@ -52,6 +58,12 @@ public class InstaSoup implements Listener {
 					
 					if (plugin.checkSetting("instant-soup-drink.replenish-type", p, "hunger").equals("health")) {
 						ItemStack bowl = new ItemStack(Material.BOWL, 1);
+						
+						if(p.getHealth() == p.getMaxHealth()){//If health is full, stop the code.
+							event.setCancelled(true);
+							p.sendMessage(ChatColor.RED+"You are already full health!");
+							return;
+						}
 
 						if (p.getHealth() + 6 <= 20) { //Only add some health back on
 							event.setCancelled(true);
