@@ -38,7 +38,7 @@ public class SignHandler implements Listener {
 				Sign s = (Sign) e.getClickedBlock().getState();
 				String[] lines = s.getLines();
 				if (lines.length > 1 && lines[0].equals(ChatColor.DARK_RED + "[" + ChatColor.stripColor(plugin.global.getConfig().getString("brand")) + "]")) {
-					
+					e.setCancelled(true);
 					if (p.hasPermission("Battlekits.sign.use")) {
 						
 						if (!plugin.kits.getConfig().contains("kits." + lines[1])) {
