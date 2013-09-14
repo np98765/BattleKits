@@ -15,103 +15,98 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class RestrictionEvents implements Listener {
-	private BattleKits plugin;
 
-	/**
-	 * Constructor method used when creating instance of this class Used so we
-	 * have access to the main plugin & config etc
-	 * 
-	 * @param instance
-	 *            - Instance of Battlekits.getConfig().java
-	 */
-	public RestrictionEvents(BattleKits plugin) {
-		this.plugin = plugin;
-	}
-	
+    private BattleKits plugin;
 
-	@EventHandler
-	public void itemDrop(PlayerDropItemEvent e) {
-			e.setCancelled(!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-dropping-items") && !e.isCancelled());
-	}
+    public RestrictionEvents(BattleKits plugin) {
+        this.plugin = plugin;
+    }
 
-	@EventHandler
-	public void craftItemEvent(CraftItemEvent e) {
-		
-		if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-crafting") && !e.isCancelled()) {
-		e.setCancelled(true);
-		}
+    @EventHandler
+    public void pnItemDrop(PlayerDropItemEvent e) {
+        e.setCancelled(!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-dropping-items") && !e.isCancelled());
+    }
 
-	}
+    @EventHandler
+    public void craftItemEvent(CraftItemEvent e) {
+        if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-crafting") && !e.isCancelled()) {
+            e.setCancelled(true);
+        }
+    }
 
-	@EventHandler
-	public void pickup(PlayerPickupItemEvent e) {
-		
-		if(!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-pickup-items") && !e.isCancelled()) {
-		e.setCancelled(true);
-		}
+    @EventHandler
+    public void pickup(PlayerPickupItemEvent e) {
 
-	}
+        if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-pickup-items") && !e.isCancelled()) {
+            e.setCancelled(true);
+        }
 
-	@EventHandler
-	public void bpe(BlockPlaceEvent e) {
-		if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-place") && !e.isCancelled()) {
-			e.setCancelled(true);
-		}
+    }
 
-	}
+    @EventHandler
+    public void bpe(BlockPlaceEvent e) {
+        if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-place") && !e.isCancelled()) {
+            e.setCancelled(true);
+        }
 
-	@EventHandler
-	public void death(PlayerDeathEvent e) {
-		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-xp-drop"))
-			e.setDroppedExp(0);
+    }
 
-		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-drops-on-death"))
-			e.getDrops().clear();
+    @EventHandler
+    public void death(PlayerDeathEvent e) {
+        if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-xp-drop")) {
+            e.setDroppedExp(0);
+        }
 
-		if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.hide-death-messages"))
-			e.setDeathMessage(null);
+        if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.disable-player-drops-on-death")) {
+            e.getDrops().clear();
+        }
 
-	}
+        if (!e.getEntity().hasPermission("BattleKits.bypassRestriction.hide-death-messages")) {
+            e.setDeathMessage(null);
+        }
 
-	@EventHandler
-	public void mobDeath(EntityDeathEvent e) {
-		if (e.getEntity().getKiller() != null) {
-		if (!(e.getEntity() instanceof Player) && e.getEntity().getKiller() instanceof Player) {
-			Player p = e.getEntity().getKiller();
-			if (!p.hasPermission("BattleKits.bypassRestriction.disable-mob-xp")) {
-				
-				e.setDroppedExp(0);
-			}
-		}
-		}
-	}
+    }
 
-	@EventHandler
-	public void blockBreak(BlockBreakEvent e) {
+    @EventHandler
+    public void mobDeath(EntityDeathEvent e) {
+        if (e.getEntity().getKiller() != null) {
+            if (!(e.getEntity() instanceof Player) && e.getEntity().getKiller() instanceof Player) {
+                Player p = e.getEntity().getKiller();
+                if (!p.hasPermission("BattleKits.bypassRestriction.disable-mob-xp")) {
 
-		if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-xp") && !e.isCancelled())
-			e.setExpToDrop(0);
+                    e.setDroppedExp(0);
+                }
+            }
+        }
+    }
 
-		if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-break") && !e.isCancelled())
-			e.setCancelled(true);
+    @EventHandler
+    public void blockBreak(BlockBreakEvent e) {
 
-	}
+        if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-xp") && !e.isCancelled()) {
+            e.setExpToDrop(0);
+        }
 
-	@EventHandler
-	public void invInteract(InventoryClickEvent e) {
-		if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-inventory-click") && !e.isCancelled()) {
+        if (!e.getPlayer().hasPermission("BattleKits.bypassRestriction.disable-block-break") && !e.isCancelled()) {
+            e.setCancelled(true);
+        }
 
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-		Player p = (Player) e.getEntity();
-		if (p.hasPermission("BattleKits.disableFoodChange")) {
+    }
 
-			e.setCancelled(true);
-		}
-	}
+    @EventHandler
+    public void invInteract(InventoryClickEvent e) {
+        if (!e.getWhoClicked().hasPermission("BattleKits.bypassRestriction.disable-inventory-click") && !e.isCancelled()) {
 
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
+        Player p = (Player) e.getEntity();
+        if (p.hasPermission("BattleKits.disableFoodChange")) {
+
+            e.setCancelled(true);
+        }
+    }
 }
