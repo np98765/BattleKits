@@ -1,5 +1,6 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.listeners;
 
+import com.lol768.battlekits.BattleKits;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
