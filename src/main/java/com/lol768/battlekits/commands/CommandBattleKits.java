@@ -1,5 +1,6 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.commands;
 
+import com.lol768.battlekits.BattleKits;
 import java.util.List;
 import java.util.Set;
 

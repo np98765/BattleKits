@@ -1,5 +1,6 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.utilities;
 
+import com.lol768.battlekits.BattleKits;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

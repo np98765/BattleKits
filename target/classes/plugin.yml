@@ -1,0 +1,22 @@
+name: BattleKits
+main: com.lol768.BattleKits.BattleKits
+version: 2.0.3
+author: np98765
+authors: ['lol768', 'MapleFighter777']
+softdepend: [Vault, TagAPI]
+commands:
+  battlekits:
+    usage: /<command> [kit]
+    description: Gives a kit
+    aliases: [bk,kit]
+  soup:
+    usage: /soup
+    description: Refills soup bowl in your hand
+    aliases: [refill,stew]
+  fillall:
+    usage: /fillall
+    description: Refills all soup in inventory
+    aliases: [fullsoup]
+  toolkit:
+    usage: /toolkit [action]
+    description: Allows creation of kits with what is in the inventory. Not yet written.

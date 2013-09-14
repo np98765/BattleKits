@@ -1,4 +1,5 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.utilities;
+import com.lol768.battlekits.BattleKits;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Iterator;

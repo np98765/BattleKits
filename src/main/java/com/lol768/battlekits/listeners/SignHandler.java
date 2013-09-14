@@ -1,5 +1,7 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.listeners;
 
+import com.lol768.battlekits.BattleKits;
+import com.lol768.battlekits.BattleKits;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
