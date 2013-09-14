@@ -1,4 +1,4 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.utilities;
  
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

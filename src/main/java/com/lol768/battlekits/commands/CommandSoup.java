@@ -1,5 +1,6 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.commands;
 
+import com.lol768.battlekits.BattleKits;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

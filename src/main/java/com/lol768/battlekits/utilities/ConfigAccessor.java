@@ -1,4 +1,4 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits.utilities;
 
 /*
 * Copyright (C) 2012 SagaciousZed

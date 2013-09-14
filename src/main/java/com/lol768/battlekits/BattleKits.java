@@ -1,5 +1,21 @@
-package com.lol768.BattleKits;
+package com.lol768.battlekits;
 
+import com.lol768.battlekits.listeners.RespawnKit;
+import com.lol768.battlekits.listeners.SignHandler;
+import com.lol768.battlekits.utilities.BukkitMetrics;
+import com.lol768.battlekits.utilities.Updater;
+import com.lol768.battlekits.utilities.WebHandler;
+import com.lol768.battlekits.utilities.ConfigAccessor;
+import com.lol768.battlekits.utilities.PM;
+import com.lol768.battlekits.listeners.RestrictionEvents;
+import com.lol768.battlekits.listeners.PlayerReward;
+import com.lol768.battlekits.listeners.TagHandler;
+import com.lol768.battlekits.listeners.InstaSoup;
+import com.lol768.battlekits.listeners.DeathEvent;
+import com.lol768.battlekits.commands.CommandRefillAll;
+import com.lol768.battlekits.commands.CommandKitCreation;
+import com.lol768.battlekits.commands.CommandBattleKits;
+import com.lol768.battlekits.commands.CommandSoup;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +43,7 @@ public class BattleKits extends JavaPlugin {
 	public String html = "Error";
 	public HashSet<String> death = new HashSet<String>();
 	public HashMap<String, String> tags = new HashMap<String, String>(); //Name, prefix (colour codes)
-	CommandBattleKits cbk = new CommandBattleKits(this);
+	public CommandBattleKits cbk = new CommandBattleKits(this);
 	public boolean useTags = false;
 	public PM PM = new PM(this);
 	//Configuration stuff
