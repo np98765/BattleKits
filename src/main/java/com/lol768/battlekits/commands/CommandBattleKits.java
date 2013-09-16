@@ -3,6 +3,7 @@ package com.lol768.battlekits.commands;
 import com.lol768.battlekits.BattleKits;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -108,7 +109,7 @@ public class CommandBattleKits implements CommandExecutor {
                         return true;
                     }
 
-                    if (!sender.hasPermission("BattleKits.kit.other")) {
+                    if (!sender.hasPermission("battlekits.kit.other")) {
                         plugin.PM.warn(sender, "You don't have permission for indirect kit distribution.");
                         return true;
 
@@ -154,9 +155,8 @@ public class CommandBattleKits implements CommandExecutor {
      * restrictions
      * @return
      */
-    public Boolean supplyKit(final Player p, String className, Boolean ignorePerms, Boolean ignoreCost, Boolean ignoreLives, Boolean ignoreWorldRestriction) {
-
-        if (p.hasPermission("Battlekits.use." + className) || ignorePerms) { //Ensure they have permission to use the kit
+    public Boolean supplyKit(final Player p, String className, boolean ignorePerms, boolean ignoreCost, boolean ignoreLives, boolean ignoreWorldRestriction) {
+        if (p.hasPermission("battlekits.use." + className) || ignorePerms) { //Ensure they have permission to use the kit
         } else {
             plugin.PM.warn(p, "You do not have permission to use this kit!");
             return true;
@@ -252,7 +252,7 @@ public class CommandBattleKits implements CommandExecutor {
             required = required - (int) p.getExp();
             int divisor = 5;
             int quotient = required / divisor;
-            plugin.getLogger().info(Integer.toString(quotient) + " " + Integer.toString(required) + " " + Integer.toString(amount));
+            plugin.getLogger().log(Level.INFO, "{0} {1} {2}", new Object[]{Integer.toString(quotient), Integer.toString(required), Integer.toString(amount)});
             int counter = 0;
             while (counter < quotient) {
                 ExperienceOrb orb = (ExperienceOrb) p.getWorld().spawnEntity(p.getEyeLocation().add(0, 3, 0), EntityType.EXPERIENCE_ORB);
@@ -483,7 +483,6 @@ public class CommandBattleKits implements CommandExecutor {
             if (getBoots.equals("chainmail")) {
                 finalBoots = cboots;
             }
-
         }
 
         short s1 = (short) plugin.kits.getConfig().getInt("kits." + className + ".items.helmetDurability", -2);
@@ -504,28 +503,28 @@ public class CommandBattleKits implements CommandExecutor {
             s4 = finalBoots.getType().getMaxDurability();
         }
 
-        if (plugin.kits.getConfig().getString("kits." + className + ".items.helmetName") != null) {
+        if (plugin.kits.getConfig().contains("kits." + className + ".items.helmetName")) {
             ItemMeta im = finalHelmet.getItemMeta();
             String name = plugin.kits.getConfig().getString("kits." + className + ".items.helmetName");
             name = ChatColor.translateAlternateColorCodes('&', name);
             im.setDisplayName(name);
             finalHelmet.setItemMeta(im);
         }
-        if (plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName") != null) {
+        if (plugin.kits.getConfig().contains("kits." + className + ".items.chestplateName")) {
             ItemMeta im = finalChestplate.getItemMeta();
             String name = plugin.kits.getConfig().getString("kits." + className + ".items.chestplateName");
             name = ChatColor.translateAlternateColorCodes('&', name);
             im.setDisplayName(name);
             finalChestplate.setItemMeta(im);
         }
-        if (plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName") != null) {
+        if (plugin.kits.getConfig().contains("kits." + className + ".items.leggingsName")) {
             ItemMeta im = finalLeggings.getItemMeta();
             String name = plugin.kits.getConfig().getString("kits." + className + ".items.leggingsName");
             name = ChatColor.translateAlternateColorCodes('&', name);
             im.setDisplayName(name);
             finalLeggings.setItemMeta(im);
         }
-        if (plugin.kits.getConfig().getString("kits." + className + ".items.bootsName") != null) {
+        if (plugin.kits.getConfig().contains("kits." + className + ".items.bootsName")) {
             ItemMeta im = finalBoots.getItemMeta();
             String name = plugin.kits.getConfig().getString("kits." + className + ".items.bootsName");
             name = ChatColor.translateAlternateColorCodes('&', name);
@@ -624,11 +623,7 @@ public class CommandBattleKits implements CommandExecutor {
             }
 
         }
-
-
-
-
+        
         return true;
-
     }
 }
