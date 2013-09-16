@@ -16,6 +16,6 @@ Pull request guidelines
 
 
 <b>Authors and Contributors:</b>
-<a href = "http://dev.bukkit.org/profiles/np98765">NP98765</a>, <a href = "http://dev.bukkit.org/profiles/lol768">lol768</a>, <a href = "http://dev.bukkit.org/profiles/maplefighter777">MapleFighter777</a>
+<a href = "http://dev.bukkit.org/profiles/np98765">NP98765</a>, <a href = "http://dev.bukkit.org/profiles/lol768">lol768</a>, <a href = "http://dev.bukkit.org/profiles/maplefighter777">MapleFighter777</a>,  <a href = "http://dev.bukkit.org/profiles/drtshock">drtshock</a>
 
 <a href = "http://dev.bukkit.org/server-mods/battlekits/"><img src = "http://i.imgur.com/gDb1R.png" /></a>
