@@ -17,7 +17,6 @@ public class DeathEvent implements Listener {
 
     public DeathEvent(BattleKits plugin) {
         this.plugin = plugin;
-
     }
 
     @EventHandler
@@ -56,21 +55,6 @@ public class DeathEvent implements Listener {
         if (event.getEntity() instanceof Player) {
             final Player p = (Player) event.getEntity();
             Integer i = 0;
-            if (plugin.wh != null) {
-                if (plugin.wh.deaths.get(p.getName()) != null) {
-                    i = plugin.wh.deaths.get(p.getName());
-                }
-                i++;
-                plugin.wh.deaths.put(p.getName(), i);
-                if (p.getKiller() != null) {
-                    i = 0;
-                    if (plugin.wh.kills.get(p.getKiller().getName()) != null) {
-                        i = plugin.wh.kills.get(p.getKiller().getName());
-                    }
-                    i++;
-                    plugin.wh.kills.put(p.getKiller().getName(), i);
-                }
-            }
             if (plugin.kitHistory.getConfig().contains("dead." + p.getName())) {
 
                 if ((boolean) plugin.checkSetting("settings.once-per-life", p, false)) {
@@ -79,6 +63,7 @@ public class DeathEvent implements Listener {
 
                 if ((boolean) plugin.checkSetting("settings.show-kit-info-on-respawn", p, false)) {
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
                         public void run() {
                             plugin.PM.notify(p, "You may now use a kit");
                         }

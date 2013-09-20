@@ -4,7 +4,6 @@ import com.lol768.battlekits.listeners.RespawnKit;
 import com.lol768.battlekits.listeners.SignHandler;
 import com.lol768.battlekits.utilities.BukkitMetrics;
 import com.lol768.battlekits.utilities.Updater;
-import com.lol768.battlekits.utilities.WebHandler;
 import com.lol768.battlekits.utilities.ConfigAccessor;
 import com.lol768.battlekits.utilities.PM;
 import com.lol768.battlekits.listeners.RestrictionEvents;
@@ -19,8 +18,6 @@ import com.lol768.battlekits.commands.CommandSoup;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,11 +28,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.simpleframework.http.core.Container;
-import org.simpleframework.http.core.ContainerServer;
-import org.simpleframework.transport.Server;
-import org.simpleframework.transport.connect.Connection;
-import org.simpleframework.transport.connect.SocketConnection;
 
 public class BattleKits extends JavaPlugin {
 
@@ -49,8 +41,6 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
-    public WebHandler wh;
-    Connection connection = null;
 
     public boolean setupEconomy() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -188,17 +178,6 @@ public class BattleKits extends JavaPlugin {
     public void onDisable() {
 
         kitHistory.saveConfig();
-        if (wh != null) {
-            wh.saveAll();
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
 
     }
 
@@ -237,27 +216,6 @@ public class BattleKits extends JavaPlugin {
         getCommand("toolkit").setExecutor(new CommandKitCreation(this));
         getCommand("fillall").setExecutor(new CommandRefillAll(this));
 
-        /*
-         * Web
-         */
-        if (global.getConfig().getBoolean("server.enabled")) {
-            int port = global.getConfig().getInt("server.port");
-            try {
-
-                wh = new WebHandler(this);
-
-                wh.html = html;
-                Container container = wh;
-
-                Server server = new ContainerServer(container);
-                connection = new SocketConnection(server);
-                SocketAddress address = new InetSocketAddress(port);
-
-                connection.connect(address);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         if (global.getConfig().getBoolean("settings.auto-update") == true) {
             @SuppressWarnings("unused")
             Updater updater = new Updater(this, "battlekits", this.getFile(),

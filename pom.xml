@@ -9,7 +9,7 @@
     <build>
         <finalName>${artifactId}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -103,11 +103,6 @@
             <version>LATEST</version>
             <type>jar</type>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.simpleframework</groupId>
-            <artifactId>simple</artifactId>
-            <version>5.0.4</version>
         </dependency>
     </dependencies>
 </project>
