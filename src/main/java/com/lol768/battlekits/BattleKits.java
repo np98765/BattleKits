@@ -2,7 +2,6 @@ package com.lol768.battlekits;
 
 import com.lol768.battlekits.listeners.RespawnKit;
 import com.lol768.battlekits.listeners.SignHandler;
-import com.lol768.battlekits.utilities.BukkitMetrics;
 import com.lol768.battlekits.utilities.Updater;
 import com.lol768.battlekits.utilities.ConfigAccessor;
 import com.lol768.battlekits.utilities.PM;
@@ -243,30 +242,6 @@ public class BattleKits extends JavaPlugin {
         }
 
         getCommand("battlekits").setExecutor(cbk);
-
-        try {
-            BukkitMetrics metrics = new BukkitMetrics(this);
-            metrics.addCustomData(new BukkitMetrics.Plotter("Number of kits") {
-                @Override
-                public int getValue() {
-                    return kits.getConfig().getConfigurationSection("kits").getKeys(false).size();
-                }
-            });
-
-            metrics.addCustomData(new BukkitMetrics.Plotter("Restrictions enabled") {
-                @Override
-                public int getValue() {
-                    if (global.getConfig().getBoolean("settings.enable-restrictions")) {
-                        return 1;
-                    }
-                    return 0;
-                }
-            });
-            metrics.start();
-        } catch (IOException e) {
-            this.getLogger().severe("Metrics failed.");
-
-        }
 
         String ver = getDescription().getVersion();
         this.getLogger().info("BattleKits (" + ver + ") has been enabled!");
