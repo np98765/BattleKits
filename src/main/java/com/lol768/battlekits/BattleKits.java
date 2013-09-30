@@ -14,12 +14,14 @@ import com.lol768.battlekits.commands.CommandRefillAll;
 import com.lol768.battlekits.commands.CommandKitCreation;
 import com.lol768.battlekits.commands.CommandBattleKits;
 import com.lol768.battlekits.commands.CommandSoup;
+import com.lol768.battlekits.utilities.Metrics;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
@@ -47,6 +49,32 @@ public class BattleKits extends JavaPlugin {
             economy = economyProvider.getProvider();
         }
         return (economy != null);
+    }
+
+    private void startMetrics() {
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.addCustomData(new Metrics.Plotter("Number of kits") {
+                @Override
+                public int getValue() {
+                    return kits.getConfig().getConfigurationSection("kits").getKeys(false).size();
+                }
+            });
+
+            metrics.addCustomData(new Metrics.Plotter("Restrictions enabled") {
+                @Override
+                public int getValue() {
+                    if (global.getConfig().getBoolean("settings.enable-restrictions")) {
+                        return 1;
+                    }
+                    return 0;
+                }
+            });
+            metrics.start();
+        } catch (IOException e) {
+            this.getLogger().severe("Metrics failed.");
+
+        }
     }
 
     /**
@@ -170,14 +198,12 @@ public class BattleKits extends JavaPlugin {
         InputStream page = getResource("page.txt");
         html = convertStreamToString(page);
         makeConfigs();
-
+        startMetrics();
     }
 
     @Override
     public void onDisable() {
-
         kitHistory.saveConfig();
-
     }
 
     public void makeConfigs() {
@@ -215,7 +241,7 @@ public class BattleKits extends JavaPlugin {
         getCommand("toolkit").setExecutor(new CommandKitCreation(this));
         getCommand("fillall").setExecutor(new CommandRefillAll(this));
 
-        if (global.getConfig().getBoolean("settings.auto-update") == true) {
+        if (global.getConfig().getBoolean("settings.auto-update")) {
             @SuppressWarnings("unused")
             Updater updater = new Updater(this, "battlekits", this.getFile(),
                     Updater.UpdateType.DEFAULT, true); // New slug
@@ -244,7 +270,7 @@ public class BattleKits extends JavaPlugin {
         getCommand("battlekits").setExecutor(cbk);
 
         String ver = getDescription().getVersion();
-        this.getLogger().info("BattleKits (" + ver + ") has been enabled!");
+        this.getLogger().log(Level.INFO, "BattleKits ({0}) has been enabled!", ver);
     }
 
     public ItemStack setColor(ItemStack item, int color) {
