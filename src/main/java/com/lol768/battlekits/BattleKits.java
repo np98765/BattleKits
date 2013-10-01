@@ -15,6 +15,7 @@ import com.lol768.battlekits.commands.CommandKitCreation;
 import com.lol768.battlekits.commands.CommandBattleKits;
 import com.lol768.battlekits.commands.CommandSoup;
 import com.lol768.battlekits.utilities.Metrics;
+import com.lol768.battlekits.utilities.Updater.UpdateResult;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +43,23 @@ public class BattleKits extends JavaPlugin {
     public ConfigAccessor global;
     public ConfigAccessor kits;
     public ConfigAccessor kitHistory;
+
+    @Override
+    public void onEnable() {
+        if (!createDataDirectory()) {
+            this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
+            this.setEnabled(false);
+        }
+        InputStream page = getResource("page.txt");
+        html = convertStreamToString(page);
+        makeConfigs();
+        startMetrics();
+    }
+
+    @Override
+    public void onDisable() {
+        kitHistory.saveConfig();
+    }
 
     public boolean setupEconomy() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -189,23 +207,6 @@ public class BattleKits extends JavaPlugin {
         return true;
     }
 
-    @Override
-    public void onEnable() {
-        if (!createDataDirectory()) {
-            this.getLogger().severe("Couldn't create BattleKits data folder. Shutting down...");
-            this.setEnabled(false);
-        }
-        InputStream page = getResource("page.txt");
-        html = convertStreamToString(page);
-        makeConfigs();
-        startMetrics();
-    }
-
-    @Override
-    public void onDisable() {
-        kitHistory.saveConfig();
-    }
-
     public void makeConfigs() {
         kits = new ConfigAccessor(this, "kits.yml");
         global = new ConfigAccessor(this, "global.yml");
@@ -243,8 +244,12 @@ public class BattleKits extends JavaPlugin {
 
         if (global.getConfig().getBoolean("settings.auto-update")) {
             @SuppressWarnings("unused")
-            Updater updater = new Updater(this, "battlekits", this.getFile(),
-                    Updater.UpdateType.DEFAULT, true); // New slug
+            Updater updater = new Updater(this, "battlekits", this.getFile(), Updater.UpdateType.DEFAULT, true); // New slug
+            if(updater.getResult() == UpdateResult.SUCCESS) {
+                getLogger().log(Level.INFO, "[BattleKits] Updated to version {0}", updater.getLatestVersionString());
+            } else {
+                getLogger().log(Level.INFO, "[BattleKits] Is up to date!");
+            }
         }
 
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
@@ -252,25 +257,17 @@ public class BattleKits extends JavaPlugin {
             setupEconomy();
 
         } else {
-            this.getLogger().info(
-                    "Couldn't find Vault. Economy disabled for now.");
+            this.getLogger().info("Couldn't find Vault. Economy disabled for now.");
         }
 
         if (Bukkit.getPluginManager().getPlugin("TagAPI") != null) {
             this.getLogger().info("TagAPI found.");
-            getServer().getPluginManager().registerEvents(new TagHandler(this),
-                    this);
-
+            getServer().getPluginManager().registerEvents(new TagHandler(this), this);
             useTags = true;
         } else {
-            this.getLogger().info(
-                    "Disabling tag functionality as TagAPI is not installed.");
+            this.getLogger().info("Disabling tag functionality as TagAPI is not installed.");
         }
-
         getCommand("battlekits").setExecutor(cbk);
-
-        String ver = getDescription().getVersion();
-        this.getLogger().log(Level.INFO, "BattleKits ({0}) has been enabled!", ver);
     }
 
     public ItemStack setColor(ItemStack item, int color) {
