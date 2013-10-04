@@ -1,5 +1,5 @@
 name: BattleKits
-main: com.lol768.BattleKits.BattleKits
+main: com.lol768.battlekits.BattleKits
 version: ${project.version}
 author: np98765
 authors: ['lol768', 'MapleFighter777', 'drtshock', 'Lolmewn']
