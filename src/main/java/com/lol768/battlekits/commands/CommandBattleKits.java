@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,6 +19,10 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class CommandBattleKits implements CommandExecutor {
 
@@ -140,6 +145,72 @@ public class CommandBattleKits implements CommandExecutor {
             r = (level * 17) + r;
             return r;
         }
+    }
+
+    /**
+     * Parse custom potion strings
+     * @param str - string in format effect:power:duration
+     *            effects: http://jd.bukkit.org/rb/apidocs/org/bukkit/potion/PotionEffectType.html
+     *            power: -127 to 128
+     *            duration: seconds
+     * @throws Exception - invalid potion string
+     */
+    public ItemStack parsePotion(final ItemStack stack, final String str) throws Exception
+    {
+        PotionEffectType potionEffectType;
+        PotionEffect potionEffect;
+        PotionMeta potionMeta;
+        int power, duration;
+
+        final String[] split = str.split(":");
+        int splitIndex = -1;
+
+        if (split.length < 3)
+            throw new Exception("Not enough arguments");
+
+        //set index at the effect position
+        for(int i=0; i<split.length; i++)
+        {
+            if(!NumberUtils.isNumber(split[i]))
+                splitIndex = i;
+        }
+
+        if(splitIndex < 0)
+            throw new Exception("No potion effect name found");
+
+        //parse potion effect
+        potionEffectType = PotionEffectType.getByName(split[splitIndex]);
+        if (potionEffectType == null || potionEffectType.getName() == null)
+            throw new Exception("Invalid potion effect");
+
+        //parse potion power
+        if (NumberUtils.isNumber(split[splitIndex+1]))
+        {
+            power = Integer.parseInt(split[splitIndex+1]);
+            if (power > 0 && power < 4)
+                power -= 1;
+        }
+        else
+            throw new Exception("Invalid potion power");
+
+        //parse potion duration (in seconds)
+        if (NumberUtils.isNumber(split[splitIndex+2]))
+        {
+            duration = Integer.parseInt(split[splitIndex+2]) * 20;
+
+            //don't know why, but splash potions are 40 ticks per seconds
+            if(Potion.fromItemStack(stack).isSplash())
+                duration *= 2;
+        }
+        else
+            throw new Exception("Invalid potion duration");
+
+        potionMeta = (PotionMeta)stack.getItemMeta();
+        potionEffect = potionEffectType.createEffect(duration, power);
+        potionMeta.addCustomEffect(potionEffect, true);
+        stack.setItemMeta(potionMeta);
+
+        return stack;
     }
 
     /**
@@ -284,7 +355,7 @@ public class CommandBattleKits implements CommandExecutor {
         this.plugin.kitHistory.getConfig().set("kitHistory." + p.getName(), className); //Stores last kit for respawn
 
         for (slot = 0; slot <= 35; slot++) {
-            ItemStack i = new ItemStack(0);
+            ItemStack i = new ItemStack(Material.AIR);
             String getSlot = plugin.kits.getConfig().getString("kits." + className + ".items." + slot);
 
             if (plugin.kits.getConfig().contains("kits." + className + ".items." + slot) && !(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals("0")) && !(plugin.kits.getConfig().getString("kits." + className + ".items." + slot).equals(""))) {
@@ -294,12 +365,22 @@ public class CommandBattleKits implements CommandExecutor {
                 //Sets the block/item
                 i.setTypeId(Integer.parseInt(item[0]));
 
-                //Sets the amount and durability
+                //Sets the amount, durability, custom potions
                 if (item.length > 1) {
                     i.setAmount(Integer.parseInt(item[1]));
 
                     if (item.length > 2) {
-                        i.setDurability((short) Integer.parseInt(item[2]));
+                        if(NumberUtils.isNumber(item[2]))
+                            i.setDurability((short) Integer.parseInt(item[2]));
+
+                        if(item.length > 3 && i.getType().equals(Material.POTION))
+                        {
+                            try { i = parsePotion(i, s[0]); }
+                            catch (Exception e)
+                            {
+                                plugin.getLogger().warning("Could not parse custom potion: "+e.getMessage());
+                            }
+                        }
                     }
 
                 } else {
@@ -623,7 +704,7 @@ public class CommandBattleKits implements CommandExecutor {
             }
 
         }
-        
+
         return true;
     }
 }
