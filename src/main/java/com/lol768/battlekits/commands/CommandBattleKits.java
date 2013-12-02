@@ -165,45 +165,49 @@ public class CommandBattleKits implements CommandExecutor {
         final String[] split = str.split(":");
         int splitIndex = -1;
 
-        if (split.length < 3)
+        if (split.length < 3) {
             throw new Exception("Not enough arguments");
+        }
 
         //set index at the effect position
         for(int i=0; i<split.length; i++)
         {
-            if(!NumberUtils.isNumber(split[i]))
+            if(!NumberUtils.isNumber(split[i])) {
                 splitIndex = i;
+            }
         }
 
-        if(splitIndex < 0)
+        if(splitIndex < 0) {
             throw new Exception("No potion effect name found");
+        }
 
         //parse potion effect
         potionEffectType = PotionEffectType.getByName(split[splitIndex]);
-        if (potionEffectType == null || potionEffectType.getName() == null)
+        if (potionEffectType == null || potionEffectType.getName() == null) {
             throw new Exception("Invalid potion effect");
+        }
 
         //parse potion power
-        if (NumberUtils.isNumber(split[splitIndex+1]))
-        {
+        if (NumberUtils.isNumber(split[splitIndex+1])) {
             power = Integer.parseInt(split[splitIndex+1]);
-            if (power > 0 && power < 4)
+            if (power > 0 && power < 4) {
                 power -= 1;
-        }
-        else
+            }
+        } else {
             throw new Exception("Invalid potion power");
+        }
 
         //parse potion duration (in seconds)
-        if (NumberUtils.isNumber(split[splitIndex+2]))
-        {
+        if (NumberUtils.isNumber(split[splitIndex+2])) {
             duration = Integer.parseInt(split[splitIndex+2]) * 20;
 
             //don't know why, but splash potions are 40 ticks per seconds
-            if(Potion.fromItemStack(stack).isSplash())
+            if(Potion.fromItemStack(stack).isSplash()) {
                 duration *= 2;
-        }
-        else
+            }
+        } else {
             throw new Exception("Invalid potion duration");
+        }
 
         potionMeta = (PotionMeta)stack.getItemMeta();
         potionEffect = potionEffectType.createEffect(duration, power);
@@ -370,14 +374,15 @@ public class CommandBattleKits implements CommandExecutor {
                     i.setAmount(Integer.parseInt(item[1]));
 
                     if (item.length > 2) {
-                        if(NumberUtils.isNumber(item[2]))
+                        if(NumberUtils.isNumber(item[2])) {
                             i.setDurability((short) Integer.parseInt(item[2]));
+                        }
 
-                        if(item.length > 3 && i.getType().equals(Material.POTION))
-                        {
-                            try { i = parsePotion(i, s[0]); }
-                            catch (Exception e)
-                            {
+                        if(item.length > 3 && i.getType().equals(Material.POTION)) {
+                            try {
+                                i = parsePotion(i, s[0]);
+                            }
+                            catch (Exception e) {
                                 plugin.getLogger().warning("Could not parse custom potion: "+e.getMessage());
                             }
                         }
