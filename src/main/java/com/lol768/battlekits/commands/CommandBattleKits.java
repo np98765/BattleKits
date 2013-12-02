@@ -170,8 +170,7 @@ public class CommandBattleKits implements CommandExecutor {
         }
 
         //set index at the effect position
-        for(int i=0; i<split.length; i++)
-        {
+        for(int i=0; i<split.length; i++) {
             if(!NumberUtils.isNumber(split[i])) {
                 splitIndex = i;
             }
