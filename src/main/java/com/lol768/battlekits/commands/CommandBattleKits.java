@@ -528,7 +528,7 @@ public class CommandBattleKits implements CommandExecutor {
             if (getChestplate.equals("diamond")) {
                 finalChestplate = dchestplate;
             }
-            if (getChestplate.equals("chainmail")) || getHelmet.equals("chain"))  {
+            if (getChestplate.equals("chainmail") || getHelmet.equals("chain"))  {
                 finalChestplate = cchestplate;
             }
 
@@ -547,7 +547,7 @@ public class CommandBattleKits implements CommandExecutor {
             if (getLeggings.equals("diamond")) {
                 finalLeggings = dleggings;
             }
-            if (getLeggings.equals("chainmail")) || getHelmet.equals("chain"))  {
+            if (getLeggings.equals("chainmail") || getHelmet.equals("chain"))  {
                 finalLeggings = cleggings;
             }
         }
@@ -565,7 +565,7 @@ public class CommandBattleKits implements CommandExecutor {
             if (getBoots.equals("diamond")) {
                 finalBoots = dboots;
             }
-            if (getBoots.equals("chainmail")) || getHelmet.equals("chain"))  {
+            if (getBoots.equals("chainmail") || getHelmet.equals("chain"))  {
                 finalBoots = cboots;
             }
         }
